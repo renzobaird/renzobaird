@@ -1,18 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-    
-    
-    
-    <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <main>
-    </main>
+    <!-- Header Navigation -->
+    <header class="main-header">
+      <nav class="nav-menu">
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="about.html" class="nav-link">About Me</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Video Landing Section -->
+    <section class="video-hero">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <!-- Replace the src with your own video file -->
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <!-- Optional overlay content -->
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <h1>Renzo Baird</h1>
+          <p class="dynamic-subtitle">
+            <span class="rotating-word">Game</span> <span class="design-text">Design</span>
+          </p>
+          <a href="projects.html" class="cta-button">Enter the Archive</a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Dynamic rotating words with typing effect
+      const words = ["Game", "Narrative", "Systems", "UI & Graphic", "Level"];
+      let currentIndex = 0;
+      const rotatingWord = document.querySelector('.rotating-word');
+      let typingSpeed = 100;
+      let deleteSpeed = 50;
+      let pauseTime = 1500;
+
+      function typeWord(word, charIndex = 0) {
+        if (charIndex <= word.length) {
+          rotatingWord.textContent = word.substring(0, charIndex);
+          setTimeout(() => typeWord(word, charIndex + 1), typingSpeed);
+        } else {
+          setTimeout(() => deleteWord(word, word.length), pauseTime);
+        }
+      }
+
+      function deleteWord(word, charIndex) {
+        if (charIndex >= 0) {
+          rotatingWord.textContent = word.substring(0, charIndex);
+          setTimeout(() => deleteWord(word, charIndex - 1), deleteSpeed);
+        } else {
+          currentIndex = (currentIndex + 1) % words.length;
+          setTimeout(() => typeWord(words[currentIndex]), 300);
+        }
+      }
+
+      // Start the typing animation
+      typeWord(words[currentIndex]);
+    </script>
+
     <script src="sketch.js"></script>
   </body>
 </html>
