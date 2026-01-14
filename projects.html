@@ -18,6 +18,205 @@
 
     <main class="page-content">
       <h1>Projects</h1>
+      
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div class="filter-category">
+          <h4>Skills</h4>
+          <div class="filter-buttons">
+            <button class="filter-btn" data-filter="game-design">Game Design</button>
+            <button class="filter-btn" data-filter="ux-design">UX Design</button>
+            <button class="filter-btn" data-filter="narrative-design">Narrative Design</button>
+            <button class="filter-btn" data-filter="graphic-design">Graphic Design</button>
+            <button class="filter-btn" data-filter="programming">Programming</button>
+            <button class="filter-btn" data-filter="branding">Branding</button>
+          </div>
+        </div>
+        
+        <div class="filter-category">
+          <h4>Software</h4>
+          <div class="filter-buttons">
+            <button class="filter-btn" data-filter="figma">Figma</button>
+            <button class="filter-btn" data-filter="unreal">Unreal</button>
+            <button class="filter-btn" data-filter="unity">Unity</button>
+            <button class="filter-btn" data-filter="procreate">Procreate</button>
+            <button class="filter-btn" data-filter="maya">Maya</button>
+            <button class="filter-btn" data-filter="photoshop">Photoshop</button>
+            <button class="filter-btn" data-filter="substance-painter">Substance Painter</button>
+          </div>
+        </div>
+        
+        <button class="clear-filters-btn" id="clearFilters">Clear All Filters</button>
+      </div>
+      
+      <div class="projects-grid">
+        <a href="#" class="project-tile" data-skills="game-design narrative-design" data-software="unreal">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="Hedge Mage">
+          </div>
+          <div class="tile-content">
+            <h3>Hedge Mage</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="game-design programming" data-software="unity">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="Drop Block">
+          </div>
+          <div class="tile-content">
+            <h3>Drop Block</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="ux-design game-design" data-software="unreal figma">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="ARC Immersive">
+          </div>
+          <div class="tile-content">
+            <h3>ARC Immersive</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="game-design programming" data-software="unity">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="Micro Mech">
+          </div>
+          <div class="tile-content">
+            <h3>Micro Mech</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="game-design ux-design" data-software="unreal figma">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="AEGIS">
+          </div>
+          <div class="tile-content">
+            <h3>AEGIS</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="narrative-design game-design" data-software="unreal">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="The Hills of Astoria">
+          </div>
+          <div class="tile-content">
+            <h3>The Hills of Astoria</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="game-design" data-software="unity">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="Bandit's Break">
+          </div>
+          <div class="tile-content">
+            <h3>Bandit's Break</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="graphic-design branding" data-software="photoshop procreate">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="Catastrophe">
+          </div>
+          <div class="tile-content">
+            <h3>Catastrophe</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+        
+        <a href="#" class="project-tile" data-skills="graphic-design" data-software="maya substance-painter photoshop">
+          <div class="tile-image">
+            <img src="https://via.placeholder.com/400x300" alt="RENRENDERZ">
+          </div>
+          <div class="tile-content">
+            <h3>RENRENDERZ</h3>
+            <p>Brief description of the project goes here.</p>
+          </div>
+        </a>
+      </div>
     </main>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <script>
+      const backToTop = document.getElementById('backToTop');
+      
+      // Show/hide button based on scroll position
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      });
+      
+      // Scroll to top when clicked
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
+      // Filter functionality
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const projectTiles = document.querySelectorAll('.project-tile');
+      const clearFiltersBtn = document.getElementById('clearFilters');
+      let activeFilters = new Set();
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+          
+          if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            activeFilters.delete(filter);
+          } else {
+            btn.classList.add('active');
+            activeFilters.add(filter);
+          }
+          
+          filterProjects();
+        });
+      });
+
+      clearFiltersBtn.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        activeFilters.clear();
+        filterProjects();
+      });
+
+      function filterProjects() {
+        projectTiles.forEach(tile => {
+          if (activeFilters.size === 0) {
+            tile.classList.remove('hidden');
+            return;
+          }
+          
+          const skills = tile.dataset.skills ? tile.dataset.skills.split(' ') : [];
+          const software = tile.dataset.software ? tile.dataset.software.split(' ') : [];
+          const allTags = [...skills, ...software];
+          
+          const hasMatch = [...activeFilters].every(filter => allTags.includes(filter));
+          
+          if (hasMatch) {
+            tile.classList.remove('hidden');
+          } else {
+            tile.classList.add('hidden');
+          }
+        });
+      }
+    </script>
   </body>
 </html>
