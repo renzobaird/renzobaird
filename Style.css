@@ -38,6 +38,27 @@
   pointer-events: none;
 }
 
+/* Scroll Popup */
+.scroll-popup {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  background: #44355B;
+  color: #fff;
+  padding: 16px 28px;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 16px rgba(49,38,62,0.18);
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+.scroll-popup.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .about-circle {
   position: absolute;
   min-width: 260px;
@@ -63,7 +84,7 @@
 .about-education {
   top: 32%;
   left: 13%;
-  background: #44355B;
+  background: linear-gradient(135deg, #221E22 60%, #44355B 100%);
 }
 .about-specialization {
   top: 32%;
