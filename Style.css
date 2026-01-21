@@ -1,4 +1,18 @@
 /* About Me Greeting Text */
+/* Global font rules */
+html, body {
+  font-family: 'Urbanist', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Unbounded', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+p, .about-greeting-desc, .dynamic-subtitle, .filter-section-title, .filter-header, .filter-content, .about-greeting {
+  font-family: 'Urbanist', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+button, .about-circle, .theme-toggle, .clear-filters-btn {
+  font-family: 'Urbanist', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+}
 .about-greeting {
   position: absolute;
   top: 0;
@@ -61,14 +75,14 @@
 
 .about-circle {
   position: absolute;
-  min-width: 260px;
-  min-height: 90px;
-  padding: 28px 48px;
+  min-width: clamp(90px, 16vw, 240px);
+  min-height: clamp(36px, 6vw, 90px);
+  padding: clamp(9px, 1.5vw, 24px) clamp(18px, 3vw, 48px);
   border-radius: 50px;
   border: none;
-  font-size: 1.45rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 600;
+  font-size: clamp(0.75rem, 1.9vw, 1.65rem);
+  font-family: 'Urbanist', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
   color: #fff;
   background: linear-gradient(135deg, #221E22 60%, #44355B 100%);
   box-shadow:
@@ -79,6 +93,24 @@
   z-index: 2;
   letter-spacing: 1.5px;
   text-shadow: 0 1px 10px #000a;
+}
+
+@media (max-width: 900px) {
+  .about-circle {
+    min-width: clamp(68px, 24vw, 165px);
+    min-height: clamp(27px, 9vw, 60px);
+    font-size: clamp(0.68rem, 3vw, 1.1rem);
+    padding: clamp(6px, 2vw, 13px) clamp(12px, 4.5vw, 24px);
+  }
+}
+
+@media (max-width: 600px) {
+  .about-circle {
+    min-width: clamp(52px, 33vw, 120px);
+    min-height: clamp(21px, 12vw, 45px);
+    font-size: clamp(0.6rem, 4.5vw, 0.82rem);
+    padding: clamp(4px, 3vw, 9px) clamp(7px, 6vw, 13px);
+  }
 }
 
 .about-education {
