@@ -32,7 +32,7 @@
     </header>
 
     <main class="page-content">
-      <section class="about-hero" style="background:#000;">
+      <section class="about-hero" style="background:#000;position:relative;">
         <!-- User-provided hero image below header bar -->
         <div class="about-greeting">
           <h2 class="about-greeting-title" style="color:#fff;"></h2>
@@ -51,24 +51,124 @@
               setTimeout(function() { if (callback) callback(); }, text.length * speed + 400);
             }
             window.addEventListener('DOMContentLoaded', function() {
-              const title = document.querySelector('.about-greeting-title');
-              const desc = document.querySelector('.about-greeting-desc');
-              flowText(title, 'Hello, my name is Renzo Baird!', 38, function() {
-                setTimeout(function() {
-                  flowText(desc, 'It’s very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?', 28);
-                }, 900);
+              function showSection(section) {
+                const title = document.querySelector('.about-greeting-title');
+                const desc = document.querySelector('.about-greeting-desc');
+                let titleText = '';
+                let descText = '';
+                if (section === 1) {
+                  titleText = 'Hello, my name is Renzo Baird!';
+                  descText = 'It’s very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?';
+                } else {
+                  titleText = 'Section ' + section + ' Title';
+                  descText = 'This is some filler text for section ' + section + '. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod.';
+                }
+                flowText(title, titleText, 38, function() {
+                  setTimeout(function() {
+                    flowText(desc, descText, 28);
+                  }, 900);
+                });
+                // Show or hide the category buttons depending on section
+                const cats = document.querySelector('.about-categories');
+                if (cats) {
+                  if (section === 1) {
+                    cats.style.display = '';
+                    cats.setAttribute('aria-hidden','false');
+                  } else {
+                    cats.style.display = 'none';
+                    cats.setAttribute('aria-hidden','true');
+                  }
+                }
+                // Show or hide the back button
+                const backBtn = document.getElementById('backButton');
+                if (backBtn) {
+                  if (section === 1) {
+                    backBtn.style.display = 'none';
+                    backBtn.setAttribute('aria-hidden','true');
+                  } else {
+                    backBtn.style.display = 'block';
+                    backBtn.setAttribute('aria-hidden','false');
+                  }
+                }
+                  // Show or hide the scroll popup (only for section 1). This uses an in-memory
+                  // flag so the popup will reappear after a page refresh but will hide the
+                  // first time the user scrolls/clicks during this load.
+                  const scrollPopup = document.getElementById('scroll-popup');
+                  let popupDismissed = false;
+                  function showPopupIfNeeded(sec) {
+                    if (!scrollPopup) return;
+                    if (sec === 1 && !popupDismissed) {
+                      scrollPopup.style.display = 'block';
+                      scrollPopup.setAttribute('aria-hidden','false');
+                    } else {
+                      scrollPopup.style.display = 'none';
+                      scrollPopup.setAttribute('aria-hidden','true');
+                    }
+                  }
+                  // ensure popup state follows the requested section
+                  showPopupIfNeeded(section);
+              }
+
+              showSection(1);
+
+              document.querySelectorAll('.about-circle').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                  // Clear the greeting text
+                  document.querySelector('.about-greeting-title').innerHTML = '';
+                  document.querySelector('.about-greeting-desc').innerHTML = '';
+                  const section = parseInt(btn.getAttribute('data-section')) || 1;
+                  showSection(section);
+                });
               });
+
+              // Back button handler
+              const backBtn = document.getElementById('backButton');
+              if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                  // Clear greeting and return to section 1
+                  document.querySelector('.about-greeting-title').innerHTML = '';
+                  document.querySelector('.about-greeting-desc').innerHTML = '';
+                  showSection(1);
+                });
+              }
+
+              (function setupScrollPopup() {
+                const popup = document.getElementById('scroll-popup');
+                if (!popup) return;
+
+                function dismissPopup() {
+                  popup.style.display = 'none';
+                  popup.setAttribute('aria-hidden','true');
+                  popupDismissed = true;
+                  window.removeEventListener('scroll', onFirstScroll);
+                }
+
+                function onFirstScroll() {
+                  if (window.scrollY > 20) {
+                    dismissPopup();
+                  }
+                }
+
+                // Attach listener for the first scroll during this page load
+                window.addEventListener('scroll', onFirstScroll, { passive: true });
+
+                // Allow clicking the popup to dismiss immediately
+                popup.addEventListener('click', function() { dismissPopup(); });
+              })();
             });
           </script>
         </div>
         <div class="about-categories">
-          <div id="scroll-popup" class="scroll-popup">Scroll for Static Version</div>
-          <button class="about-circle about-education">Specialization</button>
-          <button class="about-circle about-specialization">Education</button>
-          <button class="about-circle about-work">Works &amp; Inspiration</button>
-          <button class="about-circle about-works">Work History</button>
+          <button class="about-circle about-education" data-section="2">Specialization</button>
+          <button class="about-circle about-specialization" data-section="3">Education</button>
+          <button class="about-circle about-work" data-section="4">Works &amp; Inspiration</button>
+          <button class="about-circle about-works" data-section="5">Work History</button>
         </div>
         <div id="about-canvas-container" style="display:flex;justify-content:center;align-items:center;width:400px;height:400px;margin:auto;"></div>
+        <!-- Scroll for Static Version (positioned inside the black content box bottom-left) -->
+        <div id="scroll-popup" class="scroll-popup" style="display:none;position:absolute;left:24px;bottom:24px;padding:0.6rem 0.8rem;background:rgba(255,255,255,0.9);color:#111;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.35);z-index:1000;">Scroll for Static Version</div>
+        <!-- Go Back button for section views (positioned inside the black content box bottom-right) -->
+        <button id="backButton" aria-hidden="true" style="display:none;position:absolute;right:24px;bottom:24px;padding:0.8rem 1rem;background:#fff;color:#000;border-radius:999px;border:none;box-shadow:0 6px 18px rgba(0,0,0,0.35);z-index:1000;">Go Back</button>
       </section>
       <h1>About Me</h1>
     </main>
