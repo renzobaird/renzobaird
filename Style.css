@@ -1,3 +1,153 @@
+/* Footer Styles */
+.site-footer {
+    border-top: 1.5px solid #fff;
+  position: static;
+  width: 100vw;
+  background: transparent;
+  margin-top: 4em;
+  z-index: 1000;
+  pointer-events: none;
+}
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+  padding: 1.5em 0;
+  pointer-events: auto;
+}
+.footer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #443555;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px #221E2233;
+  text-decoration: none;
+}
+.footer-icon:hover {
+  background: #7A6A8F;
+  transform: scale(1.08);
+}
+.footer-icon svg {
+  display: block;
+  margin: auto;
+}
+.page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 80vh;
+  width: 100%;
+}
+
+.contact-form {
+  margin: 2em auto 0 auto !important;
+  width: 100%;
+  max-width: 500px;
+  min-width: 260px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .contact-form {
+    max-width: 98vw;
+    padding: 1em 0.5em 1.5em 0.5em;
+  }
+  .name-fields {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+}
+/* Contact Form Styles */
+.contact-form {
+  background: var(--card-bg, #fff);
+  padding: 2em 1em 1.5em 1em;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(49,38,62,0.10), 0 1.5px 8px 0 rgba(49,38,62,0.08);
+  border: 1.5px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  font-size: 1.1rem;
+}
+
+.contact-form label {
+  font-weight: 500;
+  margin-bottom: 0.25em;
+  color: var(--text-color);
+  letter-spacing: 0.2px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.7em 0.9em;
+  border: 2px solid #221E22;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #f5f6fa;
+  color: #221E22;
+  margin-bottom: 0.5em;
+  transition: border-color 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: #44355B;
+  outline: none;
+}
+
+.contact-form .name-fields {
+  display: flex;
+  gap: 1em;
+}
+.contact-form .name-fields > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form .reason-group {
+  display: flex;
+  gap: 2em;
+  margin-bottom: 0.5em;
+}
+.contact-form .reason-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.contact-form .reason-group input[type="checkbox"] {
+  width: 1.2em;
+  height: 1.2em;
+  accent-color: #44355B;
+}
+
+.contact-form button[type="submit"] {
+  background: var(--color-purple-light);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8em 2em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1em;
+  box-shadow: 0 2px 8px #221E2222;
+  transition: background 0.2s;
+}
+.contact-form button[type="submit"]:hover {
+  background: #44355B;
+}
 /* About Me Greeting Text */
 /* Global font rules */
 html, body {
@@ -147,19 +297,18 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 }
 /* About Me Hero Section */
 .about-hero {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 80vh;
   padding-top: 80px; /* Header height */
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background: #fff;
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  overflow: hidden;
+  margin: 0;
+  left: 0;
+  right: 0;
+  overflow: visible;
 }
 
 .about-hero-img {
@@ -182,16 +331,17 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 
 /* Theme CSS Variables */
 :root {
-  --bg-color: #221E22;
-  --text-color: #ffffff;
-  --text-secondary: #b0b0b0;
-  --accent-color: #ECA72C;
-  --accent-secondary: #EE5622;
-  --card-bg: #31263E;
-  --header-bg: #6B5B8C;
-  --header-text: #ffffff;
-  --purple-dark: #31263E;
-  --purple-medium: #44355B;
+  --color-purple-light: #7A6A8F;
+  --color-purple-medium: #443555;
+  --color-purple-dark: #31263E;
+  --color-gray: #6A6D73;
+  --color-black: #221E22;
+  --color-white: #FFFFFF;
+  --bg-color: var(--color-black);
+  --text-color: var(--color-white);
+  --accent-color: var(--color-purple-light);
+  --accent-secondary: var(--color-purple-medium);
+  --card-bg: var(--color-purple-dark);
 }
 
 [data-theme="light"] {
@@ -212,8 +362,8 @@ html, body {
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--color-black);
+  color: var(--color-white);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
