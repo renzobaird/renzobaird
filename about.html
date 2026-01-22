@@ -61,7 +61,13 @@
                   descText = 'It’s very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?';
                 } else {
                   titleText = 'Section ' + section + ' Title';
-                  descText = 'This is some filler text for section ' + section + '. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod.';
+                  // longer filler text to fill the larger category text box
+                  descText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at orci a lectus posuere efficitur. Integer pulvinar, justo quis volutpat luctus, sapien ante feugiat orci, sed convallis nibh orci vitae libero. Curabitur ut augue id elit iaculis efficitur. Mauris vitae risus ac ipsum vulputate porta. Sed sit amet nisl sed lorem malesuada faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum vel arcu vitae mauris ultricies gravida. Donec in nibh sed risus pretium efficitur. Aenean consequat, nibh id tincidunt porttitor, orci augue luctus mauris, non volutpat nunc ipsum non urna. Vivamus venenatis, mauris in suscipit egestas, arcu nibh congue quam, at porta odio purus ut purus. Integer vitae mi ac elit faucibus dictum. Suspendisse potenti. Quisque sit amet dolor vitae mi iaculis tincidunt. Cras ac velit non nibh dictum malesuada.';
+                }
+                // toggle a class on the hero so CSS can switch layout for category sections
+                const hero = document.querySelector('.about-hero');
+                if (hero) {
+                  if (section === 1) hero.classList.remove('section-open'); else hero.classList.add('section-open');
                 }
                 flowText(title, titleText, 38, function() {
                   setTimeout(function() {

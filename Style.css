@@ -192,6 +192,49 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
   margin-bottom: 0;
   letter-spacing: 0.1px;
 }
+
+/* Category section: larger text box positioned just above the Go Back button */
+.about-hero.section-open .about-greeting {
+  position: absolute;
+  /* slightly larger: leave ~8% gutters each side so the box is a bit wider */
+  left: 8%;
+  right: 8%;
+  bottom: calc(24px + 72px);
+  width: auto; /* left/right define the width (~80%) */
+  max-width: none;
+  text-align: left;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  z-index: 1001; /* above back button */
+  pointer-events: auto;
+}
+
+.about-hero.section-open .about-greeting-title {
+  color: #fff;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.about-hero.section-open .about-greeting-desc {
+  color: #eaeaea;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* On narrow screens, place the box centered above the back button and give breathing room */
+@media (max-width: 600px) {
+  .about-hero.section-open .about-greeting {
+    left: 12px;
+    right: 12px;
+    bottom: calc(24px + 72px);
+    width: auto;
+    max-width: none;
+    padding: 14px;
+  }
+}
 /* About Me Category Circles */
 .about-categories {
   position: absolute;
