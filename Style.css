@@ -796,6 +796,60 @@ html, body {
   margin-bottom: 30px;
 }
 
+/* Tagline section shown below hero on the About page */
+.hero-gradient {
+  width: 100%;
+  /* doubled height to extend the transition further down */
+  height: clamp(112px, 14vh, 360px);
+  background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, var(--bg-color, #221E22) 100%);
+  pointer-events: none;
+}
+
+.tagline-section {
+  max-width: 980px;
+  margin: 24px auto 48px;
+  text-align: center;
+  padding: 12px 20px;
+}
+.tagline-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.tagline-sub {
+  font-size: 1rem;
+  color: var(--text-secondary, #EAEAEA);
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* About details (centered block below the tagline) */
+.about-details {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* center the inner content */
+  margin: 12px auto 48px;
+  padding: 0 20px;
+}
+.about-details-content {
+  max-width: 880px; /* constrain line length for readability */
+  text-align: center;
+}
+.about-details h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 20px 0 8px;
+}
+.about-details p {
+  color: var(--text-secondary, #EAEAEA);
+  line-height: 1.6;
+  margin: 0 0 18px;
+  font-size: 1rem;
+}
+
 canvas {
   display: block;
 }
