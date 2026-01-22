@@ -32,11 +32,34 @@
     </header>
 
     <main class="page-content">
-      <section class="about-hero">
+      <section class="about-hero" style="background:#000;">
         <!-- User-provided hero image below header bar -->
         <div class="about-greeting">
-          <h2 class="about-greeting-title">Hello, my name is Renzo Baird!</h2>
-          <p class="about-greeting-desc">It’s very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?</p>
+          <h2 class="about-greeting-title" style="color:#fff;"></h2>
+          <p class="about-greeting-desc" style="color:#fff;"></p>
+          <script>
+            function flowText(element, text, speed, callback) {
+              element.innerHTML = '';
+              for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text[i];
+                span.style.opacity = 0;
+                span.style.transition = 'opacity 2.2s cubic-bezier(.4,0,.2,1)';
+                element.appendChild(span);
+                setTimeout(() => { span.style.opacity = 1; }, i * speed);
+              }
+              setTimeout(function() { if (callback) callback(); }, text.length * speed + 400);
+            }
+            window.addEventListener('DOMContentLoaded', function() {
+              const title = document.querySelector('.about-greeting-title');
+              const desc = document.querySelector('.about-greeting-desc');
+              flowText(title, 'Hello, my name is Renzo Baird!', 38, function() {
+                setTimeout(function() {
+                  flowText(desc, 'It’s very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?', 28);
+                }, 900);
+              });
+            });
+          </script>
         </div>
         <div class="about-categories">
           <div id="scroll-popup" class="scroll-popup">Scroll for Static Version</div>

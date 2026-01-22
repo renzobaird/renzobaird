@@ -1,5 +1,4 @@
 let selfImg, eyeBckImg, blinkImg, blink1Img, blink2Img;
-let eyeX = 200, eyeY = 200;
 let blinkState = 0; // 0: open, 1: half, 2: closed
 let lastBlink = 0;
 let blinkInterval = 4000; // ms between blinks
@@ -25,9 +24,41 @@ function draw() {
   background(0,0,0,0);
   // Draw self portrait as background, filling canvas
   image(selfImg, width/2, height/2, width, height);
-  // Draw all blink images at the same size and position for alignment
-  image(blinkImg, width/2, height/2, width, height);
-  image(blink1Img, width/2, height/2, width, height);
-  image(blink2Img, width/2, height/2, width, height);
+  // Layering: Eyebck.png, Blink.png
+  image(eyeBckImg, width/2, height/2, width, height);
+  // Subtle eye movement based on mouse position
+  let maxOffset = 6; // Maximum movement in pixels (very subtle)
+  let offsetX = map(mouseX, 0, width, -maxOffset, maxOffset);
+  let offsetY = map(mouseY, 0, height, -maxOffset, maxOffset);
+  image(blinkImg, width/2 + offsetX, height/2 + offsetY, width, height);
+
+  // Animate blink using Blink1 and Blink2
+  let now = millis();
+  if (now - lastBlink > blinkInterval && blinkState === 0) {
+    blinkState = 1;
+    blinkFrame = 0;
+  }
+  if (blinkState === 1) {
+    image(blink1Img, width/2, height/2, width, height);
+    blinkFrame++;
+    if (blinkFrame > 7) { // half-blink for 7 frames (medium)
+      blinkState = 2;
+      blinkFrame = 0;
+    }
+  } else if (blinkState === 2) {
+    image(blink2Img, width/2, height/2, width, height);
+    blinkFrame++;
+    if (blinkFrame > 7) { // closed for 7 frames (medium)
+      blinkState = 3;
+      blinkFrame = 0;
+    }
+  } else if (blinkState === 3) {
+    image(blink1Img, width/2, height/2, width, height);
+    blinkFrame++;
+    if (blinkFrame > 7) { // half-blink for 7 frames (medium)
+      blinkState = 0;
+      lastBlink = now;
+    }
+  }
 }
 
