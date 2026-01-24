@@ -4,6 +4,9 @@ let lastBlink = 0;
 let blinkInterval = 4000; // ms between blinks
 let blinkFrame = 0;
 
+// Original aspect ratio: 600x700 (width:height = 6:7)
+const ASPECT_RATIO = 6 / 7;
+
 function preload() {
   selfImg = loadImage('images/Self.png');
   eyeBckImg = loadImage('images/Eyebck.png');
@@ -12,11 +15,42 @@ function preload() {
   blink2Img = loadImage('images/Blink2.png');
 }
 
+function getCanvasSize() {
+  let container = document.getElementById('about-canvas-container');
+  let availableWidth, availableHeight;
+  
+  if (container) {
+    availableWidth = container.offsetWidth;
+    availableHeight = container.offsetHeight;
+  } else {
+    availableHeight = window.innerHeight - 80;
+    availableWidth = window.innerWidth * 0.9;
+  }
+  
+  // Calculate size while maintaining aspect ratio (6:7)
+  // Try fitting by height first
+  let h = availableHeight;
+  let w = h * ASPECT_RATIO;
+  
+  // If too wide, fit by width instead
+  if (w > availableWidth) {
+    w = availableWidth;
+    h = w / ASPECT_RATIO;
+  }
+  
+  return { width: w, height: h };
+}
 
 function setup() {
-  let cnv = createCanvas(600, 700); // You can change this size as needed
+  let size = getCanvasSize();
+  let cnv = createCanvas(size.width, size.height);
   cnv.parent('about-canvas-container');
   imageMode(CENTER);
+}
+
+function windowResized() {
+  let size = getCanvasSize();
+  resizeCanvas(size.width, size.height);
 }
 
 

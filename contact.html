@@ -21,57 +21,85 @@
         <a href="projects.html" class="nav-link">Projects</a>
         <a href="about.html" class="nav-link">About Me</a>
         <a href="contact.html" class="nav-link">Connect</a>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-          <span class="theme-icon sun">☀️</span>
-          <span class="theme-icon moon">🌙</span>
-        </button>
       </nav>
     </header>
 
-    <main class="page-content">
-      <h1>Establish Connection</h1>
+    <main class="page-content contact-page">
+      <div class="contact-hero">
+        <!-- Left side: Form -->
+        <div class="contact-form-section">
+          <h1 class="contact-title">Let's <span class="accent-text">Connect</span></h1>
+          <p class="contact-subtitle">I'm always open to discussing design work, collaborations, or employment opportunities.</p>
 
-      <form class="contact-form" action="#" method="post" style="margin-top:2em;max-width:500px;">
-        <div class="name-fields">
-          <div>
-            <label for="firstName">First Name <span style="color:#888;font-size:0.95em;">(required)</span></label>
-            <input type="text" id="firstName" name="firstName" required>
-          </div>
-          <div>
-            <label for="lastName">Last Name <span style="color:#888;font-size:0.95em;">(required)</span></label>
-            <input type="text" id="lastName" name="lastName" required>
-          </div>
+          <form class="contact-form contact-form-redesign" action="#" method="post">
+            <div class="form-group">
+              <label for="fullName">Your Name</label>
+              <input type="text" id="fullName" name="fullName" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Your Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+            </div>
+
+            <button type="submit" class="contact-submit-btn">Send Message</button>
+          </form>
         </div>
 
-        <label for="email">Email <span style="color:#888;font-size:0.95em;">(required)</span></label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone">
-
-        <label for="reason">Reason for Contact <span style="color:#888;font-size:0.95em;">(required)</span></label>
-        <select id="reason" name="reason" required>
-          <option value="" disabled selected>Select a reason</option>
-          <option value="employment">Employment</option>
-          <option value="collaboration">Collaboration</option>
-          <option value="other">Other</option>
-        </select>
-
-        <label for="details">Inquiry Details</label>
-        <textarea id="details" name="details" rows="5" required></textarea>
-
-        <button type="submit">Submit</button>
-      </form>
+        <!-- Right side: Image with sketchy background -->
+        <div class="contact-image-section">
+          <div class="sketchy-background">
+            <svg class="sketch-lines" viewBox="0 0 400 500" preserveAspectRatio="none">
+              <!-- Hand-drawn sketch lines -->
+              <path d="M50,50 Q100,45 150,55 T250,50 T350,55" stroke="#44355B" stroke-width="2" fill="none" opacity="0.6"/>
+              <path d="M30,100 Q80,95 130,105 T230,100 T330,95 T380,105" stroke="#44355B" stroke-width="1.5" fill="none" opacity="0.5"/>
+              <path d="M40,150 Q90,155 140,145 T240,155 T340,150" stroke="#7A6A8F" stroke-width="2" fill="none" opacity="0.4"/>
+              <path d="M20,200 Q70,195 120,205 T220,195 T320,200 T370,195" stroke="#44355B" stroke-width="1" fill="none" opacity="0.5"/>
+              <path d="M45,250 Q95,255 145,245 T245,250 T345,255" stroke="#7A6A8F" stroke-width="1.5" fill="none" opacity="0.6"/>
+              <path d="M35,300 Q85,295 135,305 T235,300 T335,295" stroke="#44355B" stroke-width="2" fill="none" opacity="0.4"/>
+              <path d="M25,350 Q75,355 125,345 T225,350 T325,355 T375,345" stroke="#7A6A8F" stroke-width="1" fill="none" opacity="0.5"/>
+              <path d="M50,400 Q100,395 150,405 T250,400 T350,395" stroke="#44355B" stroke-width="1.5" fill="none" opacity="0.6"/>
+              <path d="M30,450 Q80,455 130,445 T230,450 T330,455" stroke="#7A6A8F" stroke-width="2" fill="none" opacity="0.4"/>
+              <!-- Diagonal sketch strokes -->
+              <path d="M10,10 Q50,60 30,120" stroke="#31263E" stroke-width="1.5" fill="none" opacity="0.3"/>
+              <path d="M380,20 Q340,80 360,140" stroke="#31263E" stroke-width="1" fill="none" opacity="0.3"/>
+              <path d="M15,380 Q55,440 35,490" stroke="#31263E" stroke-width="1.5" fill="none" opacity="0.3"/>
+              <path d="M375,370 Q335,430 355,485" stroke="#31263E" stroke-width="1" fill="none" opacity="0.3"/>
+              <!-- Cross-hatch texture -->
+              <path d="M100,80 L120,120 M110,80 L130,120 M90,90 L140,90" stroke="#44355B" stroke-width="0.5" fill="none" opacity="0.2"/>
+              <path d="M280,380 L300,420 M290,380 L310,420 M270,390 L320,390" stroke="#44355B" stroke-width="0.5" fill="none" opacity="0.2"/>
+            </svg>
+          </div>
+          <div class="contact-photo-container">
+            <img src="images/contact-photo.jpg" alt="Renzo Baird" class="contact-photo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-placeholder\'><span>Your Photo</span></div>';">
+          </div>
+        </div>
+      </div>
     </main>
-  </body>
+    
     <footer class="site-footer">
-      <div class="footer-social">
-        <a href="https://www.youtube.com/channel/UCoQ-tGaeAQ2s6WFVdwOOApA" target="_blank" aria-label="YouTube" class="footer-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.107-2.117C19.228 3.5 12 3.5 12 3.5s-7.228 0-9.391.569A2.994 2.994 0 0 0 .502 6.186C0 8.36 0 12 0 12s0 3.64.502 5.814a2.994 2.994 0 0 0 2.107 2.117C4.772 20.5 12 20.5 12 20.5s7.228 0 9.391-.569a2.994 2.994 0 0 0 2.107-2.117C24 15.64 24 12 24 12s0-3.64-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#fff"/></svg>
+      <div class="footer-content">
+        <a href="Index.html" class="footer-brand">
+          <img src="images/Renzo.Logo2@2x.png" alt="Renzo Baird Logo" />
+          <span>Renzo Baird</span>
         </a>
-        <a href="https://www.instagram.com/renrenderz?igsh=MXBkbGVsOHVwemJ4dg%3D%3D&utm_source=qr" target="_blank" aria-label="Instagram" class="footer-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25A5.25 5.25 0 1 1 6.75 12A5.25 5.25 0 0 1 12 6.75zm0 1.5A3.75 3.75 0 1 0 15.75 12A3.75 3.75 0 0 0 12 8.25zm5.5-.5a1 1 0 1 1-1 1a1 1 0 0 1 1-1z" fill="#fff"/></svg>
-        </a>
+        
+        <p class="footer-copyright">© 2026 Renzo Baird. All rights reserved.</p>
+        
+        <div class="footer-social">
+          <a href="https://www.youtube.com/channel/UCoQ-tGaeAQ2s6WFVdwOOApA" target="_blank" aria-label="YouTube" class="footer-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.107-2.117C19.228 3.5 12 3.5 12 3.5s-7.228 0-9.391.569A2.994 2.994 0 0 0 .502 6.186C0 8.36 0 12 0 12s0 3.64.502 5.814a2.994 2.994 0 0 0 2.107 2.117C4.772 20.5 12 20.5 12 20.5s7.228 0 9.391-.569a2.994 2.994 0 0 0 2.107-2.117C24 15.64 24 12 24 12s0-3.64-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#fff"/></svg>
+          </a>
+          <a href="https://www.instagram.com/renrenderz?igsh=MXBkbGVsOHVwemJ4dg%3D%3D&utm_source=qr" target="_blank" aria-label="Instagram" class="footer-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25A5.25 5.25 0 1 1 6.75 12A5.25 5.25 0 0 1 12 6.75zm0 1.5A3.75 3.75 0 1 0 15.75 12A3.75 3.75 0 0 0 12 8.25zm5.5-.5a1 1 0 1 1-1 1a1 1 0 0 1 1-1z" fill="#fff"/></svg>
+          </a>
+        </div>
       </div>
     </footer>
+  </body>
 </html>
