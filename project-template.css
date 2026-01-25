@@ -1,0 +1,633 @@
+/* ========================================
+   PROJECT TEMPLATE STYLES - REDESIGNED
+   Brand Colors:
+   - #7A6A8F (purple light)
+   - #443555 (purple medium)  
+   - #31263E (purple dark)
+   - #221E22 (black)
+   - #6A6D73 (gray)
+   - #FFFFFF (white)
+   ======================================== */
+
+/* ==================== SECTION 1: HERO ==================== */
+.project-hero {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #221E22 0%, #31263E 100%);
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+  position: relative;
+}
+
+/* Video Container - sized so title overlaps and info boxes are visible */
+.project-video-container {
+  width: 100%;
+  height: calc(100vh - 380px); /* Leave more room for title + info boxes */
+  position: relative;
+  overflow: hidden;
+}
+
+.project-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gradient overlay on video for polish */
+.project-video-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(34, 30, 34, 0.95), transparent);
+  pointer-events: none;
+}
+
+/* Remove old accent line - using gradient instead */
+.video-accent-line {
+  display: none;
+}
+
+/* Project Title - overlapping video */
+.project-title-container {
+  position: relative;
+  margin-top: -100px; /* Pull up to overlap video by ~75% of title height */
+  z-index: 10;
+  padding: 0 5%;
+}
+
+.project-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-weight: 900;
+  font-style: italic;
+  color: #FFFFFF;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  line-height: 1;
+  /* White text with dark shadow for pop */
+  text-shadow: 
+    4px 4px 0px #221E22,
+    6px 6px 0px #6A6D73,
+    0 0 40px rgba(34, 30, 34, 0.8),
+    0 0 80px rgba(34, 30, 34, 0.5);
+}
+
+/* Accent bar under title */
+.project-title::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin-top: 15px;
+  background: linear-gradient(90deg, #7A6A8F 0%, #443555 50%, transparent 100%);
+  border-radius: 2px;
+}
+
+/* Role and About Section */
+.project-info-row {
+  display: flex;
+  gap: 0;
+  padding: 30px 5%;
+  background: transparent;
+  position: relative;
+  z-index: 5;
+}
+
+.project-info-box {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  padding: 25px 30px;
+  border-left: 3px solid #7A6A8F;
+  transition: all 0.3s ease;
+}
+
+.project-info-box:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-left-color: #FFFFFF;
+}
+
+.project-info-box:first-child {
+  flex: 0 0 220px;
+  margin-right: 40px;
+}
+
+.project-info-about {
+  flex: 1;
+}
+
+.info-box-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #7A6A8F;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.info-box-content {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ==================== SECTION 2: MY CONTRIBUTIONS ==================== */
+.contributions-section {
+  background: linear-gradient(180deg, #31263E 0%, #221E22 100%);
+  padding: 100px 5% 120px;
+  position: relative;
+}
+
+/* Decorative top border */
+.contributions-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #7A6A8F, transparent);
+}
+
+.contributions-container {
+  display: flex;
+  gap: 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.contributions-left {
+  flex: 1;
+}
+
+.contributions-header {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #FFFFFF;
+  margin: 0 0 50px 0;
+  padding-left: 20px;
+  border-left: 4px solid #7A6A8F;
+  text-shadow: 0 2px 20px rgba(122, 106, 143, 0.3);
+}
+
+/* Accordion Styles */
+.contribution-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.accordion-item {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid rgba(122, 106, 143, 0.2);
+  border-radius: 4px;
+}
+
+.accordion-item:hover {
+  background: rgba(122, 106, 143, 0.15);
+  border-color: #7A6A8F;
+  transform: translateX(10px);
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 30px;
+}
+
+.accordion-title {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.accordion-arrow {
+  font-size: 1rem;
+  color: #7A6A8F;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.accordion-summary {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  padding: 0 30px;
+}
+
+.accordion-summary p {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+  padding-bottom: 22px;
+}
+
+/* Hover state for accordion */
+.accordion-item:hover .accordion-summary {
+  max-height: 100px;
+}
+
+.accordion-item:hover .accordion-arrow {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Image/Logo on the right */
+.contributions-right {
+  flex: 0 0 450px;
+}
+
+.contributions-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #221E22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  border: 1px solid rgba(122, 106, 143, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(122, 106, 143, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow effect on image container */
+.contributions-image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(122, 106, 143, 0.1), transparent 30%);
+  animation: rotate 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.contributions-image-placeholder:hover::before {
+  opacity: 1;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+/* ==================== SECTION 3: CONTRIBUTION DETAILS ==================== */
+.contribution-detail-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 5%;
+  scroll-margin-top: 80px;
+  position: relative;
+  background: linear-gradient(135deg, #443555 0%, #31263E 50%, #221E22 100%);
+}
+
+.contribution-detail-section:nth-child(even) {
+  background: linear-gradient(135deg, #31263E 0%, #221E22 50%, #31263E 100%);
+}
+
+/* Subtle pattern overlay */
+.contribution-detail-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(122, 106, 143, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+.contribution-detail-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: 0;
+  padding-right: 0;
+  width: 100%;
+}
+
+.contribution-main-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #FFFFFF;
+  margin: 0;
+  padding: 18px 45px;
+  background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Slides Container */
+.contribution-slides-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.contribution-slide {
+  display: none;
+  width: 100%;
+}
+
+.contribution-slide.active {
+  display: block;
+}
+
+.slide-content {
+  display: flex;
+  gap: 60px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  padding: 60px;
+  max-width: 1300px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: 0;
+  border: 1px solid rgba(122, 106, 143, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  min-height: 500px;
+}
+
+/* Image side */
+.slide-image-container {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-image-placeholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #221E22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1rem;
+  border: 1px solid rgba(122, 106, 143, 0.2);
+  border-radius: 4px;
+  min-height: 350px;
+}
+
+/* For actual images */
+.slide-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Slide controls - aligned right */
+.slide-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  margin-top: 20px;
+}
+
+.slide-next-btn {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px 0 0 4px;
+}
+
+.slide-next-btn:hover {
+  background: linear-gradient(135deg, #8a7a9f 0%, #544565 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(122, 106, 143, 0.3);
+}
+
+.slide-counter {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 12px 20px;
+  background: rgba(34, 30, 34, 0.8);
+  border: 1px solid rgba(122, 106, 143, 0.3);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Text side */
+.slide-text-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide-mini-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #FFFFFF;
+  margin: 0 0 30px 0;
+  text-transform: uppercase;
+  text-align: right;
+  padding-right: 25px;
+  border-right: 4px solid #7A6A8F;
+  text-shadow: 0 2px 10px rgba(122, 106, 143, 0.3);
+}
+
+.slide-description {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.9;
+  margin: 0 0 20px 0;
+  text-align: right;
+}
+
+.slide-description:last-child {
+  margin-bottom: 0;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+@media (max-width: 1200px) {
+  .slide-content {
+    gap: 40px;
+    padding: 40px;
+  }
+  
+  .slide-image-container {
+    flex: 0 0 45%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .contributions-container {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .contributions-right {
+    flex: none;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .slide-content {
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .slide-image-container {
+    flex: none;
+  }
+
+  .slide-mini-title,
+  .slide-description {
+    text-align: left;
+    border-right: none;
+    border-left: 3px solid #7A6A8F;
+    padding-left: 20px;
+    padding-right: 0;
+  }
+
+  .contribution-detail-section {
+    min-height: auto;
+    padding: 60px 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-hero {
+    padding-top: 70px;
+  }
+
+  .project-video-container {
+    height: calc(100vh - 350px);
+  }
+
+  .project-title-container {
+    margin-top: -60px;
+    padding: 0 20px;
+  }
+
+  .project-title {
+    font-size: clamp(2rem, 12vw, 4rem);
+  }
+
+  .project-info-row {
+    flex-direction: column;
+    padding: 30px 20px;
+    gap: 20px;
+  }
+
+  .project-info-box:first-child {
+    flex: none;
+    margin-right: 0;
+  }
+
+  .contributions-section {
+    padding: 60px 20px 80px;
+  }
+
+  .contributions-header {
+    font-size: 1.5rem;
+    margin-bottom: 35px;
+  }
+
+  .contribution-detail-section {
+    padding: 50px 20px;
+  }
+
+  .slide-content {
+    padding: 25px;
+  }
+
+  .contribution-main-title {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contributions-header {
+    font-size: 1.3rem;
+    padding-left: 15px;
+  }
+
+  .accordion-header {
+    padding: 18px 20px;
+  }
+
+  .accordion-title {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+
+  .slide-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .slide-next-btn {
+    border-radius: 4px 4px 0 0;
+    text-align: center;
+  }
+
+  .slide-counter {
+    border-radius: 0 0 4px 4px;
+    border-left: 1px solid rgba(122, 106, 143, 0.3);
+    border-top: none;
+    text-align: center;
+  }
+
+  .slide-image-placeholder {
+    aspect-ratio: 4/3;
+  }
+}
