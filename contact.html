@@ -7,8 +7,416 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="about-styles.css">
     <script src="theme-toggle.js"></script>
+    <style>
+      /* Contact Page - Full viewport layout (footer is scrollable) */
+      .contact-page {
+        padding-top: 80px;
+        margin-top: 0;
+        min-height: calc(100vh - 80px);
+        background: linear-gradient(135deg, #443555 0%, #31263E 50%, #221E22 100%);
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+      
+      /* Hero Section - 30% of viewport with black background */
+      .contact-hero-section {
+        background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.92) 55%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.35) 90%, transparent 100%);
+        width: 100%;
+        height: 25vh;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 5%;
+        position: relative;
+        box-sizing: border-box;
+        flex-shrink: 0;
+      }
+      
+      .contact-hero-content {
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      /* Handwriting text styling */
+      .handwriting-text {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        opacity: 0;
+        display: inline-block;
+        word-spacing: 0.15em;
+      }
+      
+      .handwriting-text.visible {
+        opacity: 1;
+      }
+      
+      .handwriting-text .word {
+        display: inline-block;
+        margin-right: 0.3em;
+      }
+      
+      .handwriting-text .word:last-child {
+        margin-right: 0;
+      }
+      
+      .handwriting-text .char {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      
+      .handwriting-text.animate .char {
+        animation: writeIn 0.15s ease forwards;
+      }
+      
+      @keyframes writeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          transform: translateY(-5px);
+        }
+      }
+      
+      .handwriting-text.fade-out .char {
+        animation: fadeOut 0.08s ease forwards;
+      }
+      
+      /* Form Section - fills remaining space */
+      .contact-form-section-wrapper {
+        padding: 40px 5% 50px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .contact-form-section-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(rgba(122, 106, 143, 0.03) 1px, transparent 1px);
+        background-size: 30px 30px;
+        pointer-events: none;
+      }
+      
+      /* Title bar - matches About Me styling */
+      .contact-form-header {
+        display: none;
+      }
+      
+      .contact-form-title {
+        font-family: 'Unbounded', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        font-style: italic;
+        color: #FFFFFF;
+        margin: 0 0 20px 0;
+        padding: 18px 35px;
+        background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        display: block;
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+      }
+      
+      .contact-form-container {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+      }
+      
+      .contact-form-content {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        padding: 30px 40px;
+        border: 1px solid rgba(122, 106, 143, 0.15);
+        border-radius: 8px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 50px;
+        align-items: start;
+        width: 100%;
+      }
+      
+      /* Left: Form section */
+      .contact-form-left {
+        display: flex;
+        flex-direction: column;
+        max-width: 480px;
+      }
+      
+      .contact-form-intro {
+        margin-bottom: 20px;
+      }
+      
+      .contact-form-intro p {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+        margin: 0;
+      }
+      
+      .styled-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .styled-form .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .styled-form label {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 6px;
+        letter-spacing: 0.5px;
+      }
+      
+      .styled-form input,
+      .styled-form textarea {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(255,255,255,0.08);
+        border: 1.5px solid rgba(122, 106, 143, 0.4);
+        border-radius: 6px;
+        color: #fff;
+        font-family: 'Urbanist', sans-serif;
+        font-size: 1rem;
+        transition: border-color 0.2s, background 0.2s;
+        box-sizing: border-box;
+      }
+      
+      .styled-form input::placeholder,
+      .styled-form textarea::placeholder {
+        color: rgba(255,255,255,0.4);
+      }
+      
+      .styled-form input:focus,
+      .styled-form textarea:focus {
+        outline: none;
+        border-color: #7A6A8F;
+        background: rgba(255,255,255,0.12);
+      }
+      
+      .styled-form textarea {
+        resize: none;
+        min-height: 100px;
+      }
+      
+      .styled-submit-btn {
+        width: auto;
+        align-self: flex-start;
+        padding: 14px 35px;
+        background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-family: 'Urbanist', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      .styled-submit-btn:hover {
+        background: linear-gradient(135deg, #443555 0%, #31263E 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Right side: Photo and connect info */
+      .contact-info-right {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        align-items: flex-end;
+        width: 240px;
+      }
+      
+      /* Photo styling - 4:5 portrait aspect ratio headshot */
+      .contact-photo-wrapper {
+        width: 240px;
+        aspect-ratio: 4 / 5;
+        flex-shrink: 0;
+      }
+      
+      .contact-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 3px solid rgba(122, 106, 143, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: rgba(255,255,255,0.05);
+      }
+      
+      .contact-photo:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+      }
+      
+      /* Connect section below photo */
+      .contact-connect-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 15px;
+        width: 240px;
+      }
+      
+      .contact-connect-section h3 {
+        font-family: 'Unbounded', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        font-style: italic;
+        color: #FFFFFF;
+        margin: 0;
+        text-transform: uppercase;
+        text-align: right;
+        letter-spacing: 1px;
+      }
+      
+      .contact-social-links {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+      }
+      
+      .contact-social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(122, 106, 143, 0.2);
+        border: 1px solid rgba(122, 106, 143, 0.4);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+      
+      .contact-social-link:hover {
+        background: rgba(122, 106, 143, 0.4);
+        border-color: #7A6A8F;
+        transform: scale(1.1);
+      }
+      
+      .contact-social-link svg {
+        width: 26px;
+        height: 26px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .contact-form-content {
+          padding: 25px 30px;
+          gap: 30px;
+        }
+        
+        .contact-form-left {
+          padding: 20px 25px;
+        }
+      }
+      
+      @media (max-width: 900px) {
+        .contact-page {
+          min-height: auto;
+          height: auto;
+          overflow: visible;
+        }
+        
+        .contact-form-content {
+          grid-template-columns: 1fr;
+          padding: 25px;
+        }
+        
+        .contact-form-title {
+          font-size: 1.2rem;
+          padding: 12px 25px;
+        }
+        
+        .contact-form-section-wrapper {
+          padding: 20px 20px 40px;
+        }
+        
+        .contact-hero-section {
+          height: auto;
+          min-height: 100px;
+          padding: 60px 5% 30px;
+        }
+        
+        .contact-photo {
+          max-height: 250px;
+        }
+        
+        .contact-info-right {
+          order: -1;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .contact-form-title {
+          font-size: 1rem;
+          padding: 10px 20px;
+          letter-spacing: 1px;
+        }
+        
+        .contact-form-content {
+          padding: 20px;
+        }
+        
+        .contact-form-left {
+          padding: 20px;
+        }
+        
+        .contact-connect-section {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Header Navigation -->
@@ -25,61 +433,60 @@
     </header>
 
     <main class="page-content contact-page">
-      <div class="contact-hero">
-        <!-- Left side: Form -->
-        <div class="contact-form-section">
-          <h1 class="contact-title">Let's <span class="accent-text">Connect</span></h1>
-          <p class="contact-subtitle">I'm always open to discussing design work, collaborations, or employment opportunities.</p>
-
-          <form class="contact-form contact-form-redesign" action="#" method="post">
-            <div class="form-group">
-              <label for="fullName">Your Name</label>
-              <input type="text" id="fullName" name="fullName" placeholder="Enter your name" required>
-            </div>
-
-            <div class="form-group">
-              <label for="email">Your Email</label>
-              <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-
-            <div class="form-group">
-              <label for="message">Your Message</label>
-              <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
-            </div>
-
-            <button type="submit" class="contact-submit-btn">Send Message</button>
-          </form>
+      <!-- Hero Section with Handwriting Animation -->
+      <section class="contact-hero-section">
+        <div class="contact-hero-content">
+          <span class="handwriting-text" id="handwriting"></span>
         </div>
+      </section>
 
-        <!-- Right side: Image with sketchy background -->
-        <div class="contact-image-section">
-          <div class="sketchy-background">
-            <svg class="sketch-lines" viewBox="0 0 400 500" preserveAspectRatio="none">
-              <!-- Hand-drawn sketch lines -->
-              <path d="M50,50 Q100,45 150,55 T250,50 T350,55" stroke="#44355B" stroke-width="2" fill="none" opacity="0.6"/>
-              <path d="M30,100 Q80,95 130,105 T230,100 T330,95 T380,105" stroke="#44355B" stroke-width="1.5" fill="none" opacity="0.5"/>
-              <path d="M40,150 Q90,155 140,145 T240,155 T340,150" stroke="#7A6A8F" stroke-width="2" fill="none" opacity="0.4"/>
-              <path d="M20,200 Q70,195 120,205 T220,195 T320,200 T370,195" stroke="#44355B" stroke-width="1" fill="none" opacity="0.5"/>
-              <path d="M45,250 Q95,255 145,245 T245,250 T345,255" stroke="#7A6A8F" stroke-width="1.5" fill="none" opacity="0.6"/>
-              <path d="M35,300 Q85,295 135,305 T235,300 T335,295" stroke="#44355B" stroke-width="2" fill="none" opacity="0.4"/>
-              <path d="M25,350 Q75,355 125,345 T225,350 T325,355 T375,345" stroke="#7A6A8F" stroke-width="1" fill="none" opacity="0.5"/>
-              <path d="M50,400 Q100,395 150,405 T250,400 T350,395" stroke="#44355B" stroke-width="1.5" fill="none" opacity="0.6"/>
-              <path d="M30,450 Q80,455 130,445 T230,450 T330,455" stroke="#7A6A8F" stroke-width="2" fill="none" opacity="0.4"/>
-              <!-- Diagonal sketch strokes -->
-              <path d="M10,10 Q50,60 30,120" stroke="#31263E" stroke-width="1.5" fill="none" opacity="0.3"/>
-              <path d="M380,20 Q340,80 360,140" stroke="#31263E" stroke-width="1" fill="none" opacity="0.3"/>
-              <path d="M15,380 Q55,440 35,490" stroke="#31263E" stroke-width="1.5" fill="none" opacity="0.3"/>
-              <path d="M375,370 Q335,430 355,485" stroke="#31263E" stroke-width="1" fill="none" opacity="0.3"/>
-              <!-- Cross-hatch texture -->
-              <path d="M100,80 L120,120 M110,80 L130,120 M90,90 L140,90" stroke="#44355B" stroke-width="0.5" fill="none" opacity="0.2"/>
-              <path d="M280,380 L300,420 M290,380 L310,420 M270,390 L320,390" stroke="#44355B" stroke-width="0.5" fill="none" opacity="0.2"/>
-            </svg>
-          </div>
-          <div class="contact-photo-container">
-            <img src="images/contact-photo.jpg" alt="Renzo Baird" class="contact-photo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-placeholder\'><span>Your Photo</span></div>';">
+      <!-- Contact Form Section -->
+      <section class="contact-form-section-wrapper">
+        <div class="contact-form-container">
+          <div class="contact-form-content">
+            <!-- Left: Form with purple background -->
+            <div class="contact-form-left">
+              <h2 class="contact-form-title">GET IN TOUCH</h2>
+              <div class="contact-form-intro">
+                <p>Have a project in mind or just want to say hello? Fill out the form below and I'll get back to you as soon as possible.</p>
+              </div>
+              <form class="styled-form" action="#" method="post">
+                <div class="form-group">
+                  <label for="fullName">Your Name</label>
+                  <input type="text" id="fullName" name="fullName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Your Email</label>
+                  <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                  <label for="message">Your Message</label>
+                  <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="styled-submit-btn">Send Message</button>
+              </form>
+            </div>
+            
+            <!-- Right: Photo and Connect -->
+            <div class="contact-info-right">
+              <div class="contact-photo-wrapper">
+                <img src="images/contact-photo.jpg" alt="Renzo Baird" class="contact-photo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 500%22><rect fill=%22%23443555%22 width=%22400%22 height=%22500%22/></svg>';">
+              </div>
+              <div class="contact-connect-section">
+                <h3>Other Ways to Connect</h3>
+                <div class="contact-social-links">
+                  <a href="https://www.youtube.com/channel/UCoQ-tGaeAQ2s6WFVdwOOApA" target="_blank" aria-label="YouTube" class="contact-social-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.107-2.117C19.228 3.5 12 3.5 12 3.5s-7.228 0-9.391.569A2.994 2.994 0 0 0 .502 6.186C0 8.36 0 12 0 12s0 3.64.502 5.814a2.994 2.994 0 0 0 2.107 2.117C4.772 20.5 12 20.5 12 20.5s7.228 0 9.391-.569a2.994 2.994 0 0 0 2.107-2.117C24 15.64 24 12 24 12s0-3.64-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#fff"/></svg>
+                  </a>
+                  <a href="https://www.instagram.com/renrenderz?igsh=MXBkbGVsOHVwemJ4dg%3D%3D&utm_source=qr" target="_blank" aria-label="Instagram" class="contact-social-link">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25A5.25 5.25 0 1 1 6.75 12A5.25 5.25 0 0 1 12 6.75zm0 1.5A3.75 3.75 0 1 0 15.75 12A3.75 3.75 0 0 0 12 8.25zm5.5-.5a1 1 0 1 1-1 1a1 1 0 0 1 1-1z" fill="#fff"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </main>
     
     <footer class="site-footer">
@@ -101,5 +508,93 @@
         </div>
       </div>
     </footer>
+
+    <!-- Handwriting Animation Script -->
+    <script>
+      (function() {
+        const texts = [
+          "Hello! I'm glad you're here.",
+          "Let's Connect & Create Together."
+        ];
+        
+        const container = document.getElementById('handwriting');
+        let textIndex = 0;
+        
+        // Animation timing
+        const charDelay = 60;        // ms between each character appearing
+        const pauseAfterWrite = 2500; // pause after text is fully written
+        const pauseAfterFade = 400;   // pause after text fades out
+        
+        function wrapCharacters(text) {
+          // Split by words first, then wrap each character
+          const words = text.split(' ');
+          return words.map((word, wordIndex) => {
+            const chars = word.split('').map((char, charIndex) => {
+              // Calculate total char index for animation delay
+              let totalCharIndex = 0;
+              for (let w = 0; w < wordIndex; w++) {
+                totalCharIndex += words[w].length + 1; // +1 for space
+              }
+              totalCharIndex += charIndex;
+              
+              return `<span class="char" style="animation-delay: ${totalCharIndex * charDelay}ms">${char}</span>`;
+            }).join('');
+            return `<span class="word">${chars}</span>`;
+          }).join(' ');
+        }
+        
+        function getTotalChars(text) {
+          return text.length;
+        }
+        
+        function writeText(text) {
+          container.innerHTML = wrapCharacters(text);
+          container.classList.add('visible');
+          container.classList.remove('fade-out');
+          container.classList.add('animate');
+          
+          // Calculate total animation time
+          const totalWriteTime = getTotalChars(text) * charDelay + 300;
+          
+          return new Promise(resolve => setTimeout(resolve, totalWriteTime + pauseAfterWrite));
+        }
+        
+        function fadeText(text) {
+          // Reverse the animation delays for fade out
+          const chars = container.querySelectorAll('.char');
+          const totalChars = chars.length;
+          chars.forEach((char, i) => {
+            char.style.animationDelay = `${(totalChars - i) * 40}ms`;
+          });
+          
+          container.classList.remove('animate');
+          container.classList.add('fade-out');
+          
+          const totalFadeTime = totalChars * 40 + 200;
+          
+          return new Promise(resolve => setTimeout(resolve, totalFadeTime + pauseAfterFade));
+        }
+        
+        async function animationLoop() {
+          while (true) {
+            const currentText = texts[textIndex];
+            
+            // Write the text
+            await writeText(currentText);
+            
+            // Fade out the text
+            await fadeText(currentText);
+            
+            // Move to next text
+            textIndex = (textIndex + 1) % texts.length;
+          }
+        }
+        
+        // Start the animation when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+          setTimeout(animationLoop, 300);
+        });
+      })();
+    </script>
   </body>
 </html>

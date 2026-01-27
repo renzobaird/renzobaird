@@ -178,6 +178,35 @@
           </div>
         </div>
 
+                <!-- Section 3: Education -->
+        <div class="spec-section" id="spec-section-3" style="display:none;">
+          <div class="inspiration-title">
+            <span class="inspiration-title-small">Obtaining a college degree was incredibly important to me.</span>
+            <span class="inspiration-title-large">Despite the time that passed, I never gave up on my dreams of a college education.</span>
+          </div>
+
+          <div class="inspiration-grid">
+            <!-- Left Column -->
+            <div class="inspiration-column inspiration-left">
+              <p class="inspiration-text">In previous years I explored educational paths towards psychology and computer science. While gaining life experience over the years, I decided to change course one final time. By pursuing my interest in design, I smashed the two previous paths with design to land where I am today.</p>
+            </div>
+
+            <!-- Center Column - empty for character -->
+            <div class="inspiration-column inspiration-center">
+              <!-- Character image shows through here -->
+            </div>
+
+            <!-- Right Column -->
+            <div class="inspiration-column inspiration-right">
+              <p class="inspiration-text">I am a student in the Arts and Entertainment Technologies (AET) program at The University of Texas at Austin. With a concentration of Game Design, my Bachelor of Science in AET will be earned in May 2026.</p>
+            </div>
+          </div>
+
+          <div class="spec-nav-buttons">
+            <button class="spec-nav-btn spec-back-btn" id="spec3-back">Back</button>
+          </div>
+        </div>
+
                 <!-- Section 4: Inspiration & Works -->
         <div class="spec-section" id="spec-section-4" style="display:none;">
           <div class="inspiration-title">
@@ -212,7 +241,7 @@
         <div class="about-categories" id="about-categories">
           <button class="about-circle about-education" data-section="2" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Proficiencies &amp; Specializations</button>
           <button class="about-circle about-specialization" data-section="3" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Education</button>
-          <button class="about-circle about-work" data-section="4" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Inspiration &amp; Works</button>
+          <button class="about-circle about-work" data-section="4" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Inspirations</button>
           <button class="about-circle about-works" data-section="5" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Work History</button>
         </div>
         <div id="about-canvas-container"></div>
@@ -227,6 +256,7 @@
             const hero2 = document.getElementById('hero2');
             const spec2a = document.getElementById('spec-section-2a');
             const spec2b = document.getElementById('spec-section-2b');
+            const spec3 = document.getElementById('spec-section-3');
             const spec4 = document.getElementById('spec-section-4');
             const categories = document.getElementById('about-categories');
             const backBtn = document.getElementById('backButton');
@@ -240,6 +270,7 @@
               hero2.style.display = 'none';
               spec2a.style.display = 'none';
               spec2b.style.display = 'none';
+              spec3.style.display = 'none';
               spec4.style.display = 'none';
               categories.style.display = 'none';
               backBtn.style.display = 'none';
@@ -262,9 +293,11 @@
                 spec2a.style.display = 'flex';
               } else if (section === 'spec2b') {
                 spec2b.style.display = 'flex';
+              } else if (section === 'spec3' || section === 3) {
+                spec3.style.display = 'flex';
               } else if (section === 'spec4' || section === 4) {
                 spec4.style.display = 'flex';
-              } else if (section === 3 || section === 5) {
+              } else if (section === 5) {
                 // Other sections - show hero with different text
                 hero1.style.display = 'block';
                 backBtn.style.display = 'block';
@@ -309,6 +342,11 @@
               showSection('hero2');
             });
 
+            // Spec 3 navigation
+            document.getElementById('spec3-back').addEventListener('click', function() {
+              showSection('hero2');
+            });
+
             // Spec 4 navigation
             document.getElementById('spec4-back').addEventListener('click', function() {
               showSection('hero2');
@@ -350,16 +388,19 @@
         <div class="about-me-container">
           <div class="about-me-content">
             <h3 class="about-me-subtitle">INSPIRATIONS</h3>
-            <p class="about-me-description">The story, the journey, the interaction. I pay attention to the little details, as the many small combine into the large meaningful few. No task is too small or too big – it's all about the greater project.</p>
-            <p class="about-me-description">I'm driven by the belief that every design choice, every line of code, and every narrative beat should serve the player's experience. Games are more than entertainment – they're portals to new worlds and perspectives.</p>
+            <p class="about-me-description">I am fascinated by human’s way of thinking and their relationship with technology. I look for ways to use technology to enhance the lives of my users that feel memorable.</p>
+            <p class="about-me-description">With every design I make, I always ask myself- what emotion do I want my user to feel? Does the current version of the design meet that goal? What can I introduce into the design that builds a stronger relationship between the user and the intended experience?</p>
+            <p class="about-me-description">Every design choice of mine is intentional, stemming from my core design principles: Provoke thought and provide meaning, encourage engagement, use feedback to iterate and improve, make design decisions backed by data (or let data drive design decisions), and look for ways to solidify the intended experience and emotions of the user.  </p>
+            <p class="about-me-description">I care about authenticity, creativity, immersive narratives, and world building. Emergent gameplay that feels new and captivating.</p>
+            <p class="about-me-description">It is with everything above that I set out my intentions to make a difference in the world through innovative, memorable, and inclusive designs.</p>
             
             <h3 class="about-me-subtitle">SPECIALIZATIONS</h3>
             <p class="about-me-description">The story, the journey, the interaction. I pay attention to the little details, as the many small combine into the large meaningful few. No task is too small or too big – it's all about the greater project.</p>
             <p class="about-me-description">I'm driven by the belief that every design choice, every line of code, and every narrative beat should serve the player's experience. Games are more than entertainment – they're portals to new worlds and perspectives.</p>
 
             <h3 class="about-me-subtitle">EDUCATION</h3>
-            <p class="about-me-description">The story, the journey, the interaction. I pay attention to the little details, as the many small combine into the large meaningful few. No task is too small or too big – it's all about the greater project.</p>
-            <p class="about-me-description">I'm driven by the belief that every design choice, every line of code, and every narrative beat should serve the player's experience. Games are more than entertainment – they're portals to new worlds and perspectives.</p>
+            <p class="about-me-description">In previous years I explored educational paths towards psychology and computer science. While gaining life experience over the years, I decided to change course one final time. By pursuing my interest in design, I smashed the two previous paths with design to land where I am today.</p>
+            <p class="about-me-description">I am a student in the Arts and Entertainment Technologies (AET) program at The University of Texas at Austin. With a concentration of Game Design, my Bachelor of Science in AET will be earned in May 2026.</p>
 
             <h3 class="about-me-subtitle">WORK HISTORY</h3>
             <p class="about-me-description">The story, the journey, the interaction. I pay attention to the little details, as the many small combine into the large meaningful few. No task is too small or too big – it's all about the greater project.</p>
