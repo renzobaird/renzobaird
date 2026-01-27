@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="about-styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
@@ -31,154 +32,313 @@
 
     <main class="page-content">
       <section class="about-hero" style="background:#000;position:relative;">
-        <!-- User-provided hero image below header bar -->
-        <div class="about-greeting">
-          <h2 class="about-greeting-title" style="color:#fff;"></h2>
-          <p class="about-greeting-desc" style="color:#fff;"></p>
-          <script>
-            function flowText(element, text, speed, callback) {
-              element.innerHTML = '';
-              for (let i = 0; i < text.length; i++) {
-                const span = document.createElement('span');
-                span.textContent = text[i];
-                span.style.opacity = 0;
-                span.style.transition = 'opacity 2.2s cubic-bezier(.4,0,.2,1)';
-                element.appendChild(span);
-                setTimeout(() => { span.style.opacity = 1; }, i * speed);
-              }
-              setTimeout(function() { if (callback) callback(); }, text.length * speed + 400);
-            }
-            window.addEventListener('DOMContentLoaded', function() {
-              function showSection(section) {
-                const title = document.querySelector('.about-greeting-title');
-                const desc = document.querySelector('.about-greeting-desc');
-                let titleText = '';
-                let descText = '';
-                if (section === 1) {
-                  titleText = 'Hello, my name is Renzo Baird!';
-                  descText = 'It’s very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?';
-                } else {
-                  titleText = 'Section ' + section + ' Title';
-                  // longer filler text to fill the larger category text box
-                  descText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at orci a lectus posuere efficitur. Integer pulvinar, justo quis volutpat luctus, sapien ante feugiat orci, sed convallis nibh orci vitae libero. Curabitur ut augue id elit iaculis efficitur. Mauris vitae risus ac ipsum vulputate porta. Sed sit amet nisl sed lorem malesuada faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum vel arcu vitae mauris ultricies gravida. Donec in nibh sed risus pretium efficitur. Aenean consequat, nibh id tincidunt porttitor, orci augue luctus mauris, non volutpat nunc ipsum non urna. Vivamus venenatis, mauris in suscipit egestas, arcu nibh congue quam, at porta odio purus ut purus. Integer vitae mi ac elit faucibus dictum. Suspendisse potenti. Quisque sit amet dolor vitae mi iaculis tincidunt. Cras ac velit non nibh dictum malesuada.';
-                }
-                // toggle a class on the hero so CSS can switch layout for category sections
-                const hero = document.querySelector('.about-hero');
-                if (hero) {
-                  if (section === 1) hero.classList.remove('section-open'); else hero.classList.add('section-open');
-                }
-                flowText(title, titleText, 38, function() {
-                  setTimeout(function() {
-                    flowText(desc, descText, 28);
-                  }, 900);
-                });
-                // Show or hide the category buttons depending on section
-                const cats = document.querySelector('.about-categories');
-                if (cats) {
-                  if (section === 1) {
-                    cats.style.display = '';
-                    cats.setAttribute('aria-hidden','false');
-                  } else {
-                    cats.style.display = 'none';
-                    cats.setAttribute('aria-hidden','true');
-                  }
-                }
-                // Show or hide the back button
-                const backBtn = document.getElementById('backButton');
-                if (backBtn) {
-                  if (section === 1) {
-                    backBtn.style.display = 'none';
-                    backBtn.setAttribute('aria-hidden','true');
-                  } else {
-                    backBtn.style.display = 'block';
-                    backBtn.setAttribute('aria-hidden','false');
-                  }
-                }
-                  // Show or hide the scroll popup (only for section 1). This uses an in-memory
-                  // flag so the popup will reappear after a page refresh but will hide the
-                  // first time the user scrolls/clicks during this load.
-                  const scrollPopup = document.getElementById('scroll-popup');
-                  let popupDismissed = false;
-                  function showPopupIfNeeded(sec) {
-                    if (!scrollPopup) return;
-                    if (sec === 1 && !popupDismissed) {
-                      scrollPopup.style.display = 'block';
-                      scrollPopup.setAttribute('aria-hidden','false');
-                    } else {
-                      scrollPopup.style.display = 'none';
-                      scrollPopup.setAttribute('aria-hidden','true');
-                    }
-                  }
-                  // ensure popup state follows the requested section
-                  showPopupIfNeeded(section);
-              }
-
-              showSection(1);
-
-              document.querySelectorAll('.about-circle').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                  // Clear the greeting text
-                  document.querySelector('.about-greeting-title').innerHTML = '';
-                  document.querySelector('.about-greeting-desc').innerHTML = '';
-                  const section = parseInt(btn.getAttribute('data-section')) || 1;
-                  showSection(section);
-                });
-              });
-
-              // Back button handler
-              const backBtn = document.getElementById('backButton');
-              if (backBtn) {
-                backBtn.addEventListener('click', function() {
-                  // Clear greeting and return to section 1
-                  document.querySelector('.about-greeting-title').innerHTML = '';
-                  document.querySelector('.about-greeting-desc').innerHTML = '';
-                  showSection(1);
-                });
-              }
-
-              (function setupScrollPopup() {
-                const popup = document.getElementById('scroll-popup');
-                if (!popup) return;
-
-                function dismissPopup() {
-                  popup.style.display = 'none';
-                  popup.setAttribute('aria-hidden','true');
-                  popupDismissed = true;
-                  window.removeEventListener('scroll', onFirstScroll);
-                }
-
-                function onFirstScroll() {
-                  if (window.scrollY > 20) {
-                    dismissPopup();
-                  }
-                }
-
-                // Attach listener for the first scroll during this page load
-                window.addEventListener('scroll', onFirstScroll, { passive: true });
-
-                // Allow clicking the popup to dismiss immediately
-                popup.addEventListener('click', function() { dismissPopup(); });
-              })();
-            });
-          </script>
+        
+        <!-- Hero 1: Initial greeting -->
+        <div class="about-greeting" id="hero1">
+          <h2 class="about-greeting-title" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: bold; font-size: clamp(2.5rem, 5vw, 4rem);">Hello, my name is Renzo Baird!</h2>
+          <p class="about-greeting-desc" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.5rem, 3vw, 2.4rem);">It's very nice to meet you. It looks like you came to this page to learn more about me? Well, what would you like to know?</p>
         </div>
-        <div class="about-categories">
-          <button class="about-circle about-education" data-section="2">Specialization</button>
-          <button class="about-circle about-specialization" data-section="3">Education</button>
-          <button class="about-circle about-work" data-section="4">Works &amp; Inspiration</button>
-          <button class="about-circle about-works" data-section="5">Work History</button>
+
+        <!-- Hero 2: Return section after viewing categories -->
+        <div class="about-greeting" id="hero2" style="display:none;">
+          <h2 class="about-greeting-title" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: bold; font-size: clamp(2.5rem, 5vw, 4rem);">I’m happy to dive deeper into other aspects of me. Please let me know what else you would like to know.</h2>
+          <p class="about-greeting-desc" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.5rem, 3vw, 2.4rem);"></p>
+        </div>
+
+        <!-- Section 2a: Specialization - Software & Tools Grid -->
+        <div class="spec-section" id="spec-section-2a" style="display:none;">
+          <h2 class="spec-title">I have used various services, software, and platforms to build myself up as a strong designer and communicator. I have spent time in the following:</h2>
+          
+          <div class="spec-grid">
+            <!-- Left Column - all left side content -->
+            <div class="spec-column spec-left">
+              <div class="spec-card">
+                <h3 class="spec-card-title">Design, Prototyping, & Visual Development</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">Figma</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Canva</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Photoshop</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Illustrator</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">InDesign</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Fresco</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Procreate</div></div>
+                </div>
+              </div>
+              <div class="spec-card">
+                <h3 class="spec-card-title">3D Production & World Building</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">Maya</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Gaea 2.0</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Substance 3D</div></div>
+                </div>
+              </div>
+              <div class="spec-card">
+                <h3 class="spec-card-title">Engineering, Tools, & Version Control</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">Visual Studio</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">GitHub</div></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Center Column - empty for character image -->
+            <div class="spec-column spec-center">
+              <!-- Character image shows through here -->
+            </div>
+            
+            <!-- Right Column - all right side content -->
+            <div class="spec-column spec-right">
+              <div class="spec-card">
+                <h3 class="spec-card-title">Collaboration, Planning, & Production</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">Slack</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Trello</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Miro</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Discord</div></div>
+                </div>
+              </div>
+              <div class="spec-card">
+                <h3 class="spec-card-title">Game Development & Interactive Systems</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">Unity</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Unreal Engine</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Twine</div></div>
+                </div>
+              </div>
+              <div class="spec-card">
+                <h3 class="spec-card-title">Motion, Video, & Presentation Media</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">After Effects</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Premiere Pro</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Premiere Rush</div></div>
+                </div>
+              </div>
+              <div class="spec-card">
+                <h3 class="spec-card-title">Miscellaneous</h3>
+                <div class="spec-card-logos">
+                  <div class="logo-item"><div class="logo-placeholder">Audacity</div></div>
+                  <div class="logo-item"><div class="logo-placeholder">Blogger</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-nav-buttons">
+            <button class="spec-nav-btn spec-back-btn" id="spec2a-back">Back</button>
+            <button class="spec-nav-btn spec-next-btn" id="spec2a-next">Next</button>
+          </div>
+        </div>
+
+        <!-- Section 2b: Specialization - Key Disciplines -->
+        <div class="spec-section" id="spec-section-2b" style="display:none;">
+          <h2 class="spec-title">What are my key specializations?</h2>
+          
+          <div class="spec-grid">
+            <!-- Left Column -->
+            <div class="spec-column spec-left">
+              <div class="spec-card spec-card-large">
+                <h3 class="spec-card-title">UI/UX Design</h3>
+                <div class="spec-card-content">
+                  <!-- Content placeholder -->
+                </div>
+              </div>
+              <div class="spec-card spec-card-large">
+                <h3 class="spec-card-title">Narrative Design</h3>
+                <div class="spec-card-content">
+                  <!-- Content placeholder -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Center Column - empty for character -->
+            <div class="spec-column spec-center">
+              <!-- Character image shows through here -->
+            </div>
+            
+            <!-- Right Column -->
+            <div class="spec-column spec-right">
+              <div class="spec-card spec-card-large">
+                <h3 class="spec-card-title">Branding & Marketing</h3>
+                <div class="spec-card-content">
+                  <!-- Content placeholder -->
+                </div>
+              </div>
+              <div class="spec-card spec-card-large">
+                <h3 class="spec-card-title">Game Design</h3>
+                <div class="spec-card-content">
+                  <!-- Content placeholder -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spec-nav-buttons">
+            <button class="spec-nav-btn spec-back-btn" id="spec2b-back">Back</button>
+            <button class="spec-nav-btn spec-main-btn" id="spec2b-main">Main</button>
+          </div>
+        </div>
+
+                <!-- Section 4: Inspiration & Works -->
+        <div class="spec-section" id="spec-section-4" style="display:none;">
+          <div class="inspiration-title">
+            <span class="inspiration-title-small">The Story, the journey,</span>
+            <span class="inspiration-title-large">the purpose.</span>
+          </div>
+
+          <div class="inspiration-grid">
+            <!-- Left Column -->
+            <div class="inspiration-column inspiration-left">
+              <p class="inspiration-text">I am fascinated by human's way of thinking and their relationship with technology. I look for ways to use technology to enhance the lives of my users that feel memorable.</p>
+              <p class="inspiration-text">With every design I make, I always ask myself- what emotion do I want my user to feel? Does the current version of the design meet that goal? What can I introduce into the design that builds a stronger relationship between the user and the intended experience?</p>
+            </div>
+
+            <!-- Center Column - empty for character -->
+            <div class="inspiration-column inspiration-center">
+              <!-- Character image shows through here -->
+            </div>
+
+            <!-- Right Column -->
+            <div class="inspiration-column inspiration-right">
+              <p class="inspiration-text">Every design choice of mine is intentional, stemming from my core design principles: Provoke thought and provide meaning, encourage engagement, use feedback to iterate and improve, make design decisions backed by data, and look for ways to solidify the intended experience and emotions of the user.</p>
+              <p class="inspiration-text">I care about authenticity, creativity, immersive narratives, and world building. Emergent gameplay that feels new and captivating. It is with everything above that I set out my intentions to make a difference in the world through innovative, memorable, and inclusive designs.</p>
+            </div>
+          </div>
+
+          <div class="spec-nav-buttons">
+            <button class="spec-nav-btn spec-back-btn" id="spec4-back">Back</button>
+          </div>
+        </div>
+
+        <div class="about-categories" id="about-categories">
+          <button class="about-circle about-education" data-section="2" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Proficiencies &amp; Specializations</button>
+          <button class="about-circle about-specialization" data-section="3" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Education</button>
+          <button class="about-circle about-work" data-section="4" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Inspiration &amp; Works</button>
+          <button class="about-circle about-works" data-section="5" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Work History</button>
         </div>
         <div id="about-canvas-container"></div>
-        <!-- Scroll for Static Version (positioned inside the black content box bottom-left) -->
+        <!-- Scroll for Static Version -->
         <div id="scroll-popup" class="scroll-popup" style="display:none;position:absolute;left:24px;bottom:24px;padding:0.6rem 0.8rem;background:rgba(255,255,255,0.9);color:#111;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.35);z-index:1000;">Scroll for Static Version</div>
-        <!-- Go Back button for section views (positioned inside the black content box bottom-right) -->
+        <!-- Go Back button -->
         <button id="backButton" aria-hidden="true" style="display:none;position:absolute;right:24px;bottom:24px;padding:0.8rem 1rem;background:#fff;color:#000;border-radius:999px;border:none;box-shadow:0 6px 18px rgba(0,0,0,0.35);z-index:1000;">Go Back</button>
+
+        <script>
+          window.addEventListener('DOMContentLoaded', function() {
+            const hero1 = document.getElementById('hero1');
+            const hero2 = document.getElementById('hero2');
+            const spec2a = document.getElementById('spec-section-2a');
+            const spec2b = document.getElementById('spec-section-2b');
+            const spec4 = document.getElementById('spec-section-4');
+            const categories = document.getElementById('about-categories');
+            const backBtn = document.getElementById('backButton');
+            const scrollPopup = document.getElementById('scroll-popup');
+            const canvasContainer = document.getElementById('about-canvas-container');
+            
+            let popupDismissed = false;
+
+            function hideAll() {
+              hero1.style.display = 'none';
+              hero2.style.display = 'none';
+              spec2a.style.display = 'none';
+              spec2b.style.display = 'none';
+              spec4.style.display = 'none';
+              categories.style.display = 'none';
+              backBtn.style.display = 'none';
+              if (scrollPopup) scrollPopup.style.display = 'none';
+              // Keep canvas container always visible
+              if (canvasContainer) canvasContainer.style.display = 'block';
+            }
+
+            function showSection(section) {
+              hideAll();
+              
+              if (section === 'hero1' || section === 1) {
+                hero1.style.display = 'block';
+                categories.style.display = '';
+                if (scrollPopup && !popupDismissed) scrollPopup.style.display = 'block';
+              } else if (section === 'hero2') {
+                hero2.style.display = 'block';
+                categories.style.display = '';
+              } else if (section === 'spec2a' || section === 2) {
+                spec2a.style.display = 'flex';
+              } else if (section === 'spec2b') {
+                spec2b.style.display = 'flex';
+              } else if (section === 'spec4' || section === 4) {
+                spec4.style.display = 'flex';
+              } else if (section === 3 || section === 5) {
+                // Other sections - show hero with different text
+                hero1.style.display = 'block';
+                backBtn.style.display = 'block';
+                hero1.querySelector('.about-greeting-title').innerHTML = 'Section ' + section + ' Title';
+                hero1.querySelector('.about-greeting-desc').innerHTML = 'Content for section ' + section + ' coming soon...';
+              }
+            }
+
+            // Initial load
+            showSection('hero1');
+
+            // Category buttons
+            document.querySelectorAll('.about-circle').forEach(function(btn) {
+              btn.addEventListener('click', function() {
+                const section = parseInt(btn.getAttribute('data-section')) || 1;
+                if (section === 2) {
+                  showSection('spec2a');
+                } else {
+                  showSection(section);
+                }
+              });
+            });
+
+            // Back button (main)
+            backBtn.addEventListener('click', function() {
+              showSection('hero1');
+            });
+
+            // Spec 2a navigation
+            document.getElementById('spec2a-back').addEventListener('click', function() {
+              showSection('hero2');
+            });
+            document.getElementById('spec2a-next').addEventListener('click', function() {
+              showSection('spec2b');
+            });
+
+            // Spec 2b navigation
+            document.getElementById('spec2b-back').addEventListener('click', function() {
+              showSection('spec2a');
+            });
+            document.getElementById('spec2b-main').addEventListener('click', function() {
+              showSection('hero2');
+            });
+
+            // Spec 4 navigation
+            document.getElementById('spec4-back').addEventListener('click', function() {
+              showSection('hero2');
+            });
+
+            // Scroll popup handling
+            if (scrollPopup) {
+              function dismissPopup() {
+                scrollPopup.style.display = 'none';
+                popupDismissed = true;
+                window.removeEventListener('scroll', onFirstScroll);
+              }
+
+              function onFirstScroll() {
+                if (window.scrollY > 20) {
+                  dismissPopup();
+                }
+              }
+
+              window.addEventListener('scroll', onFirstScroll, { passive: true });
+              scrollPopup.addEventListener('click', function() { dismissPopup(); });
+            }
+          });
+        </script>
       </section>
 
       <!-- Tagline Banner -->
       <section class="tagline-banner" aria-label="Tagline">
         <div class="tagline-banner-content">
-          <h2 class="tagline-banner-text">For I am the Architect of Stories,<br>The Creator of Worlds.</h2>
+          <h2 class="tagline-banner-text" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal;">For I am the Architect of Stories,<br>The Creator of Worlds.</h2>
         </div>
       </section>
 
@@ -206,9 +366,6 @@
             <p class="about-me-description">I'm driven by the belief that every design choice, every line of code, and every narrative beat should serve the player's experience. Games are more than entertainment – they're portals to new worlds and perspectives.</p>
           </div>
         </div>
-
-        
-        
       </section>
     </main>
     
