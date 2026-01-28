@@ -6,9 +6,354 @@
     <title>Projects</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="theme-toggle.js"></script>
+    <style>
+      /* ========================================
+         PROJECTS PAGE REDESIGN
+         Brand Colors:
+         - #7A6A8F (purple light)
+         - #443555 (purple medium)  
+         - #31263E (purple dark)
+         - #221E22 (black)
+         - #6A6D73 (gray)
+         - #FFFFFF (white)
+         ======================================== */
+
+      /* Full page background */
+      .projects-page {
+        padding-top: 80px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #443555 0%, #31263E 50%, #221E22 100%);
+      }
+
+      /* Page Title Section */
+      .projects-hero-section {
+        padding: 40px 5% 35px;
+        position: relative;
+      }
+
+      .projects-title-bar {
+        display: inline-block;
+        padding: 18px 40px;
+        background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .projects-title-bar h1 {
+        font-family: 'Unbounded', sans-serif;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 700;
+        font-style: italic;
+        color: #FFFFFF;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      /* Main Content Container - groups filters and tiles */
+      .projects-content-container {
+        margin: 0 5% 80px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(122, 106, 143, 0.15);
+        border-radius: 8px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Filter Section - Accordion Style */
+      .projects-filter-section {
+        padding: 0 0 20px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .filter-accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .filter-accordion-item {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(122, 106, 143, 0.2);
+        border-bottom: none;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .filter-accordion-item:first-child {
+        border-radius: 8px 8px 0 0;
+      }
+
+      .filter-accordion-item:last-child {
+        border-bottom: 1px solid rgba(122, 106, 143, 0.2);
+        border-radius: 0 0 8px 8px;
+      }
+
+      .filter-accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 25px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+
+      .filter-accordion-header:hover {
+        background: rgba(122, 106, 143, 0.1);
+      }
+
+      .filter-accordion-title {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .filter-accordion-arrow {
+        font-size: 1rem;
+        color: #7A6A8F;
+        transition: transform 0.3s ease;
+      }
+
+      .filter-accordion-item.expanded .filter-accordion-arrow {
+        transform: rotate(180deg);
+      }
+
+      .filter-accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+        padding: 0 25px;
+      }
+
+      .filter-accordion-item.expanded .filter-accordion-content {
+        max-height: 300px;
+        padding: 15px 25px 20px;
+      }
+
+      .filter-tags-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      @media (max-width: 900px) {
+        .filter-tags-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 500px) {
+        .filter-tags-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .filter-tag-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(122, 106, 143, 0.3);
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-family: 'Urbanist', sans-serif;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .filter-tag-btn:hover {
+        background: rgba(122, 106, 143, 0.2);
+        border-color: #7A6A8F;
+        color: #fff;
+      }
+
+      .filter-tag-btn.active {
+        background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+        border-color: #7A6A8F;
+        color: #fff;
+      }
+
+      .clear-all-filters {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-family: 'Urbanist', sans-serif;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .clear-all-filters.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .clear-all-filters:hover {
+        border-color: #fff;
+        color: #fff;
+      }
+
+      /* Projects Grid - Redesigned */
+      .projects-grid-section {
+        padding: 0;
+      }
+
+      .projects-grid-new {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+        width: 100%;
+      }
+
+      /* Project Tile - New Design */
+      .project-tile-new {
+        background: linear-gradient(180deg, #221E22 0%, #31263E 100%);
+        border-radius: 8px;
+        overflow: hidden;
+        text-decoration: none;
+        border: 1px solid rgba(122, 106, 143, 0.2);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .project-tile-new:hover {
+        transform: translateY(-8px);
+        border-color: #7A6A8F;
+        box-shadow: 
+          0 20px 50px rgba(0, 0, 0, 0.4),
+          0 0 30px rgba(122, 106, 143, 0.15);
+      }
+
+      .tile-image-new {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        position: relative;
+        background: #000;
+      }
+
+      .tile-image-new img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.4s ease, filter 0.4s ease;
+        filter: grayscale(30%);
+      }
+
+      .tile-image-new.tile-image-left img {
+        object-position: left center;
+      }
+
+      .project-tile-new:hover .tile-image-new img {
+        transform: scale(1.05);
+        filter: grayscale(0%);
+      }
+
+      /* Gradient overlay on image */
+      .tile-image-new::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to top, rgba(34, 30, 34, 0.9), transparent);
+        pointer-events: none;
+      }
+
+      .tile-content-new {
+        padding: 20px;
+        position: relative;
+        background: transparent;
+      }
+
+      .tile-content-new h3 {
+        font-family: 'Unbounded', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin: 0 0 8px 0;
+        padding-left: 15px;
+        border-left: 3px solid #7A6A8F;
+        transition: border-color 0.3s ease;
+      }
+
+      .project-tile-new:hover .tile-content-new h3 {
+        border-left-color: #fff;
+      }
+
+      .tile-content-new p {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      /* Hidden state for filtered tiles */
+      .project-tile-new.hidden {
+        display: none;
+      }
+
+      /* Responsive */
+      @media (max-width: 1400px) {
+        .projects-grid-new {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 22px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .projects-grid-new {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .projects-filter-section {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .projects-grid-new {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        
+        .projects-hero-section {
+          padding: 30px 5% 20px;
+        }
+        
+        .projects-title-bar {
+          padding: 14px 25px;
+        }
+        
+        .projects-title-bar h1 {
+          font-size: 1.2rem;
+          letter-spacing: 2px;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Header Navigation -->
@@ -20,222 +365,167 @@
       <nav class="nav-menu">
         <a href="projects.html" class="nav-link">Projects</a>
         <a href="about.html" class="nav-link">About Me</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="contact.html" class="nav-link">Connect</a>
       </nav>
     </header>
 
-    <main class="page-content">
-      <h1>Projects</h1>
-      
-      <!-- Filter Section -->
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span class="filter-section-title">Filters</span>
-          <button class="clear-filters-btn" id="clearFilters">Clear All Filters</button>
+    <main class="projects-page">
+      <!-- Page Title Section -->
+      <section class="projects-hero-section">
+        <div class="projects-title-bar">
+          <h1>Projects</h1>
         </div>
-        
-        <div class="filter-category filter-category-skill">
-          <button class="filter-header" aria-expanded="false">
-            <span>Skills</span>
-            <span class="filter-chevron">&#9662;</span>
-          </button>
-          <div class="filter-content">
-            <div class="filter-buttons">
-              <button class="filter-btn filter-skill" data-filter="3d-art-materials">3D Art & Materials</button>
-              <button class="filter-btn filter-skill" data-filter="design-ux-ui">Design & UX/UI</button>
-              <button class="filter-btn filter-skill" data-filter="environment-design">Environment Design</button>
-              <button class="filter-btn filter-skill" data-filter="game-development">Game Development</button>
-              <button class="filter-btn filter-skill" data-filter="illustration-2d-art">Illustration & 2D Art</button>
-              <button class="filter-btn filter-skill" data-filter="level-design">Level Design</button>
-              <button class="filter-btn filter-skill" data-filter="motion-video">Motion & Video</button>
-              <button class="filter-btn filter-skill" data-filter="narrative-writing">Narrative & Writing</button>
+      </section>
+
+      <!-- Content Container -->
+      <div class="projects-content-container">
+        <!-- Filter Section - Accordion Style -->
+        <section class="projects-filter-section">
+        <div class="filter-accordion">
+          <!-- Skills Filter -->
+          <div class="filter-accordion-item">
+            <button class="filter-accordion-header" aria-expanded="false">
+              <span class="filter-accordion-title">Skills</span>
+              <span class="filter-accordion-arrow">↓</span>
+            </button>
+            <div class="filter-accordion-content">
+              <div class="filter-tags-grid">
+                <button class="filter-tag-btn filter-skill" data-filter="3d-art-materials">3D Art & Materials</button>
+                <button class="filter-tag-btn filter-skill" data-filter="design-ux-ui">Design & UX/UI</button>
+                <button class="filter-tag-btn filter-skill" data-filter="environment-design">Environment Design</button>
+                <button class="filter-tag-btn filter-skill" data-filter="game-development">Game Development</button>
+                <button class="filter-tag-btn filter-skill" data-filter="illustration-2d-art">Illustration & 2D Art</button>
+                <button class="filter-tag-btn filter-skill" data-filter="level-design">Level Design</button>
+                <button class="filter-tag-btn filter-skill" data-filter="motion-video">Motion & Video</button>
+                <button class="filter-tag-btn filter-skill" data-filter="narrative-writing">Narrative & Writing</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Software Filter -->
+          <div class="filter-accordion-item">
+            <button class="filter-accordion-header" aria-expanded="false">
+              <span class="filter-accordion-title">Software</span>
+              <span class="filter-accordion-arrow">↓</span>
+            </button>
+            <div class="filter-accordion-content">
+              <div class="filter-tags-grid">
+                <button class="filter-tag-btn filter-software" data-filter="after-effects">After Effects</button>
+                <button class="filter-tag-btn filter-software" data-filter="figma">Figma</button>
+                <button class="filter-tag-btn filter-software" data-filter="fresco">Fresco</button>
+                <button class="filter-tag-btn filter-software" data-filter="gaea">Gaea</button>
+                <button class="filter-tag-btn filter-software" data-filter="illustrator">Illustrator</button>
+                <button class="filter-tag-btn filter-software" data-filter="maya">Maya</button>
+                <button class="filter-tag-btn filter-software" data-filter="photoshop">Photoshop</button>
+                <button class="filter-tag-btn filter-software" data-filter="premiere-rush">Premiere Rush</button>
+                <button class="filter-tag-btn filter-software" data-filter="procreate">Procreate</button>
+                <button class="filter-tag-btn filter-software" data-filter="pyxel-edit">Pyxel Edit</button>
+                <button class="filter-tag-btn filter-software" data-filter="substance-3d-painter">Substance 3D Painter</button>
+                <button class="filter-tag-btn filter-software" data-filter="unity">Unity</button>
+                <button class="filter-tag-btn filter-software" data-filter="unreal">Unreal</button>
+                <button class="filter-tag-btn filter-software" data-filter="visual-studio">Visual Studio</button>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="filter-category filter-category-software">
-          <button class="filter-header" aria-expanded="false">
-            <span>Software</span>
-            <span class="filter-chevron">&#9662;</span>
-          </button>
-          <div class="filter-content">
-            <div class="filter-buttons">
-              <button class="filter-btn filter-software" data-filter="after-effects">After Effects</button>
-              <button class="filter-btn filter-software" data-filter="figma">Figma</button>
-              <button class="filter-btn filter-software" data-filter="fresco">Fresco</button>
-              <button class="filter-btn filter-software" data-filter="gaea">Gaea</button>
-              <button class="filter-btn filter-software" data-filter="illustrator">Illustrator</button>
-              <button class="filter-btn filter-software" data-filter="maya">Maya</button>
-              <button class="filter-btn filter-software" data-filter="photoshop">Photoshop</button>
-              <button class="filter-btn filter-software" data-filter="premiere-rush">Premiere Rush</button>
-              <button class="filter-btn filter-software" data-filter="procreate">Procreate</button>
-              <button class="filter-btn filter-software" data-filter="pyxel-edit">Pyxel Edit</button>
-              <button class="filter-btn filter-software" data-filter="substance-3d-painter">Substance 3D Painter</button>
-              <button class="filter-btn filter-software" data-filter="unity">Unity</button>
-              <button class="filter-btn filter-software" data-filter="unreal">Unreal</button>
-              <button class="filter-btn filter-software" data-filter="visual-studio">Visual Studio</button>
+        <button class="clear-all-filters" id="clearFilters">Clear All Filters</button>
+      </section>
+
+      <!-- Projects Grid Section -->
+      <section class="projects-grid-section">
+        <div class="projects-grid-new">
+          <a href="hedge-mage.html" class="project-tile-new" data-skills="design-ux-ui environment-design game-development illustration-2d-art level-design" data-software="pyxel-edit illustrator unity">
+            <div class="tile-image-new">
+              <img src="images/hedgemage.png" alt="Hedge Mage">
             </div>
-          </div>
+            <div class="tile-content-new">
+              <h3>Hedge Mage</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="drop-block.html" class="project-tile-new" data-skills="3d-art-materials design-ux-ui game-development illustration-2d-art level-design" data-software="figma illustrator maya photoshop premiere-rush procreate substance-3d-painter unity visual-studio">
+            <div class="tile-image-new">
+              <img src="images/drplogo.png" alt="Drop Block">
+            </div>
+            <div class="tile-content-new">
+              <h3>Drop Block</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="arc-immersive.html" class="project-tile-new" data-skills="design-ux-ui illustration-2d-art motion-video narrative-writing" data-software="photoshop premiere-rush procreate">
+            <div class="tile-image-new">
+              <img src="images/ARC_ImmersiveLogo.png" alt="ARC Immersive">
+            </div>
+            <div class="tile-content-new">
+              <h3>ARC Immersive</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="micro-mech.html" class="project-tile-new" data-skills="game-development" data-software="unity">
+            <div class="tile-image-new">
+              <img src="images/micromech.jpg" alt="Micro Mech">
+            </div>
+            <div class="tile-content-new">
+              <h3>Micro Mech</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="aegis.html" class="project-tile-new" data-skills="game-development design-ux-ui" data-software="unreal figma">
+            <div class="tile-image-new">
+              <img src="images/aegis.png" alt="AEGIS">
+            </div>
+            <div class="tile-content-new">
+              <h3>AEGIS</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="the-hills-of-astoria.html" class="project-tile-new" data-skills="narrative-writing game-development" data-software="unreal">
+            <div class="tile-image-new">
+              <img src="images/hills-of-astoria.png" alt="The Hills of Astoria">
+            </div>
+            <div class="tile-content-new">
+              <h3>The Hills of Astoria</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="bandits-break.html" class="project-tile-new" data-skills="game-development" data-software="unity">
+            <div class="tile-image-new tile-image-left">
+              <img src="images/BanditsBreak.png" alt="Bandit's Break">
+            </div>
+            <div class="tile-content-new">
+              <h3>Bandit's Break</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="catastrophe.html" class="project-tile-new" data-skills="illustration-2d-art design-ux-ui" data-software="photoshop procreate">
+            <div class="tile-image-new">
+              <img src="images/catastrophe.png" alt="Catastrophe">
+            </div>
+            <div class="tile-content-new">
+              <h3>Catastrophe</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
+          
+          <a href="renrenderz.html" class="project-tile-new" data-skills="3d-art-materials" data-software="maya substance-3d-painter photoshop">
+            <div class="tile-image-new">
+              <img src="images/renderz.png" alt="RENRENDERZ">
+            </div>
+            <div class="tile-content-new">
+              <h3>RENRENDERZ</h3>
+              <p>Brief description of the project goes here.</p>
+            </div>
+          </a>
         </div>
-      </div>
-      
-      <div class="projects-grid">
-        <a href="hedge-mage.html" class="project-tile" data-skills="design-ux-ui environment-design game-development illustration-2d-art level-design" data-software="pyxel-edit illustrator unity">
-          <div class="tile-image">
-            <img src="images/hedgemage.png" alt="Hedge Mage">
-          </div>
-          <div class="tile-content">
-            <h3>Hedge Mage</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Design & UX/UI</span>
-              <span class="tag tag-skill">Environment Design</span>
-              <span class="tag tag-skill">Game Development</span>
-              <span class="tag tag-skill">Illustration & 2D Art</span>
-              <span class="tag tag-skill">Level Design</span>
-              <span class="tag tag-software">Pyxel Edit</span>
-              <span class="tag tag-software">Illustrator</span>
-              <span class="tag tag-software">Unity</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="drop-block.html" class="project-tile" data-skills="3d-art-materials design-ux-ui game-development illustration-2d-art level-design" data-software="figma illustrator maya photoshop premiere-rush procreate substance-3d-painter unity visual-studio">
-          <div class="tile-image">
-            <img src="images/drplogo.png" alt="Drop Block">
-          </div>
-          <div class="tile-content">
-            <h3>Drop Block</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">3D Art & Materials</span>
-              <span class="tag tag-skill">Design & UX/UI</span>
-              <span class="tag tag-skill">Game Development</span>
-              <span class="tag tag-skill">Illustration & 2D Art</span>
-              <span class="tag tag-skill">Level Design</span>
-              <span class="tag tag-software">Figma</span>
-              <span class="tag tag-software">Illustrator</span>
-              <span class="tag tag-software">Maya</span>
-              <span class="tag tag-software">Photoshop</span>
-              <span class="tag tag-software">Premiere Rush</span>
-              <span class="tag tag-software">Procreate</span>
-              <span class="tag tag-software">Substance 3D Painter</span>
-              <span class="tag tag-software">Unity</span>
-              <span class="tag tag-software">Visual Studio</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="arc-immersive.html" class="project-tile" data-skills="design-ux-ui illustration-2d-art motion-video narrative-writing" data-software="photoshop premiere-rush procreate">
-          <div class="tile-image">
-            <img src="images/ARC_ImmersiveLogo.png" alt="ARC Immersive">
-          </div>
-          <div class="tile-content">
-            <h3>ARC Immersive</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Design & UX/UI</span>
-              <span class="tag tag-skill">Illustration & 2D Art</span>
-              <span class="tag tag-skill">Motion & Video</span>
-              <span class="tag tag-skill">Narrative & Writing</span>
-              <span class="tag tag-software">Photoshop</span>
-              <span class="tag tag-software">Premiere Rush</span>
-              <span class="tag tag-software">Procreate</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="micro-mech.html" class="project-tile" data-skills="game-development" data-software="unity">
-          <div class="tile-image">
-            <img src="images/micromech.jpg" alt="Micro Mech">
-          </div>
-          <div class="tile-content">
-            <h3>Micro Mech</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Game Development</span>
-              <span class="tag tag-software">Unity</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="aegis.html" class="project-tile" data-skills="game-development design-ux-ui" data-software="unreal figma">
-          <div class="tile-image">
-            <img src="images/aegis.png" alt="AEGIS">
-          </div>
-          <div class="tile-content">
-            <h3>AEGIS</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Game Development</span>
-              <span class="tag tag-skill">Design & UX/UI</span>
-              <span class="tag tag-software">Unreal</span>
-              <span class="tag tag-software">Figma</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="the-hills-of-astoria.html" class="project-tile" data-skills="narrative-writing game-development" data-software="unreal">
-          <div class="tile-image">
-            <img src="images/hills-of-astoria.png" alt="The Hills of Astoria">
-          </div>
-          <div class="tile-content">
-            <h3>The Hills of Astoria</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Narrative & Writing</span>
-              <span class="tag tag-skill">Game Development</span>
-              <span class="tag tag-software">Unreal</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="bandits-break.html" class="project-tile" data-skills="game-development" data-software="unity">
-          <div class="tile-image tile-image-left">
-            <img src="images/BanditsBreak.png" alt="Bandit's Break">
-          </div>
-          <div class="tile-content">
-            <h3>Bandit's Break</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Game Development</span>
-              <span class="tag tag-software">Unity</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="catastrophe.html" class="project-tile" data-skills="illustration-2d-art design-ux-ui" data-software="photoshop procreate">
-          <div class="tile-image">
-            <img src="images/catastrophe.png" alt="Catastrophe">
-          </div>
-          <div class="tile-content">
-            <h3>Catastrophe</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">Illustration & 2D Art</span>
-              <span class="tag tag-skill">Design & UX/UI</span>
-              <span class="tag tag-software">Photoshop</span>
-              <span class="tag tag-software">Procreate</span>
-            </div>
-          </div>
-        </a>
-        
-        <a href="renrenderz.html" class="project-tile" data-skills="3d-art-materials" data-software="maya substance-3d-painter photoshop">
-          <div class="tile-image">
-            <img src="images/renderz.png" alt="RENRENDERZ">
-          </div>
-          <div class="tile-content">
-            <h3>RENRENDERZ</h3>
-            <p>Brief description of the project goes here.</p>
-            <div class="tile-tags">
-              <span class="tag tag-skill">3D Art & Materials</span>
-              <span class="tag tag-software">Maya</span>
-              <span class="tag tag-software">Substance 3D Painter</span>
-              <span class="tag tag-software">Photoshop</span>
-            </div>
-          </div>
-        </a>
-      </div>
+      </section>
+      </div><!-- End projects-content-container -->
     </main>
 
     <!-- Back to Top Button -->
@@ -279,21 +569,22 @@
         requestAnimationFrame(scrollToTop);
       });
 
-      // Collapsible filter functionality
-      const filterHeaders = document.querySelectorAll('.filter-header');
-      filterHeaders.forEach(header => {
+      // Accordion filter functionality
+      const accordionHeaders = document.querySelectorAll('.filter-accordion-header');
+      accordionHeaders.forEach(header => {
         header.addEventListener('click', () => {
-          const isExpanded = header.getAttribute('aria-expanded') === 'true';
-          const content = header.nextElementSibling;
+          const item = header.parentElement;
+          const isExpanded = item.classList.contains('expanded');
           
+          // Toggle current item
+          item.classList.toggle('expanded');
           header.setAttribute('aria-expanded', !isExpanded);
-          content.classList.toggle('expanded');
         });
       });
 
       // Filter functionality
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      const projectTiles = document.querySelectorAll('.project-tile');
+      const filterButtons = document.querySelectorAll('.filter-tag-btn');
+      const projectTiles = document.querySelectorAll('.project-tile-new');
       const clearFiltersBtn = document.getElementById('clearFilters');
       let activeFilters = new Set();
 
