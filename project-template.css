@@ -112,12 +112,12 @@
 }
 
 .project-info-box:first-child {
-  flex: 0 0 220px;
+  flex: 1;
   margin-right: 40px;
 }
 
 .project-info-about {
-  flex: 1;
+  flex: 3;
 }
 
 .info-box-title {
@@ -254,12 +254,12 @@
 
 /* Image/Logo on the right */
 .contributions-right {
-  flex: 0 0 450px;
+  flex: 0 0 550px;
 }
 
 .contributions-image-placeholder {
   width: 100%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 4/3;
   background: #221E22;
   display: flex;
   align-items: center;
@@ -272,6 +272,13 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(122, 106, 143, 0.1);
   position: relative;
   overflow: hidden;
+}
+
+.contributions-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Glow effect on image container */
@@ -386,14 +393,23 @@
 
 /* Image side */
 .slide-image-container {
-  flex: 0 0 50%;
+  flex: 0 0 55%;
   display: flex;
   flex-direction: column;
 }
 
+/* Fallback for images placed directly in container */
+.slide-image-container > img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(122, 106, 143, 0.2);
+}
+
 .slide-image-placeholder {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 16/9;
   background: #221E22;
   display: flex;
   align-items: center;
@@ -403,7 +419,7 @@
   font-size: 1rem;
   border: 1px solid rgba(122, 106, 143, 0.2);
   border-radius: 4px;
-  min-height: 350px;
+  overflow: hidden;
 }
 
 /* For actual images */
