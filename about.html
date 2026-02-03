@@ -262,9 +262,202 @@
             const backBtn = document.getElementById('backButton');
             const scrollPopup = document.getElementById('scroll-popup');
             const canvasContainer = document.getElementById('about-canvas-container');
+            const aboutHero = document.querySelector('.about-hero');
             
             let popupDismissed = false;
             let currentSection = null;
+            let heroButtonsReady = false; // gates hover drawing until buttons have fully animated in
+
+            // ====== Digital pencil hover circle around hero buttons ======
+            let hoverCanvas = null;
+            let hoverCtx = null;
+            let hoverRAF = null;
+            let hoverRingState = null;
+
+            function setupHoverCanvas() {
+              if (!aboutHero || hoverCanvas) return;
+              hoverCanvas = document.createElement('canvas');
+              hoverCanvas.id = 'about-hover-canvas';
+              hoverCanvas.width = aboutHero.clientWidth;
+              hoverCanvas.height = aboutHero.clientHeight;
+              aboutHero.appendChild(hoverCanvas);
+              hoverCtx = hoverCanvas.getContext('2d');
+            }
+
+            function resizeHoverCanvas() {
+              if (!aboutHero || !hoverCanvas) return;
+              hoverCanvas.width = aboutHero.clientWidth;
+              hoverCanvas.height = aboutHero.clientHeight;
+            }
+
+            function clearHoverCanvas() {
+              if (!hoverCtx || !hoverCanvas) return;
+              hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
+            }
+
+            // Immediately stop any active ring animation and clear the canvas
+            function cancelHoverRingImmediate() {
+              if (hoverRAF) {
+                cancelAnimationFrame(hoverRAF);
+                hoverRAF = null;
+              }
+              hoverRingState = null;
+              clearHoverCanvas();
+            }
+
+            function startHoverRing(button) {
+              if (!aboutHero || !hoverCtx || !hoverCanvas) return;
+
+              if (hoverRAF) {
+                cancelAnimationFrame(hoverRAF);
+                hoverRAF = null;
+              }
+
+              const heroRect = aboutHero.getBoundingClientRect();
+              const btnRect = button.getBoundingClientRect();
+
+              const cx = (btnRect.left + btnRect.right) / 2 - heroRect.left;
+              const cy = (btnRect.top + btnRect.bottom) / 2 - heroRect.top;
+
+              const radiusX = (btnRect.width / 2) + 26;
+              const radiusY = (btnRect.height / 2) + 20;
+
+              // Build a slightly messy, hand-sketched oval path
+              const pointCount = 150;
+              const points = [];
+              const startAngle = -Math.PI / 2;
+              for (let i = 0; i < pointCount; i++) {
+                const t = i / (pointCount - 1);
+                const angle = startAngle + t * Math.PI * 2;
+                const wobble = Math.sin(angle * 3) * 3; // stronger structured wobble
+
+                // Per-point radial jitter to break the perfect ellipse
+                const jitterRadius = (Math.random() - 0.5) * 6; // -3 to 3 px
+                const rX = radiusX + wobble + jitterRadius;
+                const rY = radiusY + wobble + jitterRadius;
+
+                // Tiny positional jitter to feel more "grungy"
+                const jitterX = (Math.random() - 0.5) * 3;
+                const jitterY = (Math.random() - 0.5) * 3;
+
+                const x = cx + Math.cos(angle) * rX + jitterX;
+                const y = cy + Math.sin(angle) * rY + jitterY;
+                points.push({ x, y });
+              }
+
+              const duration = 650; // ms
+              const startTime = performance.now();
+
+              hoverRingState = {
+                points,
+                duration,
+                startTime,
+                completedPoints: null
+              };
+
+              function animate() {
+                hoverRAF = requestAnimationFrame(animate);
+                const now = performance.now();
+                const t = Math.min((now - startTime) / duration, 1);
+
+                clearHoverCanvas();
+
+                const maxIndex = Math.max(2, Math.floor(points.length * t));
+
+                // Main stroke
+                hoverCtx.save();
+                hoverCtx.lineWidth = 2.2;
+                hoverCtx.strokeStyle = 'rgba(255,255,255,0.95)';
+                hoverCtx.shadowColor = 'rgba(0,0,0,0.9)';
+                hoverCtx.shadowBlur = 8;
+                hoverCtx.lineCap = 'round';
+                hoverCtx.lineJoin = 'round';
+                hoverCtx.beginPath();
+                hoverCtx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < maxIndex; i++) {
+                  hoverCtx.lineTo(points[i].x, points[i].y);
+                }
+                hoverCtx.stroke();
+
+                // Secondary, offset stroke for a sketchy, multi-line feel
+                hoverCtx.lineWidth = 1.1;
+                hoverCtx.strokeStyle = 'rgba(255,255,255,0.45)';
+                hoverCtx.shadowColor = 'rgba(0,0,0,0.6)';
+                hoverCtx.shadowBlur = 5;
+                const offsetX = 1.2;
+                const offsetY = 1.2;
+                hoverCtx.beginPath();
+                hoverCtx.moveTo(points[0].x + offsetX, points[0].y + offsetY);
+                for (let i = 1; i < maxIndex; i++) {
+                  hoverCtx.lineTo(points[i].x + offsetX, points[i].y + offsetY);
+                }
+                hoverCtx.stroke();
+                hoverCtx.restore();
+
+                if (t === 1) {
+                  cancelAnimationFrame(hoverRAF);
+                  hoverRAF = null;
+                  hoverRingState.completedPoints = points.slice();
+                }
+              }
+
+              animate();
+            }
+
+            function fadeOutHoverRing() {
+              if (!hoverCtx || !hoverCanvas || !hoverRingState || !hoverRingState.completedPoints) {
+                clearHoverCanvas();
+                return;
+              }
+
+              if (hoverRAF) {
+                cancelAnimationFrame(hoverRAF);
+                hoverRAF = null;
+              }
+
+              const points = hoverRingState.completedPoints;
+              const duration = 220;
+              const startTime = performance.now();
+
+              function animateFade() {
+                hoverRAF = requestAnimationFrame(animateFade);
+                const now = performance.now();
+                const t = Math.min((now - startTime) / duration, 1);
+                const alpha = 1 - t;
+
+                clearHoverCanvas();
+
+                if (alpha <= 0) {
+                  cancelAnimationFrame(hoverRAF);
+                  hoverRAF = null;
+                  clearHoverCanvas();
+                  return;
+                }
+
+                hoverCtx.save();
+                hoverCtx.lineWidth = 2;
+                hoverCtx.strokeStyle = `rgba(255,255,255,${0.95 * alpha})`;
+                hoverCtx.shadowColor = `rgba(0,0,0,${0.9 * alpha})`;
+                hoverCtx.shadowBlur = 8 * alpha;
+                hoverCtx.lineCap = 'round';
+                hoverCtx.lineJoin = 'round';
+                hoverCtx.beginPath();
+                hoverCtx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < points.length; i++) {
+                  hoverCtx.lineTo(points[i].x, points[i].y);
+                }
+                hoverCtx.stroke();
+                hoverCtx.restore();
+
+                if (t === 1) {
+                  cancelAnimationFrame(hoverRAF);
+                  hoverRAF = null;
+                  clearHoverCanvas();
+                }
+              }
+
+              animateFade();
+            }
 
             // On very small screens, we disable the interactive hero entirely
             // (it's also hidden via CSS). Skip all interactive logic here.
@@ -276,6 +469,10 @@
               }
               return;
             }
+
+            // Set up hover canvas for digital pencil circle on non-small screens
+            setupHoverCanvas();
+            window.addEventListener('resize', resizeHoverCanvas);
 
             // Create glitch overlay element
             const glitchOverlay = document.createElement('div');
@@ -340,10 +537,19 @@
             // Animate category buttons with cascade
             function animateCategoryButtons(startDelay) {
               const buttons = document.querySelectorAll('.about-circle');
+              heroButtonsReady = false;
               buttons.forEach((btn, index) => {
                 btn.classList.remove('animate-in');
                 setTimeout(() => {
                   btn.classList.add('animate-in');
+                  // After the final button has fully animated in, enable hover drawing
+                  if (index === buttons.length - 1) {
+                    const totalDelay = startDelay + (index * 400);
+                    // Allow a bit of extra time for the CSS transition to finish
+                    setTimeout(() => {
+                      heroButtonsReady = true;
+                    }, totalDelay + 500);
+                  }
                 }, startDelay + (index * 400));
               });
             }
@@ -498,6 +704,9 @@
 
             function showSection(section, direction = 'left') {
               const previousSection = currentSection;
+              // Whenever we change sections, stop any existing hover ring
+              cancelHoverRingImmediate();
+              heroButtonsReady = false;
               
               // Reset category buttons before transition
               resetCategoryButtons();
@@ -562,7 +771,9 @@
             showSection('hero1');
 
             // Category buttons
-            document.querySelectorAll('.about-circle').forEach(function(btn) {
+            const heroButtons = document.querySelectorAll('.about-circle');
+
+            heroButtons.forEach(function(btn) {
               btn.addEventListener('click', function() {
                 const section = parseInt(btn.getAttribute('data-section')) || 1;
                 if (section === 2) {
@@ -570,6 +781,21 @@
                 } else {
                   showSection(section, 'left');
                 }
+              });
+
+              // Hover drawing: digital pencil circling the button
+              btn.addEventListener('mouseenter', function() {
+                // Only allow hover drawing when the buttons have fully animated in
+                if (!heroButtonsReady) return;
+                // And only on the hero greeting sections
+                if (currentSection !== 'hero1' && currentSection !== 1 && currentSection !== 'hero2') return;
+                startHoverRing(btn);
+              });
+
+              btn.addEventListener('mouseleave', function() {
+                if (!heroButtonsReady) return;
+                if (currentSection !== 'hero1' && currentSection !== 1 && currentSection !== 'hero2') return;
+                fadeOutHoverRing();
               });
             });
 

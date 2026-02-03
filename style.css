@@ -556,6 +556,16 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
   pointer-events: none;
 }
 
+/* Canvas used to draw the hand-sketched hover circle around hero buttons */
+#about-hover-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25; /* above background/canvas, below header overlays */
+}
+
 /* Scroll Popup */
 .scroll-popup {
   position: fixed;
@@ -697,11 +707,12 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 }
 .about-circle:focus,
 .about-circle:hover {
-  background: #222;
+  /* Keep the same black background on hover so the new pencil circle is the main effect */
+  background: #000;
   color: #fff;
   outline: none;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.4);
-  transform: scale(1.06);
+  box-shadow: 0 2px 18px rgba(0,0,0,0.5);
+  transform: scale(1.03);
   text-shadow: 0 1px 8px rgba(255,255,255,0.3);
 }
 /* About Me Hero Section */
