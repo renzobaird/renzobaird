@@ -268,49 +268,135 @@
             let currentSection = null;
             let heroButtonsReady = false; // gates hover drawing until buttons have fully animated in
 
-            // ====== Digital pencil hover circle around hero buttons ======
-            let hoverCanvas = null;
-            let hoverCtx = null;
-            let hoverRAF = null;
-            let hoverRingState = null;
+            // ====== Game-like Power-Up Charge Animation ======
+            let chargeCanvas = null;
+            let chargeCtx = null;
+            let chargeRAF = null;
+            let activeCharge = null;
+            let particles = [];
 
-            function setupHoverCanvas() {
-              if (!aboutHero || hoverCanvas) return;
-              hoverCanvas = document.createElement('canvas');
-              hoverCanvas.id = 'about-hover-canvas';
-              hoverCanvas.width = aboutHero.clientWidth;
-              hoverCanvas.height = aboutHero.clientHeight;
-              aboutHero.appendChild(hoverCanvas);
-              hoverCtx = hoverCanvas.getContext('2d');
+            function setupChargeCanvas() {
+              if (!aboutHero || chargeCanvas) return;
+              chargeCanvas = document.createElement('canvas');
+              chargeCanvas.id = 'about-hover-canvas';
+              chargeCanvas.width = aboutHero.clientWidth;
+              chargeCanvas.height = aboutHero.clientHeight;
+              aboutHero.appendChild(chargeCanvas);
+              chargeCtx = chargeCanvas.getContext('2d');
             }
 
-            function resizeHoverCanvas() {
-              if (!aboutHero || !hoverCanvas) return;
-              hoverCanvas.width = aboutHero.clientWidth;
-              hoverCanvas.height = aboutHero.clientHeight;
+            function resizeChargeCanvas() {
+              if (!aboutHero || !chargeCanvas) return;
+              chargeCanvas.width = aboutHero.clientWidth;
+              chargeCanvas.height = aboutHero.clientHeight;
             }
 
-            function clearHoverCanvas() {
-              if (!hoverCtx || !hoverCanvas) return;
-              hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
+            function clearChargeCanvas() {
+              if (!chargeCtx || !chargeCanvas) return;
+              chargeCtx.clearRect(0, 0, chargeCanvas.width, chargeCanvas.height);
             }
 
-            // Immediately stop any active ring animation and clear the canvas
-            function cancelHoverRingImmediate() {
-              if (hoverRAF) {
-                cancelAnimationFrame(hoverRAF);
-                hoverRAF = null;
+            // Stop any active charge animation
+            function cancelChargeImmediate() {
+              if (chargeRAF) {
+                cancelAnimationFrame(chargeRAF);
+                chargeRAF = null;
               }
-              hoverRingState = null;
-              clearHoverCanvas();
+              activeCharge = null;
+              particles = [];
+              clearChargeCanvas();
             }
 
-            function startHoverRing(button) {
-              if (!aboutHero || !hoverCtx || !hoverCanvas) return;
+            // Particle class for sketchy line particles
+            class EnergyParticle {
+              constructor(x, y, angle, speed, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.life = 1.0;
+                this.decay = 0.015 + Math.random() * 0.015;
+                this.length = 8 + Math.random() * 12; // line length
+                this.angle = angle + (Math.random() - 0.5) * 0.3; // add wobble to angle
+                this.color = color;
+                this.width = 1.5 + Math.random() * 1;
+                this.wobbleOffset = Math.random() * Math.PI * 2; // for animated wobble
+              }
 
-              if (hoverRAF) {
-                cancelAnimationFrame(hoverRAF);
-                hoverRAF = null;
+              update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                // Slow down over time
+                this.vx *= 0.97;
+                this.vy *= 0.97;
+                // Lines get shorter as they fade
+                this.length *= 0.98;
+                // Update wobble
+                this.wobbleOffset += 0.15;
+              }
+
+              draw(ctx) {
+                if (this.life <= 0) return;
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.strokeStyle = this.color;
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = this.color;
+                ctx.lineCap = 'round';
+                
+                // Draw multiple overlapping strokes for sketchy feel
+                const numStrokes = 2 + Math.floor(Math.random() * 2); // 2-3 strokes
+                
+                for (let i = 0; i < numStrokes; i++) {
+                  // Add jitter and wobble to each stroke
+                  const jitterX = (Math.random() - 0.5) * 2;
+                  const jitterY = (Math.random() - 0.5) * 2;
+                  const wobble = Math.sin(this.wobbleOffset + i) * 1.5;
+                  const angleVariation = (Math.random() - 0.5) * 0.2;
+                  
+                  const startX = this.x + jitterX;
+                  const startY = this.y + jitterY;
+                  const endX = startX + Math.cos(this.angle + angleVariation) * this.length + wobble;
+                  const endY = startY + Math.sin(this.angle + angleVariation) * this.length + wobble;
+                  
+                  // Vary the line width slightly
+                  ctx.lineWidth = this.width + (Math.random() - 0.5) * 0.5;
+                  
+                  // Draw the stroke in segments for a broken, sketchy appearance
+                  const segments = 2 + Math.floor(Math.random() * 2); // 2-3 segments
+                  ctx.beginPath();
+                  
+                  for (let s = 0; s < segments; s++) {
+                    const t1 = s / segments;
+                    const t2 = (s + 0.7) / segments; // leave small gaps
+                    
+                    const x1 = startX + (endX - startX) * t1;
+                    const y1 = startY + (endY - startY) * t1;
+                    const x2 = startX + (endX - startX) * t2;
+                    const y2 = startY + (endY - startY) * t2;
+                    
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                  }
+                  
+                  ctx.stroke();
+                }
+                
+                ctx.restore();
+              }
+
+              isDead() {
+                return this.life <= 0;
+              }
+            }
+
+            function startPowerUpCharge(button) {
+              if (!aboutHero || !chargeCtx || !chargeCanvas) return;
+
+              if (chargeRAF) {
+                cancelAnimationFrame(chargeRAF);
+                chargeRAF = null;
               }
 
               const heroRect = aboutHero.getBoundingClientRect();
@@ -318,145 +404,150 @@
 
               const cx = (btnRect.left + btnRect.right) / 2 - heroRect.left;
               const cy = (btnRect.top + btnRect.bottom) / 2 - heroRect.top;
+              const width = btnRect.width;
+              const height = btnRect.height;
 
-              const radiusX = (btnRect.width / 2) + 26;
-              const radiusY = (btnRect.height / 2) + 20;
-
-              // Build a slightly messy, hand-sketched oval path
-              const pointCount = 150;
-              const points = [];
-              const startAngle = -Math.PI / 2;
-              for (let i = 0; i < pointCount; i++) {
-                const t = i / (pointCount - 1);
-                const angle = startAngle + t * Math.PI * 2;
-                const wobble = Math.sin(angle * 3) * 3; // stronger structured wobble
-
-                // Per-point radial jitter to break the perfect ellipse
-                const jitterRadius = (Math.random() - 0.5) * 6; // -3 to 3 px
-                const rX = radiusX + wobble + jitterRadius;
-                const rY = radiusY + wobble + jitterRadius;
-
-                // Tiny positional jitter to feel more "grungy"
-                const jitterX = (Math.random() - 0.5) * 3;
-                const jitterY = (Math.random() - 0.5) * 3;
-
-                const x = cx + Math.cos(angle) * rX + jitterX;
-                const y = cy + Math.sin(angle) * rY + jitterY;
-                points.push({ x, y });
-              }
-
-              const duration = 650; // ms
               const startTime = performance.now();
+              const chargeDuration = 800;
+              
+              // Color palette for particles - purple theme matching artwork
+              const colors = ['#7A6A8F', '#443555', '#6A6D73', '#FFFFFF'];
 
-              hoverRingState = {
-                points,
-                duration,
+              activeCharge = {
+                cx, cy, width, height,
                 startTime,
-                completedPoints: null
+                chargeDuration
               };
 
+              // Spawn initial particles
+              for (let i = 0; i < 20; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = (width / 2 + height / 2) / 2 + 20;
+                const px = cx + Math.cos(angle) * distance * (0.8 + Math.random() * 0.4);
+                const py = cy + Math.sin(angle) * distance * (0.8 + Math.random() * 0.4);
+                const toCenter = Math.atan2(cy - py, cx - px);
+                const speed = 1.5 + Math.random() * 1.5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new EnergyParticle(px, py, toCenter, speed, color));
+              }
+
               function animate() {
-                hoverRAF = requestAnimationFrame(animate);
+                chargeRAF = requestAnimationFrame(animate);
                 const now = performance.now();
-                const t = Math.min((now - startTime) / duration, 1);
+                const elapsed = now - startTime;
+                const t = Math.min(elapsed / chargeDuration, 1);
 
-                clearHoverCanvas();
+                clearChargeCanvas();
 
-                const maxIndex = Math.max(2, Math.floor(points.length * t));
-
-                // Main stroke
-                hoverCtx.save();
-                hoverCtx.lineWidth = 2.2;
-                hoverCtx.strokeStyle = 'rgba(255,255,255,0.95)';
-                hoverCtx.shadowColor = 'rgba(0,0,0,0.9)';
-                hoverCtx.shadowBlur = 8;
-                hoverCtx.lineCap = 'round';
-                hoverCtx.lineJoin = 'round';
-                hoverCtx.beginPath();
-                hoverCtx.moveTo(points[0].x, points[0].y);
-                for (let i = 1; i < maxIndex; i++) {
-                  hoverCtx.lineTo(points[i].x, points[i].y);
+                // Spawn new particles continuously during charge
+                if (t < 1 && Math.random() < 0.4) {
+                  const angle = Math.random() * Math.PI * 2;
+                  const distance = (width / 2 + height / 2) / 2 + 25;
+                  const px = cx + Math.cos(angle) * distance;
+                  const py = cy + Math.sin(angle) * distance;
+                  const toCenter = Math.atan2(cy - py, cx - px);
+                  const speed = 2 + Math.random() * 2;
+                  const color = colors[Math.floor(Math.random() * colors.length)];
+                  particles.push(new EnergyParticle(px, py, toCenter, speed, color));
                 }
-                hoverCtx.stroke();
 
-                // Secondary, offset stroke for a sketchy, multi-line feel
-                hoverCtx.lineWidth = 1.1;
-                hoverCtx.strokeStyle = 'rgba(255,255,255,0.45)';
-                hoverCtx.shadowColor = 'rgba(0,0,0,0.6)';
-                hoverCtx.shadowBlur = 5;
-                const offsetX = 1.2;
-                const offsetY = 1.2;
-                hoverCtx.beginPath();
-                hoverCtx.moveTo(points[0].x + offsetX, points[0].y + offsetY);
-                for (let i = 1; i < maxIndex; i++) {
-                  hoverCtx.lineTo(points[i].x + offsetX, points[i].y + offsetY);
-                }
-                hoverCtx.stroke();
-                hoverCtx.restore();
+                // Update and draw particles
+                particles.forEach(p => p.update());
+                particles = particles.filter(p => !p.isDead());
+                particles.forEach(p => p.draw(chargeCtx));
 
-                if (t === 1) {
-                  cancelAnimationFrame(hoverRAF);
-                  hoverRAF = null;
-                  hoverRingState.completedPoints = points.slice();
-                }
+                // Draw expanding energy ring (builds up over time)
+                const ringProgress = Math.pow(t, 0.6); // Ease out
+                const maxRingSize = 15;
+                const ringSize = ringProgress * maxRingSize;
+                
+                chargeCtx.save();
+                chargeCtx.strokeStyle = `rgba(122, 106, 143, ${0.8 * (1 - ringProgress)})`;
+                chargeCtx.lineWidth = 3;
+                chargeCtx.shadowBlur = 12;
+                chargeCtx.shadowColor = '#7A6A8F';
+                chargeCtx.beginPath();
+                chargeCtx.ellipse(cx, cy, width/2 + ringSize, height/2 + ringSize, 0, 0, Math.PI * 2);
+                chargeCtx.stroke();
+                chargeCtx.restore();
+
+                // Draw glowing border around button
+                const pulseIntensity = 0.5 + Math.sin(elapsed * 0.008) * 0.3;
+                chargeCtx.save();
+                chargeCtx.strokeStyle = `rgba(122, 106, 143, ${0.6 * t * pulseIntensity})`;
+                chargeCtx.lineWidth = 2.5;
+                chargeCtx.shadowBlur = 15;
+                chargeCtx.shadowColor = '#7A6A8F';
+                chargeCtx.beginPath();
+                chargeCtx.roundRect(cx - width/2, cy - height/2, width, height, 25);
+                chargeCtx.stroke();
+                chargeCtx.restore();
               }
 
               animate();
             }
 
-            function fadeOutHoverRing() {
-              if (!hoverCtx || !hoverCanvas || !hoverRingState || !hoverRingState.completedPoints) {
-                clearHoverCanvas();
+            function dischargePowerUp() {
+              if (!chargeCtx || !chargeCanvas || !activeCharge) {
+                clearChargeCanvas();
                 return;
               }
 
-              if (hoverRAF) {
-                cancelAnimationFrame(hoverRAF);
-                hoverRAF = null;
+              if (chargeRAF) {
+                cancelAnimationFrame(chargeRAF);
+                chargeRAF = null;
               }
 
-              const points = hoverRingState.completedPoints;
-              const duration = 220;
+              const { cx, cy, width, height } = activeCharge;
+              const dischargeDuration = 300;
               const startTime = performance.now();
+              
+              // Create burst particles
+              const burstColors = ['#7A6A8F', '#443555', '#6A6D73', '#FFFFFF'];
+              for (let i = 0; i < 15; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 3 + Math.random() * 4;
+                const color = burstColors[Math.floor(Math.random() * burstColors.length)];
+                particles.push(new EnergyParticle(cx, cy, angle, speed, color));
+              }
 
-              function animateFade() {
-                hoverRAF = requestAnimationFrame(animateFade);
+              function animateDischarge() {
+                chargeRAF = requestAnimationFrame(animateDischarge);
                 const now = performance.now();
-                const t = Math.min((now - startTime) / duration, 1);
+                const elapsed = now - startTime;
+                const t = Math.min(elapsed / dischargeDuration, 1);
                 const alpha = 1 - t;
 
-                clearHoverCanvas();
+                clearChargeCanvas();
 
-                if (alpha <= 0) {
-                  cancelAnimationFrame(hoverRAF);
-                  hoverRAF = null;
-                  clearHoverCanvas();
+                if (alpha <= 0 && particles.length === 0) {
+                  cancelAnimationFrame(chargeRAF);
+                  chargeRAF = null;
+                  clearChargeCanvas();
+                  activeCharge = null;
                   return;
                 }
 
-                hoverCtx.save();
-                hoverCtx.lineWidth = 2;
-                hoverCtx.strokeStyle = `rgba(255,255,255,${0.95 * alpha})`;
-                hoverCtx.shadowColor = `rgba(0,0,0,${0.9 * alpha})`;
-                hoverCtx.shadowBlur = 8 * alpha;
-                hoverCtx.lineCap = 'round';
-                hoverCtx.lineJoin = 'round';
-                hoverCtx.beginPath();
-                hoverCtx.moveTo(points[0].x, points[0].y);
-                for (let i = 1; i < points.length; i++) {
-                  hoverCtx.lineTo(points[i].x, points[i].y);
-                }
-                hoverCtx.stroke();
-                hoverCtx.restore();
+                // Update and draw remaining particles
+                particles.forEach(p => p.update());
+                particles = particles.filter(p => !p.isDead());
+                particles.forEach(p => p.draw(chargeCtx));
 
-                if (t === 1) {
-                  cancelAnimationFrame(hoverRAF);
-                  hoverRAF = null;
-                  clearHoverCanvas();
+                // Fading energy ring
+                if (alpha > 0) {
+                  chargeCtx.save();
+                  chargeCtx.strokeStyle = `rgba(122, 106, 143, ${0.5 * alpha})`;
+                  chargeCtx.lineWidth = 2;
+                  chargeCtx.shadowBlur = 10 * alpha;
+                  chargeCtx.shadowColor = '#7A6A8F';
+                  chargeCtx.beginPath();
+                  chargeCtx.ellipse(cx, cy, width/2 + 10, height/2 + 10, 0, 0, Math.PI * 2);
+                  chargeCtx.stroke();
+                  chargeCtx.restore();
                 }
               }
 
-              animateFade();
+              animateDischarge();
             }
 
             // On very small screens, we disable the interactive hero entirely
@@ -470,9 +561,9 @@
               return;
             }
 
-            // Set up hover canvas for digital pencil circle on non-small screens
-            setupHoverCanvas();
-            window.addEventListener('resize', resizeHoverCanvas);
+            // Set up charge canvas for power-up effects on non-small screens
+            setupChargeCanvas();
+            window.addEventListener('resize', resizeChargeCanvas);
 
             // Create glitch overlay element
             const glitchOverlay = document.createElement('div');
@@ -704,8 +795,8 @@
 
             function showSection(section, direction = 'left') {
               const previousSection = currentSection;
-              // Whenever we change sections, stop any existing hover ring
-              cancelHoverRingImmediate();
+              // Whenever we change sections, stop any existing charge animation
+              cancelChargeImmediate();
               heroButtonsReady = false;
               
               // Reset category buttons before transition
@@ -783,19 +874,19 @@
                 }
               });
 
-              // Hover drawing: digital pencil circling the button
+              // Power-up charge animation on hover
               btn.addEventListener('mouseenter', function() {
-                // Only allow hover drawing when the buttons have fully animated in
+                // Only allow hover animation when the buttons have fully animated in
                 if (!heroButtonsReady) return;
                 // And only on the hero greeting sections
                 if (currentSection !== 'hero1' && currentSection !== 1 && currentSection !== 'hero2') return;
-                startHoverRing(btn);
+                startPowerUpCharge(btn);
               });
 
               btn.addEventListener('mouseleave', function() {
                 if (!heroButtonsReady) return;
                 if (currentSection !== 'hero1' && currentSection !== 1 && currentSection !== 'hero2') return;
-                fadeOutHoverRing();
+                dischargePowerUp();
               });
             });
 

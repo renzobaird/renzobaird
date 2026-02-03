@@ -556,7 +556,7 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
   pointer-events: none;
 }
 
-/* Canvas used to draw the hand-sketched hover circle around hero buttons */
+/* Canvas used to draw the game-like power-up charge effect around hero buttons */
 #about-hover-canvas {
   position: absolute;
   inset: 0;
@@ -707,13 +707,20 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 }
 .about-circle:focus,
 .about-circle:hover {
-  /* Keep the same black background on hover so the new pencil circle is the main effect */
-  background: #000;
+  /* Game-like active state with dynamic purple glow */
+  background: linear-gradient(135deg, #000 0%, #0a0a0a 100%);
   color: #fff;
   outline: none;
-  box-shadow: 0 2px 18px rgba(0,0,0,0.5);
-  transform: scale(1.03);
-  text-shadow: 0 1px 8px rgba(255,255,255,0.3);
+  box-shadow: 
+    0 0 20px rgba(122, 106, 143, 0.5),
+    0 0 40px rgba(122, 106, 143, 0.25),
+    0 2px 18px rgba(0,0,0,0.5);
+  transform: scale(1.05);
+  text-shadow: 
+    0 0 10px rgba(122, 106, 143, 0.7),
+    0 1px 8px rgba(255,255,255,0.3);
+  border: 1px solid rgba(122, 106, 143, 0.4);
+  transition: all 0.2s ease-out;
 }
 /* About Me Hero Section */
 .about-hero {

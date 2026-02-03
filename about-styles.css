@@ -424,30 +424,40 @@
 .spec-nav-btn {
   font-family: 'Reenie Beanie', cursive;
   font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: normal;
-  padding: 12px 40px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
+  font-weight: bold;
+  padding: clamp(12px, 1.5vw, 22px) clamp(24px, 3vw, 44px);
+  border-radius: 50px;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background: rgba(0, 0, 0, 0.5);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  background: #000;
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+  text-shadow: 0 1px 10px #000a;
 }
 
 .spec-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #fff;
+  background: linear-gradient(135deg, #000 0%, #0a0a0a 100%);
+  box-shadow: 
+    0 0 20px rgba(122, 106, 143, 0.5),
+    0 0 40px rgba(122, 106, 143, 0.25),
+    0 2px 18px rgba(0,0,0,0.5);
+  transform: scale(1.05);
+  text-shadow: 
+    0 0 10px rgba(122, 106, 143, 0.7),
+    0 1px 8px rgba(255,255,255,0.3);
+  border: 1px solid rgba(122, 106, 143, 0.4);
 }
 
 .spec-back-btn {
-  background: rgba(0, 0, 0, 0.5);
+  background: #000;
   color: #fff;
 }
 
 .spec-next-btn,
 .spec-main-btn {
-  background: rgba(0, 0, 0, 0.5);
+  background: #000;
   color: #fff;
 }
 
