@@ -1,3 +1,8 @@
+@media (min-width: 1025px) {
+  .inspiration-text {
+    font-size: 2.5rem;
+  }
+}
 /* ========================================
    ABOUT PAGE STYLES
    Matching project template aesthetic
@@ -368,6 +373,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  opacity: 0; /* start hidden until animated */
+  transform: translateY(10px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 .spec-column.spec-right .spec-card-logos {
@@ -475,6 +483,7 @@
   grid-template-columns: 1fr 38% 1fr;
   gap: 10px;
   width: 100%;
+  max-width: 100%;
   flex: 1;
   align-items: flex-start;
   overflow-y: auto;
@@ -501,6 +510,13 @@
 
 .inspiration-column.inspiration-center {
   pointer-events: none;
+}
+
+/* Give education & inspirations sections symmetric 85% viewport content width */
+#spec-section-3,
+#spec-section-4 {
+  padding-left: 7.5vw;
+  padding-right: 7.5vw;
 }
 
 .inspiration-text {
@@ -620,6 +636,11 @@
   
   .spec-nav-btn {
     padding: 10px 25px;
+  }
+
+  /* On small screens, remove the interactive hero section entirely */
+  .about-hero {
+    display: none !important;
   }
 }
 
@@ -790,6 +811,12 @@
 }
 
 .about-circle.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* When active, logo groups are visible */
+.spec-card-logos.logos-visible {
   opacity: 1;
   transform: translateY(0);
 }

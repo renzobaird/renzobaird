@@ -467,16 +467,16 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 }
 .about-greeting {
   position: absolute;
-  top: clamp(15px, 4vh, 60px);
+  top: clamp(0px, 1.5vh, 24px); /* move noticeably closer to the nav/header */
   left: 0;
   right: 0;
   width: 100%;
-  max-width: min(90%, 1000px);
+  max-width: none; /* allow full-width layout, padding controls effective width */
   text-align: center;
   z-index: 3;
   margin: 0 auto;
   pointer-events: none;
-  padding: 0 20px;
+  padding: 0 6vw; /* ~88% effective text width on large screens */
   box-sizing: border-box;
 }
 .about-greeting-title {
@@ -484,20 +484,23 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
   font-size: clamp(1.4rem, 3.5vw, 2.8rem);
   font-weight: 700;
   color: #fff;
-  margin-bottom: clamp(10px, 2vh, 20px);
+  margin-bottom: clamp(4px, 1.4vh, 14px); /* reduce gap to keep both lines higher */
   letter-spacing: 0.5px;
   text-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 .about-greeting-desc {
   font-family: 'Urbanist', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+  font-size: clamp(1rem, 2vw, 1.5rem); /* a touch larger for readability */
   color: #fff !important;
   background: none !important;
   text-shadow: 0 1px 4px #000, 0 0 2px #000;
   font-weight: 400;
   margin-bottom: 0;
+  max-width: 85vw;           /* wider secondary greeting block */
+  margin-left: auto;
+  margin-right: auto;
   letter-spacing: 0.1px;
-  line-height: 1.5;
+  line-height: 1.6;
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
@@ -597,22 +600,22 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 
 /* Desktop: position buttons matching the red circles in reference image */
 .about-education {
-  top: 32%;
+  top: 40%; /* slightly above mid-height */
   right: 15%;
   left: auto;
 }
 .about-specialization {
-  top: 32%;
+  top: 40%; /* slightly above mid-height */
   left: 15%;
   right: auto;
 }
 .about-work {
-  bottom: 38%;
+  bottom: 30%; /* raised to keep proportional spacing with top row */
   left: 10%;
   right: auto;
 }
 .about-works {
-  bottom: 38%;
+  bottom: 30%; /* raised to keep proportional spacing with top row */
   right: 10%;
   left: auto;
 }
