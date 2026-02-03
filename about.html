@@ -239,9 +239,9 @@
         </div>
 
         <div class="about-categories" id="about-categories">
-          <button class="about-circle about-education" data-section="2" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Proficiencies &amp; Specializations</button>
-          <button class="about-circle about-specialization" data-section="3" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Education</button>
-          <button class="about-circle about-work" data-section="4" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Inspirations</button>
+          <button class="about-circle about-specialization" data-section="4" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Inspirations</button>
+          <button class="about-circle about-education" data-section="3" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Education</button>
+          <button class="about-circle about-work" data-section="2" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Proficiencies &amp; Specializations</button>
           <button class="about-circle about-works" data-section="5" style="font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.4rem, 2.5vw, 2.4rem);">Work History</button>
         </div>
         <div id="about-canvas-container"></div>
@@ -264,6 +264,166 @@
             const canvasContainer = document.getElementById('about-canvas-container');
             
             let popupDismissed = false;
+            let currentSection = null;
+
+            // Create glitch overlay element
+            const glitchOverlay = document.createElement('div');
+            glitchOverlay.className = 'glitch-overlay';
+            document.body.appendChild(glitchOverlay);
+
+            // Glitch/Shake transition effect with blur morph
+            function triggerGlitch() {
+              const heroSection = document.querySelector('.about-hero');
+              heroSection.classList.add('glitch-transition');
+              glitchOverlay.classList.add('active');
+              
+              setTimeout(() => {
+                heroSection.classList.remove('glitch-transition');
+                glitchOverlay.classList.remove('active');
+              }, 700);
+            }
+
+            // Word-by-word fade animation for all text (titles and body)
+            function animateWordsIn(element) {
+              if (!element) return;
+              
+              // Get original text (store it if not already stored)
+              let originalText = element.getAttribute('data-original-text');
+              if (!originalText) {
+                originalText = element.textContent.trim();
+                element.setAttribute('data-original-text', originalText);
+              }
+              
+              // Skip if no text
+              if (!originalText || originalText.length === 0) return;
+              
+              const words = originalText.split(' ').filter(w => w.length > 0);
+              element.innerHTML = '';
+              element.classList.remove('word-fade', 'animate', 'animated');
+              void element.offsetWidth;
+              element.classList.add('word-fade');
+              
+              words.forEach((word, index) => {
+                const span = document.createElement('span');
+                span.className = 'word';
+                span.textContent = word;
+                span.style.animationDelay = (index * 0.1) + 's';
+                span.style.marginRight = '0.3em';
+                element.appendChild(span);
+              });
+              
+              // Trigger animation after words are added
+              setTimeout(() => {
+                element.classList.add('animate');
+                // Mark as animated after all words have appeared
+                const totalDuration = (words.length * 100) + 500;
+                setTimeout(() => {
+                  element.classList.add('animated');
+                }, totalDuration);
+              }, 50);
+              
+              // Return the total animation duration for cascading
+              return (words.length * 100) + 550;
+            }
+
+            // Animate category buttons with cascade
+            function animateCategoryButtons(startDelay) {
+              const buttons = document.querySelectorAll('.about-circle');
+              buttons.forEach((btn, index) => {
+                btn.classList.remove('animate-in');
+                setTimeout(() => {
+                  btn.classList.add('animate-in');
+                }, startDelay + (index * 400));
+              });
+            }
+
+            // Reset category buttons
+            function resetCategoryButtons() {
+              const buttons = document.querySelectorAll('.about-circle');
+              buttons.forEach(btn => btn.classList.remove('animate-in'));
+            }
+
+            // Animate section content with proper cascading order
+            function animateSectionContent(sectionElement, includeButtons = false) {
+              if (!sectionElement) return;
+              
+              let currentDelay = 0;
+              
+              // For hero sections with greeting
+              const greetingTitle = sectionElement.querySelector('.about-greeting-title');
+              const greetingDesc = sectionElement.querySelector('.about-greeting-desc');
+              
+              if (greetingTitle) {
+                animateWordsIn(greetingTitle);
+                const titleWords = (greetingTitle.getAttribute('data-original-text') || greetingTitle.textContent).split(' ').length;
+                currentDelay += (titleWords * 100) + 500;
+                
+                if (greetingDesc) {
+                  setTimeout(() => animateWordsIn(greetingDesc), currentDelay);
+                  const words = (greetingDesc.getAttribute('data-original-text') || greetingDesc.textContent).split(' ').length;
+                  currentDelay += (words * 100) + 500;
+                }
+                
+                if (includeButtons) {
+                  animateCategoryButtons(currentDelay);
+                }
+                return;
+              }
+              
+              // For inspiration/education sections
+              const titleSmall = sectionElement.querySelector('.inspiration-title-small');
+              const titleLarge = sectionElement.querySelector('.inspiration-title-large');
+              const leftColumn = sectionElement.querySelector('.inspiration-left');
+              const rightColumn = sectionElement.querySelector('.inspiration-right');
+              
+              // 1. Small title first (word fade)
+              if (titleSmall) {
+                setTimeout(() => animateWordsIn(titleSmall), currentDelay);
+                const words = (titleSmall.getAttribute('data-original-text') || titleSmall.textContent).split(' ').length;
+                currentDelay += (words * 100) + 400;
+              }
+              
+              // 2. Large title (word fade - same as other text)
+              if (titleLarge) {
+                setTimeout(() => animateWordsIn(titleLarge), currentDelay);
+                const largeWords = (titleLarge.getAttribute('data-original-text') || titleLarge.textContent).split(' ').length;
+                currentDelay += (largeWords * 100) + 400;
+              }
+              
+              // 3. Left column paragraphs (top to bottom)
+              if (leftColumn) {
+                const leftTexts = leftColumn.querySelectorAll('.inspiration-text');
+                leftTexts.forEach((text) => {
+                  setTimeout(() => animateWordsIn(text), currentDelay);
+                  const words = (text.getAttribute('data-original-text') || text.textContent).split(' ').length;
+                  currentDelay += (words * 100) + 300;
+                });
+              }
+              
+              // 4. Right column paragraphs (top to bottom)
+              if (rightColumn) {
+                const rightTexts = rightColumn.querySelectorAll('.inspiration-text');
+                rightTexts.forEach((text) => {
+                  setTimeout(() => animateWordsIn(text), currentDelay);
+                  const words = (text.getAttribute('data-original-text') || text.textContent).split(' ').length;
+                  currentDelay += (words * 100) + 300;
+                });
+              }
+              
+              // Animate spec section main title (greeting text) if present
+              const specTitle = sectionElement.querySelector('.spec-title');
+              if (specTitle) {
+                setTimeout(() => animateWordsIn(specTitle), currentDelay);
+                const specTitleWords = (specTitle.getAttribute('data-original-text') || specTitle.textContent).split(' ').length;
+                currentDelay += (specTitleWords * 100) + 400;
+              }
+              
+              // Animate spec card titles if present
+              const specCardTitles = sectionElement.querySelectorAll('.spec-card-title');
+              specCardTitles.forEach((text, index) => {
+                setTimeout(() => animateWordsIn(text), currentDelay + (index * 150));
+              });
+            }
 
             function hideAll() {
               hero1.style.display = 'none';
@@ -279,34 +439,69 @@
               if (canvasContainer) canvasContainer.style.display = 'block';
             }
 
-            function showSection(section) {
+            function showSection(section, direction = 'left') {
+              const previousSection = currentSection;
+              
+              // Reset category buttons before transition
+              resetCategoryButtons();
+              
+              // Trigger glitch effect if changing sections
+              if (previousSection && previousSection !== section) {
+                triggerGlitch();
+              }
+              
               hideAll();
+              
+              let targetElement = null;
+              let showButtons = false;
               
               if (section === 'hero1' || section === 1) {
                 hero1.style.display = 'block';
                 categories.style.display = '';
                 if (scrollPopup && !popupDismissed) scrollPopup.style.display = 'block';
+                targetElement = hero1;
+                showButtons = true;
               } else if (section === 'hero2') {
                 hero2.style.display = 'block';
                 categories.style.display = '';
+                targetElement = hero2;
+                showButtons = true;
               } else if (section === 'spec2a' || section === 2) {
                 spec2a.style.display = 'flex';
+                targetElement = spec2a;
               } else if (section === 'spec2b') {
                 spec2b.style.display = 'flex';
+                targetElement = spec2b;
               } else if (section === 'spec3' || section === 3) {
                 spec3.style.display = 'flex';
+                targetElement = spec3;
               } else if (section === 'spec4' || section === 4) {
                 spec4.style.display = 'flex';
+                targetElement = spec4;
               } else if (section === 5) {
-                // Other sections - show hero with different text
                 hero1.style.display = 'block';
                 backBtn.style.display = 'block';
                 hero1.querySelector('.about-greeting-title').innerHTML = 'Section ' + section + ' Title';
                 hero1.querySelector('.about-greeting-desc').innerHTML = 'Content for section ' + section + ' coming soon...';
+                targetElement = hero1;
+              }
+              
+              currentSection = section;
+              
+              // Apply slide-in animation
+              if (targetElement) {
+                targetElement.classList.remove('section-slide-in-left', 'section-slide-in-right');
+                void targetElement.offsetWidth; // Force reflow
+                targetElement.classList.add(direction === 'left' ? 'section-slide-in-left' : 'section-slide-in-right');
+                
+                // Animate content after slide-in (with cascading buttons for hero sections)
+                setTimeout(() => {
+                  animateSectionContent(targetElement, showButtons);
+                }, 200);
               }
             }
 
-            // Initial load
+            // Initial load with animation
             showSection('hero1');
 
             // Category buttons
@@ -314,42 +509,42 @@
               btn.addEventListener('click', function() {
                 const section = parseInt(btn.getAttribute('data-section')) || 1;
                 if (section === 2) {
-                  showSection('spec2a');
+                  showSection('spec2a', 'left');
                 } else {
-                  showSection(section);
+                  showSection(section, 'left');
                 }
               });
             });
 
             // Back button (main)
             backBtn.addEventListener('click', function() {
-              showSection('hero1');
+              showSection('hero1', 'right');
             });
 
             // Spec 2a navigation
             document.getElementById('spec2a-back').addEventListener('click', function() {
-              showSection('hero2');
+              showSection('hero2', 'right');
             });
             document.getElementById('spec2a-next').addEventListener('click', function() {
-              showSection('spec2b');
+              showSection('spec2b', 'left');
             });
 
             // Spec 2b navigation
             document.getElementById('spec2b-back').addEventListener('click', function() {
-              showSection('spec2a');
+              showSection('spec2a', 'right');
             });
             document.getElementById('spec2b-main').addEventListener('click', function() {
-              showSection('hero2');
+              showSection('hero2', 'right');
             });
 
             // Spec 3 navigation
             document.getElementById('spec3-back').addEventListener('click', function() {
-              showSection('hero2');
+              showSection('hero2', 'right');
             });
 
             // Spec 4 navigation
             document.getElementById('spec4-back').addEventListener('click', function() {
-              showSection('hero2');
+              showSection('hero2', 'right');
             });
 
             // Scroll popup handling

@@ -622,3 +622,174 @@
     padding: 10px 25px;
   }
 }
+
+/* ==================== ANIMATIONS ==================== */
+
+/* Glitch/Static Shake with Blur Morph for Section Transitions */
+@keyframes glitchShake {
+  0% { transform: translate(0, 0) skew(0deg); filter: blur(0px) hue-rotate(0deg); }
+  15% { transform: translate(-2px, 1px) skew(0.3deg); filter: blur(2px) hue-rotate(45deg); }
+  30% { transform: translate(2px, -1px) skew(-0.3deg); filter: blur(4px) hue-rotate(90deg); }
+  45% { transform: translate(-1px, -1px) skew(0.2deg); filter: blur(3px) hue-rotate(45deg); }
+  60% { transform: translate(1px, 1px) skew(-0.2deg); filter: blur(2px) hue-rotate(0deg); }
+  75% { transform: translate(0, 0) skew(0deg); filter: blur(1px) hue-rotate(0deg); }
+  100% { transform: translate(0, 0) skew(0deg); filter: blur(0px) hue-rotate(0deg); }
+}
+
+@keyframes glitchOverlay {
+  0% { opacity: 0; }
+  20% { opacity: 0.08; }
+  40% { opacity: 0.04; }
+  60% { opacity: 0.06; }
+  80% { opacity: 0.02; }
+  100% { opacity: 0; }
+}
+
+.glitch-transition {
+  animation: glitchShake 0.7s ease-in-out;
+}
+
+.glitch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+
+.glitch-overlay.active {
+  animation: glitchOverlay 0.7s ease-in-out;
+}
+
+/* Word-by-Word Fade for All Text (Titles and Body) */
+.word-fade .word {
+  opacity: 0;
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.word-fade .word:last-child {
+  margin-right: 0;
+}
+
+.word-fade.animate .word {
+  animation: wordFadeIn 0.5s ease-out forwards;
+}
+
+/* Ensure words stay visible after animation */
+.word-fade.animated .word {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Hide text elements initially before animation */
+.about-greeting-title,
+.about-greeting-desc,
+.inspiration-text,
+.inspiration-title-small,
+.inspiration-title-large,
+.spec-title,
+.spec-card-title {
+  opacity: 0;
+}
+
+.about-greeting-title.word-fade.animate,
+.about-greeting-desc.word-fade.animate,
+.inspiration-text.word-fade.animate,
+.inspiration-title-small.word-fade.animate,
+.inspiration-title-large.word-fade.animate,
+.spec-title.word-fade.animate,
+.spec-card-title.word-fade.animate {
+  opacity: 1;
+}
+
+@keyframes wordFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Ensure handwriting text stays visible after animation */
+.handwriting-text.animated {
+  opacity: 1 !important;
+  clip-path: none !important;
+}
+
+/* Slide Carousel for Button Navigation */
+.section-slide-left {
+  animation: slideOutLeft 0.3s ease-in-out forwards;
+}
+
+.section-slide-right {
+  animation: slideOutRight 0.3s ease-in-out forwards;
+}
+
+.section-slide-in-left {
+  animation: slideInLeft 0.3s ease-in-out forwards;
+}
+
+.section-slide-in-right {
+  animation: slideInRight 0.3s ease-in-out forwards;
+}
+
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-50px); opacity: 0; }
+}
+
+@keyframes slideOutRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(50px); opacity: 0; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Button hover shake feedback */
+.about-circle:active,
+.spec-nav-btn:active {
+  animation: buttonShake 0.2s ease-out;
+}
+
+@keyframes buttonShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* Cascading button fade-in animation */
+.about-circle {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.about-circle.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
