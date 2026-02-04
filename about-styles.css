@@ -254,29 +254,42 @@
 /* Ensure .about-hero has padding-bottom and black background */
 .about-hero {
   background: #000 !important;
-  padding-bottom: 60px;
+  padding-bottom: 0;
   position: relative;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 /* Canvas container - always visible with Self image */
 #about-canvas-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  bottom: 0;
+  left: 52%;
+  transform: translateX(-50%);
   pointer-events: none;
   z-index: 5;
+}
+
+/* Gradient overlay to blend image into black background */
+#about-canvas-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, transparent 50%, #000 100%);
+  z-index: 10;
+  pointer-events: none;
 }
 
 /* Hero greeting text - always above canvas */
 .about-greeting {
   position: relative;
   z-index: 20;
+  width: 100%;
+  text-align: center;
 }
 
 .about-greeting-title,
@@ -306,6 +319,7 @@
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   text-align: center;
   margin-bottom: 30px;
+  width: 100%;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -467,6 +481,9 @@
   margin-bottom: 30px;
   position: relative;
   z-index: 20;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .inspiration-title-small {
