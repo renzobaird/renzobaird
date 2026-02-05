@@ -52,7 +52,7 @@ function windowResized() {
 
 
 function draw() {
-  background(0,0,0,0);
+  clear();
   // Draw images at their natural size to avoid blur from scaling
   let imgW = width;
   let imgH = height;
