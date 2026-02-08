@@ -285,12 +285,14 @@
 .spec-section {
   width: 100%;
   min-height: calc(100vh - 80px);
-  padding: 40px 8vw 40px 8vw;
+  max-height: calc(100vh - 80px);
+  padding: clamp(15px, 2vh, 40px) 8vw clamp(10px, 1.5vh, 40px) 8vw;
   box-sizing: border-box;
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .spec-title {
@@ -299,7 +301,7 @@
   font-weight: bold;
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: clamp(10px, 2vh, 30px);
   width: 85%;
   margin-left: auto;
   margin-right: auto;
@@ -315,7 +317,7 @@
   gap: 10px;
   width: 100%;
   flex: 1;
-  padding-top: 3vh;
+  padding-top: 1.5vh;
 }
 
 .spec-column {
@@ -342,7 +344,7 @@
 .spec-card {
   background: transparent;
   border-radius: 0;
-  padding: 10px 0;
+  padding: clamp(5px, 1vh, 10px) 0;
   max-width: 280px;
 }
 
@@ -356,7 +358,7 @@
 
 .spec-card-title {
   font-family: 'Reenie Beanie', cursive;
-  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
   font-weight: bold;
   color: #fff;
   margin: 0 0 8px 0;
@@ -385,9 +387,9 @@
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   font-family: 'Reenie Beanie', cursive;
-  font-size: clamp(0.85rem, 1.2vw, 1.1rem);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
   color: #fff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
@@ -403,14 +405,15 @@
   border-radius: 4px;
 }
 
-/* Navigation buttons - positioned at bottom edges */
+/* Navigation buttons - positioned above bottom */
 .spec-nav-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  padding: 0;
   margin-top: auto;
+  margin-bottom: clamp(20px, 5vh, 80px);
   position: relative;
   z-index: 25;
 }
@@ -421,49 +424,116 @@
 }
 
 .spec-nav-btn {
-  font-family: 'Reenie Beanie', cursive;
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: bold;
-  padding: clamp(12px, 1.5vw, 22px) clamp(24px, 3vw, 44px);
-  border-radius: 50px;
+  position: relative;
+  padding: clamp(10px, 1.2vw, 18px) clamp(20px, 2.5vw, 38px);
+  border-radius: 6px;
   border: none;
+  font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+  background: transparent;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-  background: #000;
+  pointer-events: auto;
+  z-index: 20;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background 0.4s ease,
+              transform 0.3s ease,
+              box-shadow 0.4s ease;
+}
+
+/* Nav button text layers - matching hero category buttons */
+.spec-nav-btn .btn-handwritten,
+.spec-nav-btn .btn-digital {
+  display: block;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.spec-nav-btn .btn-handwritten {
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: bold;
   color: #fff;
-  box-shadow: 0 2px 24px rgba(0,0,0,0.3);
-  letter-spacing: 1px;
-  text-shadow: 0 1px 10px #000a;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spec-nav-btn .btn-digital {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 600;
+  font-size: 0.55em;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  opacity: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.spec-nav-btn .btn-swoosh {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.9) 40%, 
+    rgba(255,255,255,0.95) 50%, 
+    rgba(255,255,255,0.9) 60%, 
+    transparent 100%);
+  z-index: 3;
+  pointer-events: none;
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .spec-nav-btn:hover {
-  background: linear-gradient(135deg, #000 0%, #0a0a0a 100%);
-  box-shadow: 
-    0 0 20px rgba(122, 106, 143, 0.5),
-    0 0 40px rgba(122, 106, 143, 0.25),
-    0 2px 18px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
   transform: scale(1.05);
-  text-shadow: 
-    0 0 10px rgba(122, 106, 143, 0.7),
-    0 1px 8px rgba(255,255,255,0.3);
-  border: 1px solid rgba(122, 106, 143, 0.4);
+  box-shadow: 0 4px 20px rgba(122, 106, 143, 0.4);
 }
 
-.spec-back-btn {
-  background: #000;
-  color: #fff;
+.spec-nav-btn:hover .btn-handwritten {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
-.spec-next-btn,
-.spec-main-btn {
-  background: #000;
-  color: #fff;
+.spec-nav-btn:hover .btn-digital {
+  opacity: 1;
+}
+
+.spec-nav-btn:hover .btn-swoosh {
+  left: 100%;
+}
+
+.spec-nav-btn:focus {
+  outline: none;
+  background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(122, 106, 143, 0.4);
+}
+
+.spec-nav-btn:focus .btn-handwritten {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.spec-nav-btn:focus .btn-digital {
+  opacity: 1;
+}
+
+.spec-nav-btn:active {
+  transform: scale(0.98);
+  transition-duration: 0.1s;
 }
 
 /* ==================== SECTION 4: INSPIRATION & WORKS ==================== */
 .inspiration-title {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: clamp(10px, 2vh, 30px);
   position: relative;
   z-index: 20;
   width: 100%;
@@ -474,7 +544,7 @@
 .inspiration-title-small {
   display: block;
   font-family: 'Reenie Beanie', cursive;
-  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
   color: #fff;
   font-weight: normal;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
@@ -484,7 +554,7 @@
 .inspiration-title-large {
   display: block;
   font-family: 'Reenie Beanie', cursive;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2rem, 4vw, 3.2rem);
   color: #fff;
   font-weight: bold;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
@@ -498,8 +568,8 @@
   max-width: 100%;
   flex: 1;
   align-items: flex-start;
-  overflow-y: auto;
-  padding-top: 10vh;
+  overflow: hidden;
+  padding-top: 3vh;
 }
 
 .inspiration-column {
@@ -537,9 +607,9 @@
 
 .inspiration-text {
   font-family: 'Reenie Beanie', cursive;
-  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
   color: #fff;
-  line-height: 1.4;
+  line-height: 1.35;
   margin: 0 0 8px 0;
   max-width: 100%;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
@@ -549,30 +619,44 @@
   margin-left: auto;
 }
 
-/* Work History Section - Smaller Text to Avoid Scrolling */
+/* Work History Section - Tighter to fit dense content within viewport */
+#spec-section-5 .inspiration-title {
+  margin-bottom: clamp(5px, 1vh, 15px);
+}
+
 #spec-section-5 .inspiration-title-large {
-  font-size: clamp(1.76rem, 3.52vw, 2.64rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
 }
 
 #spec-section-5 .inspiration-title-small {
-  font-size: clamp(1.1rem, 2.2vw, 1.54rem);
+  font-size: clamp(1rem, 1.7vw, 1.4rem);
+}
+
+#spec-section-5 .inspiration-grid {
+  padding-top: 1vh;
+}
+
+#spec-section-5 .inspiration-column {
+  gap: 4px;
+  padding-top: 0;
 }
 
 #spec-section-5 .spec-card-title {
-  font-size: clamp(1.05rem, 1.65vw, 1.38rem);
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  margin-bottom: 4px;
 }
 
 #spec-section-5 .inspiration-text {
-  font-size: clamp(1.05rem, 1.76vw, 1.54rem);
-  line-height: 1.3;
-  margin: 0 0 6px 0;
+  font-size: clamp(0.95rem, 1.5vw, 1.35rem);
+  line-height: 1.25;
+  margin: 0 0 4px 0;
 }
 
 /* Responsive adjustments for inspiration section */
 @media (max-width: 1024px) {
   .inspiration-grid {
     grid-template-columns: 1fr 40% 1fr;
-    padding-top: 8vh;
+    padding-top: 2vh;
   }
   
   .inspiration-text {
@@ -583,7 +667,7 @@
 @media (max-width: 768px) {
   .inspiration-grid {
     grid-template-columns: 1fr 1fr;
-    padding-top: 6vh;
+    padding-top: 2vh;
   }
   
   .inspiration-column.inspiration-center {
@@ -684,50 +768,59 @@
 
 /* ==================== ANIMATIONS ==================== */
 
-/* Glitch/Static Shake with Blur Morph for Section Transitions */
-@keyframes glitchShake {
-  0% { transform: translate(0, 0) skew(0deg); }
-  15% { transform: translate(-2px, 1px) skew(0.3deg); }
-  30% { transform: translate(2px, -1px) skew(-0.3deg); }
-  45% { transform: translate(-1px, -1px) skew(0.2deg); }
-  60% { transform: translate(1px, 1px) skew(-0.2deg); }
-  75% { transform: translate(0, 0) skew(0deg); }
-  100% { transform: translate(0, 0) skew(0deg); }
+/* Ink Dissolve Out — text is absorbed toward the center character */
+
+/* Use CSS transitions for buttery smooth dissolve (no keyframe stepping) */
+.ink-dissolve-ready {
+  transition: opacity 1.1s ease-in,
+              filter 1.1s ease-in,
+              transform 1.1s ease-in;
+  will-change: opacity, filter, transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-@keyframes glitchOverlay {
-  0% { opacity: 0; }
-  20% { opacity: 0.08; }
-  40% { opacity: 0.04; }
-  60% { opacity: 0.06; }
-  80% { opacity: 0.02; }
-  100% { opacity: 0; }
-}
-
-.glitch-transition {
-  animation: glitchShake 0.7s ease-in-out;
-}
-
-.glitch-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15) 0px,
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 3px
-  );
+/* Base dissolved state — just fade + blur, used for center/title text */
+.ink-dissolve-out {
+  opacity: 0 !important;
+  filter: blur(6px) !important;
+  transform: translateY(10px) translateZ(0) !important;
   pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
 }
 
-.glitch-overlay.active {
-  animation: glitchOverlay 0.7s ease-in-out;
+/* Left column text dissolves toward the right (center) */
+.ink-dissolve-left {
+  opacity: 0 !important;
+  filter: blur(6px) !important;
+  transform: translateX(60px) translateZ(0) !important;
+  pointer-events: none;
+}
+
+/* Right column text dissolves toward the left (center) */
+.ink-dissolve-right {
+  opacity: 0 !important;
+  filter: blur(6px) !important;
+  transform: translateX(-60px) translateZ(0) !important;
+  pointer-events: none;
+}
+
+/* Nav buttons dissolve down slightly */
+.ink-dissolve-btn {
+  opacity: 0 !important;
+  filter: blur(4px) !important;
+  transform: translateY(15px) translateZ(0) !important;
+  pointer-events: none;
+}
+
+/* During dissolve, drop the section behind the character */
+.spec-section.dissolving {
+  z-index: 2 !important;
+}
+.about-greeting.dissolving {
+  z-index: 2 !important;
+}
+.about-categories.dissolving {
+  z-index: 2 !important;
 }
 
 /* Word-by-Word Fade for All Text (Titles and Body) */

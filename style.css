@@ -691,22 +691,22 @@ button, .about-circle, .theme-toggle, .clear-filters-btn {
 
 /* Desktop: position buttons */
 .about-education {
-  top: 40%;
+  top: 28%;
   right: 15%;
   left: auto;
 }
 .about-specialization {
-  top: 40%;
+  top: 28%;
   left: 15%;
   right: auto;
 }
 .about-work {
-  bottom: 30%;
+  bottom: 42%;
   left: 10%;
   right: auto;
 }
 .about-works {
-  bottom: 30%;
+  bottom: 42%;
   right: 10%;
   left: auto;
 }

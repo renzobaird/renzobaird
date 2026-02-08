@@ -35,14 +35,14 @@
         
         <!-- Hero 1: Initial greeting -->
         <div class="about-greeting" id="hero1">
-          <h2 class="about-greeting-title" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: bold; font-size: clamp(2.5rem, 5vw, 4rem);">Hi, my name is Renzo!</h2>
-          <p class="about-greeting-desc" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.5rem, 3vw, 2.4rem);">Thanks for taking the time to look deeper into my story, I’m happy to share it with you. Where would you like to start?</p>
+          <h2 class="about-greeting-title" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: bold; font-size: clamp(2rem, 4vw, 3.2rem);">Hi, my name is Renzo!</h2>
+          <p class="about-greeting-desc" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.3rem, 2.5vw, 2rem);">Thanks for taking the time to look deeper into my story, I’m happy to share it with you. Where would you like to start?</p>
         </div>
 
         <!-- Hero 2: Return section after viewing categories -->
         <div class="about-greeting" id="hero2" style="display:none;">
-          <h2 class="about-greeting-title" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: bold; font-size: clamp(2.5rem, 5vw, 4rem);">There’s plenty left to the story, what’s next on the list?</h2>
-          <p class="about-greeting-desc" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.5rem, 3vw, 2.4rem);"></p>
+          <h2 class="about-greeting-title" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: bold; font-size: clamp(2rem, 4vw, 3.2rem);">There’s plenty left to the story, what’s next on the list?</h2>
+          <p class="about-greeting-desc" style="color:#fff; font-family: 'Reenie Beanie', cursive; font-weight: normal; font-style: normal; font-size: clamp(1.3rem, 2.5vw, 2rem);"></p>
         </div>
 
         <!-- Section 2a: Specialization - Software & Tools Grid -->
@@ -124,8 +124,16 @@
           </div>
 
           <div class="spec-nav-buttons">
-            <button class="spec-nav-btn spec-back-btn" id="spec2a-back">Back</button>
-            <button class="spec-nav-btn spec-next-btn" id="spec2a-next">Next</button>
+            <button class="spec-nav-btn spec-back-btn" id="spec2a-back">
+              <span class="btn-handwritten">Back</span>
+              <span class="btn-digital">Back</span>
+              <span class="btn-swoosh"></span>
+            </button>
+            <button class="spec-nav-btn spec-next-btn" id="spec2a-next">
+              <span class="btn-handwritten">Next</span>
+              <span class="btn-digital">Next</span>
+              <span class="btn-swoosh"></span>
+            </button>
           </div>
         </div>
 
@@ -155,8 +163,16 @@
           </div>
 
           <div class="spec-nav-buttons">
-            <button class="spec-nav-btn spec-back-btn" id="spec2b-back">Back</button>
-            <button class="spec-nav-btn spec-next-btn" id="spec2b-main">Main</button>
+            <button class="spec-nav-btn spec-back-btn" id="spec2b-back">
+              <span class="btn-handwritten">Back</span>
+              <span class="btn-digital">Back</span>
+              <span class="btn-swoosh"></span>
+            </button>
+            <button class="spec-nav-btn spec-next-btn" id="spec2b-main">
+              <span class="btn-handwritten">Main</span>
+              <span class="btn-digital">Main</span>
+              <span class="btn-swoosh"></span>
+            </button>
           </div>
         </div>
 
@@ -185,7 +201,11 @@
           </div>
 
           <div class="spec-nav-buttons">
-            <button class="spec-nav-btn spec-back-btn" id="spec3-back">Back</button>
+            <button class="spec-nav-btn spec-back-btn" id="spec3-back">
+              <span class="btn-handwritten">Back</span>
+              <span class="btn-digital">Back</span>
+              <span class="btn-swoosh"></span>
+            </button>
           </div>
         </div>
 
@@ -216,7 +236,11 @@
           </div>
 
           <div class="spec-nav-buttons">
-            <button class="spec-nav-btn spec-back-btn" id="spec4-back">Back</button>
+            <button class="spec-nav-btn spec-back-btn" id="spec4-back">
+              <span class="btn-handwritten">Back</span>
+              <span class="btn-digital">Back</span>
+              <span class="btn-swoosh"></span>
+            </button>
           </div>
         </div>
 
@@ -252,7 +276,11 @@
           </div>
 
           <div class="spec-nav-buttons">
-            <button class="spec-nav-btn spec-back-btn" id="spec5-back">Back</button>
+            <button class="spec-nav-btn spec-back-btn" id="spec5-back">
+              <span class="btn-handwritten">Back</span>
+              <span class="btn-digital">Back</span>
+              <span class="btn-swoosh"></span>
+            </button>
           </div>
         </div>
 
@@ -365,6 +393,20 @@
               };
             }
 
+            // Check if a point overlaps the character image area
+            function isOverCharacter(pos) {
+              const container = document.getElementById('about-canvas-container');
+              if (!container) return false;
+              const containerRect = container.getBoundingClientRect();
+              const heroRect = aboutHero.getBoundingClientRect();
+              // Convert container bounds to draw-canvas coordinates
+              const charLeft = containerRect.left - heroRect.left;
+              const charTop = containerRect.top - heroRect.top;
+              const charRight = charLeft + containerRect.width;
+              const charBottom = charTop + containerRect.height;
+              return pos.x >= charLeft && pos.x <= charRight && pos.y >= charTop && pos.y <= charBottom;
+            }
+
             function isHeroActive() {
               return currentSection === 'hero1' || currentSection === 1 || currentSection === 'hero2';
             }
@@ -373,15 +415,19 @@
               if (!isHeroActive()) return;
               // Don't draw if clicking on a button/toolbar
               if (e.target !== drawCanvas) return;
+              const pos = getCanvasPos(e);
+              // Don't start drawing over the character
+              if (isOverCharacter(pos)) return;
               isDrawing = true;
               drawCanvas.style.cursor = 'crosshair';
-              const pos = getCanvasPos(e);
               currentStroke = [pos];
             }
 
             function onDrawMove(e) {
               if (!isDrawing || !isHeroActive()) return;
               const pos = getCanvasPos(e);
+              // Stop drawing if cursor enters the character area
+              if (isOverCharacter(pos)) return;
               const last = currentStroke[currentStroke.length - 1];
               // Min distance to avoid clustering
               const dx = pos.x - last.x;
@@ -559,21 +605,89 @@
             setupDrawCanvas();
             window.addEventListener('resize', resizeDrawCanvas);
 
-            // Create glitch overlay element
-            const glitchOverlay = document.createElement('div');
-            glitchOverlay.className = 'glitch-overlay';
-            document.body.appendChild(glitchOverlay);
-
-            // Glitch/Shake transition effect with blur morph
-            function triggerGlitch() {
+            // Ink dissolve transition — text is absorbed toward the center character
+            function triggerInkDissolve(callback) {
               const heroSection = document.querySelector('.about-hero');
-              heroSection.classList.add('glitch-transition');
-              glitchOverlay.classList.add('active');
-              
+
+              // Gather all text elements across every possible visible section
+              const textSelectors = [
+                '.about-greeting-title',
+                '.about-greeting-desc',
+                '.inspiration-title-small',
+                '.inspiration-title-large',
+                '.inspiration-text',
+                '.spec-card-title',
+                '.spec-title',
+                '.spec-nav-btn'
+              ];
+              const allText = heroSection.querySelectorAll(textSelectors.join(','));
+              const visibleText = Array.from(allText).filter(el => {
+                return el.offsetParent !== null && getComputedStyle(el).display !== 'none';
+              });
+
+              const catButtons = heroSection.querySelectorAll('.about-circle');
+              const visibleButtons = Array.from(catButtons).filter(el => el.offsetParent !== null);
+
+              if (visibleText.length === 0 && visibleButtons.length === 0) {
+                if (callback) callback();
+                return;
+              }
+
+              // Drop current section(s) behind the character during dissolve
+              const dissolveSections = heroSection.querySelectorAll('.spec-section, .about-greeting, .about-categories');
+              dissolveSections.forEach(s => s.classList.add('dissolving'));
+
+              // Step 1: Add ink-dissolve-ready to all elements (sets up the transition)
+              const allElements = [...visibleText, ...visibleButtons];
+              allElements.forEach(el => {
+                el.classList.add('ink-dissolve-ready');
+              });
+
+              // Step 2: Force a reflow so the transition properties are applied before changing state
+              void heroSection.offsetWidth;
+
+              // Step 3: Apply directional dissolve classes
+              visibleText.forEach(el => {
+                // Determine direction based on which column the element is in
+                const leftCol = el.closest('.inspiration-left') || el.closest('.spec-left');
+                const rightCol = el.closest('.inspiration-right') || el.closest('.spec-right');
+                const isNavBtn = el.classList.contains('spec-nav-btn');
+
+                if (isNavBtn) {
+                  el.classList.add('ink-dissolve-btn');
+                } else if (leftCol) {
+                  el.classList.add('ink-dissolve-left');
+                } else if (rightCol) {
+                  el.classList.add('ink-dissolve-right');
+                } else {
+                  // Center/title text dissolves down toward character
+                  el.classList.add('ink-dissolve-out');
+                }
+              });
+
+              visibleButtons.forEach(el => {
+                // Category buttons: determine side by position
+                const rect = el.getBoundingClientRect();
+                const centerX = window.innerWidth / 2;
+                if (rect.left + rect.width / 2 < centerX) {
+                  el.classList.add('ink-dissolve-left');
+                } else {
+                  el.classList.add('ink-dissolve-right');
+                }
+              });
+
+              // Wait for transition to complete, then clean up
               setTimeout(() => {
-                heroSection.classList.remove('glitch-transition');
-                glitchOverlay.classList.remove('active');
-              }, 700);
+                allElements.forEach(el => {
+                  el.classList.remove('ink-dissolve-ready', 'ink-dissolve-out', 'ink-dissolve-left', 'ink-dissolve-right', 'ink-dissolve-btn');
+                  // Reset inline transform/opacity/filter
+                  el.style.opacity = '';
+                  el.style.filter = '';
+                  el.style.transform = '';
+                });
+                dissolveSections.forEach(s => s.classList.remove('dissolving'));
+                if (callback) callback();
+              }, 1200);
             }
 
             // Word-by-word fade animation for all text (titles and body)
@@ -854,7 +968,18 @@
             function showSection(section, direction = 'left') {
               const previousSection = currentSection;
               heroButtonsReady = false;
-              
+
+              // If there's a previous section, dissolve its text first, then transition
+              if (previousSection && previousSection !== section) {
+                triggerInkDissolve(function() {
+                  performTransition(section, direction);
+                });
+              } else {
+                performTransition(section, direction);
+              }
+            }
+
+            function performTransition(section, direction) {
               // Reset hero state (erase drawing, restore text) when leaving hero
               resetHeroState();
               
@@ -869,11 +994,6 @@
               
               // Reset category buttons before transition
               resetCategoryButtons();
-              
-              // Trigger glitch effect if changing sections
-              if (previousSection && previousSection !== section) {
-                triggerGlitch();
-              }
               
               hideAll();
               
