@@ -175,6 +175,27 @@
   margin-bottom: 0;
 }
 
+.work-entry {
+  margin-bottom: 28px;
+}
+
+.work-entry-title {
+  font-weight: 700;
+  color: #ffffff !important;
+  margin-bottom: 10px !important;
+  letter-spacing: 0.02em;
+}
+
+.work-entry-bullets {
+  padding-left: 1.1em;
+  border-left: 2px solid rgba(122, 106, 143, 0.45);
+}
+
+.work-entry-bullets .about-me-description {
+  margin-bottom: 10px;
+  padding-left: 0.6em;
+}
+
 /* ==================== RESPONSIVE STYLES ==================== */
 @media (max-width: 1024px) {
   .about-me-section {
