@@ -113,7 +113,7 @@
 
       .filter-accordion-title {
         font-family: 'Urbanist', sans-serif;
-        font-size: 1rem;
+        font-size: clamp(1rem, 0.4vw + 0.7rem, 1.4rem);
         font-weight: 600;
         color: rgba(255, 255, 255, 0.9);
         text-transform: uppercase;
@@ -166,7 +166,7 @@
         border-radius: 20px;
         padding: 8px 16px;
         font-family: 'Urbanist', sans-serif;
-        font-size: 0.85rem;
+        font-size: clamp(0.85rem, 0.35vw + 0.55rem, 1.2rem);
         color: rgba(255, 255, 255, 0.8);
         cursor: pointer;
         transition: all 0.3s ease;
@@ -243,7 +243,7 @@
 
       .tile-image-new {
         width: 100%;
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 16 / 10;
         overflow: hidden;
         position: relative;
         background: #000;
@@ -280,14 +280,14 @@
       }
 
       .tile-content-new {
-        padding: 20px;
+        padding: clamp(16px, 1.2vw, 28px);
         position: relative;
         background: transparent;
       }
 
       .tile-content-new h3 {
         font-family: 'Unbounded', sans-serif;
-        font-size: 1rem;
+        font-size: clamp(1rem, 0.5vw + 0.7rem, 1.6rem);
         font-weight: 700;
         color: #FFFFFF;
         margin: 0 0 8px 0;
@@ -302,7 +302,7 @@
 
       .tile-content-new p {
         font-family: 'Urbanist', sans-serif;
-        font-size: 0.9rem;
+        font-size: clamp(0.9rem, 0.4vw + 0.6rem, 1.35rem);
         color: rgba(255, 255, 255, 0.7);
         line-height: 1.5;
         margin: 0;
@@ -314,6 +314,25 @@
       }
 
       /* Responsive */
+      /* Large screens (4K, ultrawide) - bump sizing */
+      @media (min-width: 2200px) {
+        .projects-grid-new {
+          gap: 35px;
+        }
+        .tile-content-new {
+          padding: 30px;
+        }
+        .filter-accordion-header {
+          padding: 22px 30px;
+        }
+        .filter-tag-btn {
+          padding: 12px 22px;
+        }
+        .projects-title-bar h1 {
+          font-size: 2.4rem;
+        }
+      }
+
       @media (max-width: 1400px) {
         .projects-grid-new {
           grid-template-columns: repeat(3, 1fr);
@@ -325,6 +344,12 @@
         .projects-grid-new {
           grid-template-columns: repeat(2, 1fr);
           gap: 20px;
+        }
+        .tile-content-new h3 {
+          font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+        }
+        .tile-content-new p {
+          font-size: clamp(0.85rem, 1.3vw, 1.05rem);
         }
       }
 
@@ -398,6 +423,10 @@
                 <button class="filter-tag-btn filter-skill" data-filter="level-design">Level Design</button>
                 <button class="filter-tag-btn filter-skill" data-filter="motion-video">Motion & Video</button>
                 <button class="filter-tag-btn filter-skill" data-filter="narrative-writing">Narrative & Writing</button>
+                <button class="filter-tag-btn filter-skill" data-filter="marketing-branding">Marketing & Branding</button>
+                <button class="filter-tag-btn filter-skill" data-filter="microsoft-office-suite">Microsoft Office Suite</button>
+                <button class="filter-tag-btn filter-skill" data-filter="web-development">Web Development</button>
+                <button class="filter-tag-btn filter-skill" data-filter="project-production-team-management">Project/ Production Team Management</button>
               </div>
             </div>
           </div>
@@ -424,6 +453,9 @@
                 <button class="filter-tag-btn filter-software" data-filter="unity">Unity</button>
                 <button class="filter-tag-btn filter-software" data-filter="unreal">Unreal</button>
                 <button class="filter-tag-btn filter-software" data-filter="visual-studio">Visual Studio</button>
+                <button class="filter-tag-btn filter-software" data-filter="canva">Canva</button>
+                <button class="filter-tag-btn filter-software" data-filter="twine">Twine</button>
+                <button class="filter-tag-btn filter-software" data-filter="github">GitHub</button>
               </div>
             </div>
           </div>
@@ -434,23 +466,23 @@
       <!-- Projects Grid Section -->
       <section class="projects-grid-section">
         <div class="projects-grid-new">
-          <a href="hedge-mage.html" class="project-tile-new" data-skills="design-ux-ui environment-design game-development illustration-2d-art level-design" data-software="pyxel-edit illustrator unity">
+          <a href="hedge-mage.html" class="project-tile-new" data-skills="design-ux-ui environment-design game-development illustration-2d-art level-design motion-video narrative-writing project-production-team-management" data-software="figma premiere-rush procreate pyxel-edit unity visual-studio github">
             <div class="tile-image-new">
               <img src="images/hedgemage.png" alt="Hedge Mage">
             </div>
             <div class="tile-content-new">
               <h3>Hedge Mage</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>A single-player fantasy–horror tactical word-puzzle hybrid game for PC.</p>
             </div>
           </a>
           
-          <a href="drop-block.html" class="project-tile-new" data-skills="3d-art-materials design-ux-ui game-development illustration-2d-art level-design" data-software="figma illustrator maya photoshop premiere-rush procreate substance-3d-painter unity visual-studio">
+          <a href="drop-block.html" class="project-tile-new" data-skills="3d-art-materials design-ux-ui game-development illustration-2d-art level-design motion-video marketing-branding" data-software="figma illustrator photoshop maya premiere-rush substance-3d-painter unity visual-studio microsoft-office-suite github">
             <div class="tile-image-new">
               <img src="images/drplogo.png" alt="Drop Block">
             </div>
             <div class="tile-content-new">
               <h3>Drop Block</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>An asynchronous multiplayer arcade-puzzle/ hyper-casual game for mobile. #BeatTheBlock</p>
             </div>
           </a>
           
@@ -460,67 +492,67 @@
             </div>
             <div class="tile-content-new">
               <h3>ARC Immersive</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>A multi-sensory and immersive installation.</p>
             </div>
           </a>
           
-          <a href="micro-mech.html" class="project-tile-new" data-skills="game-development" data-software="unity">
+          <a href="micro-mech.html" class="project-tile-new" data-skills="game-development illustration-2d-art level-design" data-software="unity pyxel-edit canva microsoft-office-suite">
             <div class="tile-image-new">
               <img src="images/micromech.jpg" alt="Micro Mech">
             </div>
             <div class="tile-content-new">
               <h3>Micro Mech</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>Single-player retro-futurism platformer PC game.</p>
             </div>
           </a>
           
-          <a href="aegis.html" class="project-tile-new" data-skills="game-development design-ux-ui" data-software="unreal figma">
+          <a href="aegis.html" class="project-tile-new" data-skills="game-development design-ux-ui narrative-writing" data-software="unreal figma">
             <div class="tile-image-new">
               <img src="images/aegis.png" alt="AEGIS">
             </div>
             <div class="tile-content-new">
               <h3>AEGIS</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>A single-player sci-fi adventure game concept for PC & console.</p>
             </div>
           </a>
           
-          <a href="the-hills-of-astoria.html" class="project-tile-new" data-skills="narrative-writing game-development" data-software="unreal">
+          <a href="the-hills-of-astoria.html" class="project-tile-new" data-skills="narrative-writing game-development level-design environment-design" data-software="unreal canva">
             <div class="tile-image-new">
               <img src="images/hills-of-astoria.png" alt="The Hills of Astoria">
             </div>
             <div class="tile-content-new">
               <h3>The Hills of Astoria</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>An angled-top down single-player mystery-horror city-builder game concept for PC.</p>
             </div>
           </a>
           
-          <a href="bandits-break.html" class="project-tile-new" data-skills="game-development" data-software="unity">
+          <a href="bandits-break.html" class="project-tile-new" data-skills="game-development narrative-writing" data-software="unity twine microsoft-office-suite">
             <div class="tile-image-new tile-image-left">
               <img src="images/BanditsBreak.png" alt="Bandit's Break">
             </div>
             <div class="tile-content-new">
               <h3>Bandit's Break</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>An adventure-packed branching narrative for children.</p>
             </div>
           </a>
           
-          <a href="catastrophe.html" class="project-tile-new" data-skills="illustration-2d-art design-ux-ui" data-software="photoshop procreate">
+          <a href="catastrophe.html" class="project-tile-new" data-skills="illustration-2d-art design-ux-ui motion-video narrative-writing project-production-team-management" data-software="photoshop procreate canva after-effects">
             <div class="tile-image-new">
               <img src="images/catastrophe.png" alt="Catastrophe">
             </div>
             <div class="tile-content-new">
               <h3>Catastrophe</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>A short horror film depicting a mysterious stalker and their unsuspecting victim.</p>
             </div>
           </a>
           
-          <a href="renrenderz.html" class="project-tile-new" data-skills="3d-art-materials" data-software="maya substance-3d-painter photoshop">
+          <a href="renrenderz.html" class="project-tile-new" data-skills="3d-art-materials design-ux-ui motion-video narrative-writing marketing-branding" data-software="maya substance-3d-painter photoshop canva microsoft-office-suite">
             <div class="tile-image-new">
               <img src="images/renderz.png" alt="RENRENDERZ">
             </div>
             <div class="tile-content-new">
               <h3>RENRENDERZ</h3>
-              <p>Brief description of the project goes here.</p>
+              <p>A brand and marketing campaign for “RenRenderz”.</p>
             </div>
           </a>
         </div>

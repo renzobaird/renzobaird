@@ -4,6 +4,33 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  // ==================== VIDEO OVERLAY CONTROLS ====================
+  document.querySelectorAll('.project-video-container').forEach(container => {
+    const video = container.querySelector('.project-video');
+    const muteBtn = container.querySelector('.video-mute-btn');
+    const fsBtn = container.querySelector('.video-fs-btn');
+
+    if (video && muteBtn) {
+      muteBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        muteBtn.querySelector('.icon-muted').style.display = video.muted ? 'block' : 'none';
+        muteBtn.querySelector('.icon-unmuted').style.display = video.muted ? 'none' : 'block';
+      });
+    }
+
+    if (video && fsBtn) {
+      fsBtn.addEventListener('click', () => {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+      });
+    }
+  });
   
   // ==================== ACCORDION FUNCTIONALITY ====================
   const accordionItems = document.querySelectorAll('.accordion-item');
