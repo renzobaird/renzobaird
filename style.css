@@ -1049,7 +1049,7 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px 40px;
+  padding: clamp(12px, 1.5vw, 30px) clamp(20px, 3vw, 60px);
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -1061,7 +1061,7 @@ html, body {
   color: var(--header-text, white);
   text-decoration: none;
   font-family: 'Unbounded', sans-serif;
-  font-size: 1.25rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.8rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -1074,16 +1074,16 @@ html, body {
 
 .nav-menu {
   display: flex;
-  gap: 30px;
+  gap: clamp(10px, 2vw, 40px);
 }
 
 .nav-link {
   color: var(--header-text, white);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: clamp(0.75rem, 1vw, 1.4rem);
   text-transform: uppercase;
   letter-spacing: 1px;
-  padding: 10px 15px;
+  padding: clamp(6px, 0.8vw, 14px) clamp(8px, 1vw, 20px);
   transition: all 0.3s ease;
   position: relative;
 }
