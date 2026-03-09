@@ -450,10 +450,12 @@
               <div class="contact-form-intro">
                 <p>Have a project in mind or just want to say hello? Fill out the form below and I'll get back to you as soon as possible.</p>
               </div>
-              <form class="styled-form" action="#" method="post">
+              <form class="styled-form" action="https://formspree.io/f/renzobaird@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="New message from your portfolio site">
+                <input type="text" name="_gotcha" style="display:none">
                 <div class="form-group">
                   <label for="fullName">Your Name</label>
-                  <input type="text" id="fullName" name="fullName" placeholder="Enter your name" required>
+                  <input type="text" id="fullName" name="name" placeholder="Enter your name" required>
                 </div>
                 <div class="form-group">
                   <label for="email">Your Email</label>

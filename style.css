@@ -6,7 +6,7 @@
   background: #6B5B8C;
   margin-top: auto;
   z-index: 100;
-  padding: 20px 40px;
+  padding: clamp(15px, 1.5vw, 50px) clamp(20px, 3vw, 100px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,28 +29,28 @@
 }
 
 .footer-brand img {
-  height: 2em;
+  height: clamp(1.6rem, 1.7vw, 3.5rem);
   width: auto;
 }
 
 .footer-brand span {
   color: #fff;
   font-family: 'Unbounded', sans-serif;
-  font-size: 1.1rem;
+  font-size: clamp(0.85rem, 0.92vw, 2.4rem);
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: clamp(0.5px, 0.08vw, 2px);
 }
 
 .footer-copyright {
   color: rgba(255,255,255,0.7);
   font-family: 'Urbanist', sans-serif;
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 0.75vw, 1.8rem);
 }
 
 .footer-social {
   display: flex;
   justify-content: center;
-  gap: 1em;
+  gap: clamp(0.6em, 0.8vw, 1.5em);
   padding: 0;
 }
 
@@ -60,8 +60,8 @@
   justify-content: center;
   background: rgba(255,255,255,0.1);
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  width: clamp(36px, 2.3vw, 64px);
+  height: clamp(36px, 2.3vw, 64px);
   transition: background 0.2s, transform 0.2s;
   text-decoration: none;
   border: 1.5px solid rgba(255,255,255,0.2);
@@ -76,14 +76,14 @@
 .footer-icon svg {
   display: block;
   margin: auto;
-  width: 22px;
-  height: 22px;
+  width: clamp(18px, 1.15vw, 32px);
+  height: clamp(18px, 1.15vw, 32px);
 }
 
 /* Responsive footer */
 @media (max-width: 768px) {
   .site-footer {
-    padding: 15px 20px;
+    padding: clamp(10px, 2vw, 20px) clamp(15px, 3vw, 30px);
   }
   
   .footer-content {
@@ -103,13 +103,13 @@
 
 @media (max-width: 480px) {
   .footer-icon {
-    width: 40px;
-    height: 40px;
+    width: clamp(32px, 10vw, 44px);
+    height: clamp(32px, 10vw, 44px);
   }
   
   .footer-icon svg {
-    width: 20px;
-    height: 20px;
+    width: clamp(16px, 5vw, 22px);
+    height: clamp(16px, 5vw, 22px);
   }
 }
 .page-content {
@@ -1049,7 +1049,7 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: clamp(12px, 1.5vw, 30px) clamp(20px, 3vw, 60px);
+  padding: clamp(12px, 1.5vw, 50px) clamp(20px, 3vw, 100px);
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -1061,10 +1061,10 @@ html, body {
   color: var(--header-text, white);
   text-decoration: none;
   font-family: 'Unbounded', sans-serif;
-  font-size: clamp(0.9rem, 1.2vw, 1.8rem);
+  font-size: clamp(0.9rem, 1.2vw, 2.8rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: clamp(1px, 0.15vw, 4px);
   transition: color 0.3s ease;
 }
 
@@ -1074,16 +1074,16 @@ html, body {
 
 .nav-menu {
   display: flex;
-  gap: clamp(10px, 2vw, 40px);
+  gap: clamp(10px, 2vw, 60px);
 }
 
 .nav-link {
   color: var(--header-text, white);
   text-decoration: none;
-  font-size: clamp(0.75rem, 1vw, 1.4rem);
+  font-size: clamp(0.75rem, 1vw, 2.2rem);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: clamp(6px, 0.8vw, 14px) clamp(8px, 1vw, 20px);
+  letter-spacing: clamp(0.5px, 0.1vw, 3px);
+  padding: clamp(6px, 0.8vw, 24px) clamp(8px, 1vw, 32px);
   transition: all 0.3s ease;
   position: relative;
 }
@@ -1091,10 +1091,10 @@ html, body {
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: 5px;
-  left: 15px;
-  right: 15px;
-  height: 2px;
+  bottom: clamp(3px, 0.4vw, 10px);
+  left: clamp(8px, 1vw, 24px);
+  right: clamp(8px, 1vw, 24px);
+  height: clamp(1.5px, 0.12vw, 3px);
   background: var(--header-text, white);
   transform: scaleX(0);
   transition: transform 0.3s ease;
@@ -1217,11 +1217,11 @@ html, body {
 
 .hero-content h1 {
   font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2.2rem, 8vw, 7rem);
+  font-size: clamp(2.2rem, 5vw + 1rem, 14rem);
   font-weight: 700;
   margin-bottom: clamp(12px, 2vh, 24px);
   text-transform: uppercase;
-  letter-spacing: clamp(1px, 0.3vw, 4px);
+  letter-spacing: clamp(1px, 0.3vw, 8px);
   animation: fadeInUp 1s ease-out;
   line-height: 1;
   text-shadow:
@@ -1241,12 +1241,12 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: baseline;
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 3.5vw + 0.25rem, 9rem);
   margin-bottom: 0;
   opacity: 1;
   animation: fadeInUp 1s ease-out 0.3s both;
   line-height: 1.2;
-  gap: clamp(8px, 0.7vw, 16px);
+  gap: clamp(8px, 0.7vw, 28px);
   width: auto;
 }
 
@@ -1390,21 +1390,21 @@ html, body {
   display: inline-block;
   margin-top: auto;
   margin-bottom: clamp(12vh, 16vh, 20vh);
-  padding: clamp(10px, 1.5vh, 16px) clamp(24px, 4vw, 48px);
+  padding: clamp(11px, 1.65vh, 26.4px) clamp(26.4px, 4.4vw, 88px);
   font-family: 'Urbanist', sans-serif;
-  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  font-size: clamp(0.825rem, 0.55vw + 0.44rem, 2.2rem);
   font-weight: 700;
   color: #fff;
   background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
   border: none;
-  border-radius: 10px;
+  border-radius: clamp(8.8px, 0.66vw, 17.6px);
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: clamp(1px, 0.2vw, 2px);
+  letter-spacing: clamp(1px, 0.15vw, 4px);
   white-space: nowrap;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  animation: fadeInButton 1s ease-out 0.6s both;
+  animation: fadeInButton 1s ease-out 0.6s both, ctaPulse 3s ease-in-out 2s infinite;
 }
 
 @keyframes fadeInButton {
@@ -1416,6 +1416,18 @@ html, body {
   }
 }
 
+@keyframes ctaPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 10px 40px rgba(122, 106, 143, 0.5);
+  }
+}
+
+
 .cta-button:hover {
   background: linear-gradient(135deg, #443555 0%, #31263E 100%);
   transform: translateY(-2px);
@@ -1425,20 +1437,20 @@ html, body {
 /* Hero responsive breakpoints */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: clamp(1.8rem, 10vw, 3.5rem);
+    font-size: clamp(1.8rem, 8vw, 3.5rem);
   }
   .hero-content .dynamic-subtitle {
-    font-size: clamp(1.5rem, 6vw, 2.8rem);
+    font-size: clamp(1.5rem, 5.5vw, 2.8rem);
   }
 }
 
 @media (max-width: 480px) {
   .hero-content h1 {
-    font-size: clamp(1.5rem, 11vw, 2.5rem);
+    font-size: clamp(1.5rem, 9vw, 2.5rem);
     letter-spacing: 1px;
   }
   .hero-content .dynamic-subtitle {
-    font-size: clamp(1.2rem, 7vw, 2rem);
+    font-size: clamp(1.2rem, 6vw, 2rem);
   }
 }
 

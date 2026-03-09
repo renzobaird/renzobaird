@@ -23,50 +23,50 @@
 
       /* Full page background */
       .projects-page {
-        padding-top: 80px;
+        padding-top: clamp(70px, 5vw + 30px, 200px);
         min-height: 100vh;
         background: linear-gradient(135deg, #443555 0%, #31263E 50%, #221E22 100%);
       }
 
       /* Page Title Section */
       .projects-hero-section {
-        padding: 40px 5% 35px;
+        padding: clamp(20px, 2.5vw, 60px) 5% clamp(20px, 2vw, 50px);
         position: relative;
       }
 
       .projects-title-bar {
         display: inline-block;
-        padding: 18px 40px;
+        padding: clamp(12px, 1vw, 28px) clamp(24px, 2.5vw, 64px);
         background: linear-gradient(135deg, #7A6A8F 0%, #443555 100%);
-        border-radius: 8px;
+        border-radius: clamp(6px, 0.4vw, 14px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       }
 
       .projects-title-bar h1 {
         font-family: 'Unbounded', sans-serif;
-        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-size: clamp(1.2rem, 1.5vw + 0.4rem, 4rem);
         font-weight: 700;
         font-style: italic;
         color: #FFFFFF;
         margin: 0;
         text-transform: uppercase;
-        letter-spacing: 3px;
+        letter-spacing: clamp(1.5px, 0.2vw, 6px);
       }
 
       /* Main Content Container - groups filters and tiles */
       .projects-content-container {
-        margin: 0 5% 80px;
-        padding: 30px;
+        margin: 0 5% clamp(40px, 5vw, 120px);
+        padding: clamp(16px, 2vw, 50px);
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(122, 106, 143, 0.15);
-        border-radius: 8px;
+        border-radius: clamp(6px, 0.4vw, 14px);
         box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
       }
 
       /* Filter Section - Accordion Style */
       .projects-filter-section {
-        padding: 0 0 20px;
+        padding: 0 0 clamp(12px, 1.2vw, 30px);
         width: 100%;
         box-sizing: border-box;
       }
@@ -87,19 +87,19 @@
       }
 
       .filter-accordion-item:first-child {
-        border-radius: 8px 8px 0 0;
+        border-radius: clamp(6px, 0.4vw, 14px) clamp(6px, 0.4vw, 14px) 0 0;
       }
 
       .filter-accordion-item:last-child {
         border-bottom: 1px solid rgba(122, 106, 143, 0.2);
-        border-radius: 0 0 8px 8px;
+        border-radius: 0 0 clamp(6px, 0.4vw, 14px) clamp(6px, 0.4vw, 14px);
       }
 
       .filter-accordion-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 18px 25px;
+        padding: clamp(12px, 1.2vw, 32px) clamp(16px, 1.5vw, 40px);
         background: transparent;
         border: none;
         cursor: pointer;
@@ -113,15 +113,15 @@
 
       .filter-accordion-title {
         font-family: 'Urbanist', sans-serif;
-        font-size: clamp(1rem, 0.4vw + 0.7rem, 1.4rem);
+        font-size: clamp(0.85rem, 0.5vw + 0.5rem, 2.2rem);
         font-weight: 600;
         color: rgba(255, 255, 255, 0.9);
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: clamp(1px, 0.15vw, 4px);
       }
 
       .filter-accordion-arrow {
-        font-size: 1rem;
+        font-size: clamp(0.85rem, 0.6vw + 0.3rem, 1.8rem);
         color: #7A6A8F;
         transition: transform 0.3s ease;
       }
@@ -134,18 +134,18 @@
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
-        padding: 0 25px;
+        padding: 0 clamp(16px, 1.5vw, 40px);
       }
 
       .filter-accordion-item.expanded .filter-accordion-content {
         max-height: 300px;
-        padding: 15px 25px 20px;
+        padding: clamp(10px, 1vw, 24px) clamp(16px, 1.5vw, 40px) clamp(14px, 1.2vw, 30px);
       }
 
       .filter-tags-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
+        gap: clamp(8px, 0.6vw, 18px);
       }
 
       @media (max-width: 900px) {
@@ -163,10 +163,10 @@
       .filter-tag-btn {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(122, 106, 143, 0.3);
-        border-radius: 20px;
-        padding: 8px 16px;
+        border-radius: clamp(14px, 1.2vw, 30px);
+        padding: clamp(6px, 0.5vw, 16px) clamp(12px, 1vw, 28px);
         font-family: 'Urbanist', sans-serif;
-        font-size: clamp(0.85rem, 0.35vw + 0.55rem, 1.2rem);
+        font-size: clamp(0.75rem, 0.4vw + 0.4rem, 1.6rem);
         color: rgba(255, 255, 255, 0.8);
         cursor: pointer;
         transition: all 0.3s ease;
@@ -187,14 +187,14 @@
       .clear-all-filters {
         background: transparent;
         border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 20px;
-        padding: 8px 20px;
+        border-radius: clamp(14px, 1.2vw, 30px);
+        padding: clamp(6px, 0.5vw, 16px) clamp(14px, 1.2vw, 32px);
         font-family: 'Urbanist', sans-serif;
-        font-size: 0.85rem;
+        font-size: clamp(0.75rem, 0.4vw + 0.4rem, 1.6rem);
         color: rgba(255, 255, 255, 0.6);
         cursor: pointer;
         transition: all 0.3s ease;
-        margin-top: 15px;
+        margin-top: clamp(10px, 0.8vw, 24px);
         opacity: 0;
         visibility: hidden;
       }
@@ -217,14 +217,14 @@
       .projects-grid-new {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 25px;
+        gap: clamp(16px, 1.5vw, 40px);
         width: 100%;
       }
 
       /* Project Tile - New Design */
       .project-tile-new {
         background: linear-gradient(180deg, #221E22 0%, #31263E 100%);
-        border-radius: 8px;
+        border-radius: clamp(6px, 0.4vw, 14px);
         overflow: hidden;
         text-decoration: none;
         border: 1px solid rgba(122, 106, 143, 0.2);
@@ -280,19 +280,19 @@
       }
 
       .tile-content-new {
-        padding: clamp(16px, 1.2vw, 28px);
+        padding: clamp(12px, 1.2vw, 36px);
         position: relative;
         background: transparent;
       }
 
       .tile-content-new h3 {
         font-family: 'Unbounded', sans-serif;
-        font-size: clamp(1rem, 0.5vw + 0.7rem, 1.6rem);
+        font-size: clamp(0.9rem, 0.5vw + 0.5rem, 2.4rem);
         font-weight: 700;
         color: #FFFFFF;
-        margin: 0 0 8px 0;
-        padding-left: 15px;
-        border-left: 3px solid #7A6A8F;
+        margin: 0 0 clamp(4px, 0.4vw, 12px) 0;
+        padding-left: clamp(10px, 0.8vw, 24px);
+        border-left: clamp(2px, 0.2vw, 5px) solid #7A6A8F;
         transition: border-color 0.3s ease;
       }
 
@@ -302,7 +302,7 @@
 
       .tile-content-new p {
         font-family: 'Urbanist', sans-serif;
-        font-size: clamp(0.9rem, 0.4vw + 0.6rem, 1.35rem);
+        font-size: clamp(0.8rem, 0.4vw + 0.45rem, 2rem);
         color: rgba(255, 255, 255, 0.7);
         line-height: 1.5;
         margin: 0;
@@ -314,42 +314,21 @@
       }
 
       /* Responsive */
-      /* Large screens (4K, ultrawide) - bump sizing */
-      @media (min-width: 2200px) {
-        .projects-grid-new {
-          gap: 35px;
-        }
-        .tile-content-new {
-          padding: 30px;
-        }
-        .filter-accordion-header {
-          padding: 22px 30px;
-        }
-        .filter-tag-btn {
-          padding: 12px 22px;
-        }
-        .projects-title-bar h1 {
-          font-size: 2.4rem;
-        }
-      }
-
       @media (max-width: 1400px) {
         .projects-grid-new {
           grid-template-columns: repeat(3, 1fr);
-          gap: 22px;
         }
       }
 
       @media (max-width: 1024px) {
         .projects-grid-new {
           grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
         }
         .tile-content-new h3 {
-          font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+          font-size: clamp(0.85rem, 1.5vw, 1.15rem);
         }
         .tile-content-new p {
-          font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+          font-size: clamp(0.8rem, 1.3vw, 1.05rem);
         }
       }
 
@@ -362,19 +341,18 @@
       @media (max-width: 600px) {
         .projects-grid-new {
           grid-template-columns: 1fr;
-          gap: 20px;
         }
         
         .projects-hero-section {
-          padding: 30px 5% 20px;
+          padding: clamp(15px, 4vw, 30px) 5% clamp(12px, 3vw, 20px);
         }
         
         .projects-title-bar {
-          padding: 14px 25px;
+          padding: clamp(10px, 3vw, 14px) clamp(18px, 5vw, 25px);
         }
         
         .projects-title-bar h1 {
-          font-size: 1.2rem;
+          font-size: clamp(1rem, 4vw, 1.3rem);
           letter-spacing: 2px;
         }
       }
